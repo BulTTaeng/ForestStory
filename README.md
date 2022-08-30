@@ -11,6 +11,7 @@
 `2022.08.30`  
 - Init
 - 기본적인 firebase 연동
+- 로그아웃 수정
 
 
 </details><br>  
