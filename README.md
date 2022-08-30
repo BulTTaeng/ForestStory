@@ -1,6 +1,6 @@
 # ForestStory
 
-**Description :** 스마트 임산물 관리  
+**Description :** 숲 해설가 해설 듣기  
 **Contributor :** `BulTTaeng(BulTTaeng)`,  
 
 ### History
