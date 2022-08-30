@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mountainFragment"
+        android:enabled="true"
+        android:icon="@drawable/btn_x"
+        android:title="산" />
+
+    <item android:id="@+id/settingFragment"
+        android:enabled="true"
+        android:icon="@drawable/btn_x"
+        android:title="세팅" />
+
+    <item android:id="@+id/mapFragment"
+        android:enabled="true"
+        android:icon="@drawable/btn_x"
+        android:title="지도" />
+
+</menu>

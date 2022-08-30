@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ForestStory</string>
+    <string name="check_internet_connection">인터넷 연결을 확인해 주세요</string>
+    <string name="retry">재시도</string>
+    <string name="close_app">앱 종료</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hard_login1">가입이 어렵다면 </string>
+    <string name="hard_login2"> 하세요</string>
+    <string name="already_signup">이미 가입 하셨나요? </string>
+    <string name="not_signup">아직 가입하지 않으셨나요? </string>
+    <string name="email">이메일을 입력하세요</string>
+    <string name="password">비밀번호를 입력하세요</string>
+    <string name="confirm_password">비밀번호를 다시 한번 입력하세요</string>
+    <string name="create_account">계정 생성하기</string>
+    <string name="DontHaveAccount">아직 계정이 없으신가요?</string>
+    <string name="forgot_password">비밀번호를 잊어버리셨나요?</string>
+    <string name="password_length">비밀번호는 6글자 이상이여야 합니다</string>
+    <string name="password_wrong">비밀번호가 같지 않습니다</string>
+    <string name="id_name_empty">아이디와 이름 모두 입력해 주세요</string>
+    <string name="try_later">잠시뒤 다시 시도해 주세요</string>
+</resources>
