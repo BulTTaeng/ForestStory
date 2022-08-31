@@ -19,4 +19,5 @@
     <string name="password_wrong">비밀번호가 같지 않습니다</string>
     <string name="id_name_empty">아이디와 이름 모두 입력해 주세요</string>
     <string name="try_later">잠시뒤 다시 시도해 주세요</string>
+    <string name="check_id_password">아이디와 비밀번호를 확인 해 주세요</string>
 </resources>
