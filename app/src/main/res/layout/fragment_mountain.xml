@@ -16,12 +16,28 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/play"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"></Button>
+                android:layout_height="100dp"
+                android:onClick="@{fragment::play}"></Button>
+
+            <SeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+            </SeekBar>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+            </TextView>
         </LinearLayout>
 
     </ScrollView>

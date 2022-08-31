@@ -12,4 +12,8 @@ class LoginViewModel @Inject constructor(val loginRepo : LoginRepository): ViewM
     suspend fun emailSignUp(userInfo: UserInfoEntity) : Boolean{
         return loginRepo.emailSignUp(userInfo)
     }
+
+    suspend fun emailLogIn(id : String , password : String) : Boolean{
+        return loginRepo.emailLogIn(id, password)
+    }
 }

@@ -34,4 +34,15 @@ class LoginRepository {
         }
     }
 
+    suspend fun emailLogIn(id : String , password : String) : Boolean{
+        return try {
+            firebaseAuth!!.signInWithEmailAndPassword(id , password).await()
+            return true
+        } catch (exception : Exception) {
+            Log.w("[EmailSignIn]", "Email Sign In Exception!")
+            return false
+        }
+    }
+
+
 }
