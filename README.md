@@ -18,6 +18,14 @@
 - Login
 - 음악 플레이어(MediaStore)
 
+`2022.09.01`  
+- Logout
+- Exoplayer
+
+`2022.09.02`  
+- PendingIntent
+- PlayerNotificationManager
+
 
 </details><br>  
 
