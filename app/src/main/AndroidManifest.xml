@@ -10,6 +10,9 @@
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
         android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".utility.GlobalApplication"
@@ -23,6 +26,7 @@
         android:theme="@style/Theme.ForestStory"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".view.activity.login.LoginActivity"
             android:exported="false" />

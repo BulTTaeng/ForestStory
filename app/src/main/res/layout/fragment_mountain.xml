@@ -19,25 +19,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/play"
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player_view"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:onClick="@{fragment::play}"></Button>
-
-            <SeekBar
-                android:id="@+id/seekbar"
-                android:layout_width="match_parent"
-                android:layout_height="100dp">
-
-            </SeekBar>
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="match_parent"
-                android:layout_height="100dp">
-
-            </TextView>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:surface_type="none"
+                app:show_timeout="0"/>
         </LinearLayout>
 
     </ScrollView>

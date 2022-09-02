@@ -1,54 +1,72 @@
 package com.greenstory.foreststory.view.fragment.contents
 
+import android.app.*
 import android.content.Context
-import android.media.AudioManager
-import android.media.MediaPlayer
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
-import android.os.SystemClock
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.ui.PlayerNotificationManager
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentMountainBinding
+import com.greenstory.foreststory.utility.DescriptionAdapter
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+
 
 class MountainFragment : Fragment() {
-    lateinit var binding : FragmentMountainBinding
+    lateinit var binding: FragmentMountainBinding
     lateinit var contentsActivity: ContentsActivity
-    lateinit var  mediaPlayer : MediaPlayer
-    val timeFormat = SimpleDateFormat("mm:ss")
-    var isReady = false
+    private lateinit var callback: OnBackPressedCallback
+
+    private var player: ExoPlayer? = null
+
+    private val playWhenReady = true
+    private val currentWindow = 0
+    private val playbackPosition = 0L
+    private val songUrl: String =
+        "https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/BIG%20Naughty%20%EC%84%9C%EB%8F%99%ED%98%84%20%20Vancouver.mp3?alt=media&token=04fbbc2a-9a70-4169-9743-33c059a4a1eb"
+    var bitmap: Bitmap? = null
+    lateinit var playerNotificationManager : PlayerNotificationManager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         contentsActivity = context as ContentsActivity
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                binding.playerView.player = null
+                player?.release()
+                player = null
+                activity?.finish()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mediaPlayer = MediaPlayer().apply {
-            setWakeMode(contentsActivity, PowerManager.PARTIAL_WAKE_LOCK)
-            setAudioStreamType(AudioManager.STREAM_MUSIC)
-            setDataSource("https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/BIG%20Naughty%20%EC%84%9C%EB%8F%99%ED%98%84%20%20Vancouver.mp3?alt=media&token=04fbbc2a-9a70-4169-9743-33c059a4a1eb")
-        }
-        mediaPlayer.setOnPreparedListener {
-            isReady = true
-            it.isLooping = false
-            it.start()
-            startSeekBarThread()
-        }
-        mediaPlayer.prepareAsync()
+
     }
 
     override fun onCreateView(
@@ -56,83 +74,86 @@ class MountainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_mountain, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mountain, container, false)
         binding.fragment = this@MountainFragment
+
+        Log.d("2222222", "222222")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser){
-                    mediaPlayer.seekTo(progress)
-                }
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+        CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.IO).launch {
+                bitmap =
+                    getBitmapFromURL("https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/abc.jpg?alt=media&token=2438536a-440d-4418-b022-3619ec387e09")
+            }.join()
 
+            initializePlayer()
+        }
+
+        Log.d("333333333", "3333333333333")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        isReady = false
-        mediaPlayer?.stop()
-        mediaPlayer?.reset()
-        mediaPlayer?.release()
+        playerNotificationManager.setPlayer(null)
+        player?.release()
     }
 
-    fun play(view: View){
-        if(mediaPlayer.isPlaying){
-            mediaPlayer.pause()
+    fun getBitmapFromURL(src: String?): Bitmap? {
+        return try {
+            val url = URL(src)
+            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val input: InputStream = connection.getInputStream()
+            BitmapFactory.decodeStream(input)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
         }
-        else{
-            if(isReady) {
-                mediaPlayer.start()
-                startSeekBarThread()
-            }
-            /* 실시간으로 변경되는 진행시간과 시크바를 구현하기 위한 스레드 사용*/
+    } // Author: silentnuke
+
+
+    private fun initializePlayer() {
+        if (player == null) {
+
+            player = ExoPlayer.Builder(contentsActivity).build()
+            player?.playWhenReady = true
+            binding.playerView.player = player
+            binding.playerView.controllerShowTimeoutMs = 0
+            val defaultHttpDataSourceFactory = DefaultHttpDataSource.Factory()
+            val mediaItem =
+                MediaItem.fromUri(Uri.parse(songUrl))
+            player?.setMediaItem(mediaItem)
+//            val mediaSource =
+//                HlsMediaSource.Factory(defaultHttpDataSourceFactory).createMediaSource(mediaItem)
+//            player?.setMediaSource(mediaSource)
+            player?.seekTo(playbackPosition)
+            player?.playWhenReady = playWhenReady
+            player?.prepare()
+            player!!.setForegroundMode(true)
+            binding.playerView.controllerShowTimeoutMs = 0
+            binding.playerView.setShowMultiWindowTimeBar(true)
+
+            playerNotificationManager = PlayerNotificationManager.Builder(
+                contentsActivity,
+                12, "CHANNEL_ID"
+            )
+                .setChannelNameResourceId(R.string.id_name_empty)
+                .setChannelDescriptionResourceId(R.string.try_later)
+                .setMediaDescriptionAdapter(DescriptionAdapter(contentsActivity, bitmap))
+                .build()
+
+            playerNotificationManager.setPlayer(player)
 
         }
+    }
+
+    fun play(view: View) {
 
     }
 
-    fun startSeekBarThread(){
-
-        binding.seekbar.max = mediaPlayer.duration  // mPlayer.duration : 음악 총 시간
-
-        CoroutineScope(Dispatchers.Main).launch {
-            while(mediaPlayer.isPlaying){
-                binding.seekbar.progress = mediaPlayer.currentPosition
-                //binding.time.text = "진행시간 : " + timeFormat.format(mediaPlayer.currentPosition) + "/" + timeFormat.format(mediaPlayer.duration)
-                binding.time.text = timeFormat.format(mediaPlayer.currentPosition)
-                delay(250)
-            }
-        }
-
-//        object : Thread() {
-//            override fun run() {
-//                super.run()
-//                while (mediaPlayer.isPlaying) {
-//                    contentsActivity.runOnUiThread { //화면의 위젯을 변경할 때 사용 (이 메소드 없이 아래 코드를 추가하면 실행x)
-//                        binding.seekbar.progress = mediaPlayer.currentPosition
-//                        binding.time.text = "진행시간 : " + timeFormat.format(mediaPlayer.currentPosition) + "/" + timeFormat.format(mediaPlayer.duration)
-//                    }
-//                    SystemClock.sleep(500)
-//                }
-//
-////                        /*1. 음악이 종료되면 자동으로 초기상태로 전환*/
-////                        /*btnStop.setOnClickListener()와 동일한 코드*/
-////                        if(!mediaPlayer.isPlaying){
-////                            mediaPlayer.stop()      //음악 정지
-////                            mediaPlayer.reset()
-////                            binding.time.text = "실행중인 음악 : "
-////                            binding.seekbar.progress = 0
-////                            binding.time.text = "진행시간 : "
-////                        }
-//            }
-//        }.start()
-    }
 }
