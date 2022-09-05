@@ -9,19 +9,21 @@ import androidx.annotation.Nullable
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.BitmapCallback
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.MediaDescriptionAdapter
+import com.greenstory.foreststory.model.audio.AudioDto
+import com.greenstory.foreststory.model.audio.AudioEntity
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 
 
-class DescriptionAdapter(val context : Context , val bitmap: Bitmap?) : MediaDescriptionAdapter {
+class DescriptionAdapter(val context : Context , val bitmap: Bitmap? , val list : MutableList<AudioEntity>) : MediaDescriptionAdapter {
     override fun getCurrentContentTitle(player: Player): String {
         val window = player.currentWindowIndex
-        return "벤쿠버"
+        return list[player.currentMediaItemIndex].audioName
     }
 
     @Nullable
     override fun getCurrentContentText(player: Player): String? {
         val window = player.currentWindowIndex
-        return "서동현"
+        return list[player.currentMediaItemIndex].commentator
     }
 
     @Nullable

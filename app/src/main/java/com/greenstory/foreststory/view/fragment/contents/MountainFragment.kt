@@ -2,6 +2,7 @@ package com.greenstory.foreststory.view.fragment.contents
 
 import android.app.*
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -23,7 +24,9 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentMountainBinding
+import com.greenstory.foreststory.model.audio.AudioDto
 import com.greenstory.foreststory.utility.DescriptionAdapter
+import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -65,8 +68,6 @@ class MountainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onCreateView(
@@ -76,8 +77,6 @@ class MountainFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mountain, container, false)
         binding.fragment = this@MountainFragment
-
-        Log.d("2222222", "222222")
         return binding.root
     }
 
@@ -90,10 +89,8 @@ class MountainFragment : Fragment() {
                     getBitmapFromURL("https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/abc.jpg?alt=media&token=2438536a-440d-4418-b022-3619ec387e09")
             }.join()
 
-            initializePlayer()
+            //initializePlayer()
         }
-
-        Log.d("333333333", "3333333333333")
     }
 
     override fun onDestroy() {
@@ -138,15 +135,6 @@ class MountainFragment : Fragment() {
             binding.playerView.controllerShowTimeoutMs = 0
             binding.playerView.setShowMultiWindowTimeBar(true)
 
-            playerNotificationManager = PlayerNotificationManager.Builder(
-                contentsActivity,
-                12, "CHANNEL_ID"
-            )
-                .setChannelNameResourceId(R.string.id_name_empty)
-                .setChannelDescriptionResourceId(R.string.try_later)
-                .setMediaDescriptionAdapter(DescriptionAdapter(contentsActivity, bitmap))
-                .build()
-
             playerNotificationManager.setPlayer(player)
 
         }
@@ -154,6 +142,11 @@ class MountainFragment : Fragment() {
 
     fun play(view: View) {
 
+    }
+
+    fun tempB(view: View){
+        val intent = Intent(contentsActivity , AudioPlayerActivity::class.java)
+        startActivity(intent)
     }
 
 }
