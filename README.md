@@ -26,6 +26,11 @@
 - PendingIntent
 - PlayerNotificationManager
 
+`2022.09.05`  
+- 한개만 선택 되는 recyclerView 추가
+- 해설 파일 불러오는 코드 추가
+- 여러개의 음원 play 추가
+
 
 </details><br>  
 

@@ -19,6 +19,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/tempb"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:onClick="@{fragment::tempB}">
+            </Button>
+
+
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/player_view"
                 android:layout_width="match_parent"

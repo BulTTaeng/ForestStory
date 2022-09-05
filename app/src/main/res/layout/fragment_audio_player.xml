@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.greenstory.foreststory.view.fragment.audio.AudioPlayerFragment" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".view.fragment.audio.AudioPlayerFragment">
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/player_view_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="track_text_view, artist_text_view,
+        cover_image_card_view, bottom_background_view , player_view"
+                tools:visibility="visible" />
+
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/play_list_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="play_list_recycler_view, title_text_view , player_view " />
+
+            <View
+                android:id="@+id/top_background_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/dark_gray"
+                app:layout_constraintBottom_toTopOf="@id/bottom_background_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="3" />
+
+            <View
+                android:id="@+id/bottom_background_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top_background_view"
+                app:layout_constraintVertical_weight="2" />
+
+            <TextView
+                android:id="@+id/track_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="애국가" />
+
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="재생목록"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/artist_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/light_gray"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/track_text_view"
+                tools:text="대한민국" />
+
+            <!--    translationY 속성으로 아래로 내림.
+                        이럴 경우 이를 참조해서 제약을 거는 경우 원래 위치 기준으로 제약함
+                        때문에 유의해서 사용
+                    cardElevation 바닥에서 띄워서 그림자 생성
+                    cardCornerRadius 둥근 모양을 형성하도록
+            -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cover_image_card_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="36dp"
+                android:translationY="30dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/top_background_view"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/cover_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:background="@color/purple_200" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/play_list_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toTopOf="@id/player_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_text_view" />
+
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:show_timeout="0"
+                app:surface_type="none"
+                app:use_controller="true" />
+            <!--
+                use_controller 를 true 로 하고 레이아웃 파일을 따로 만들어서 구현하는 방법도 있음
+                (더 쉽게 구현가능한 방법)
+            -->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"></ProgressBar>
+    </FrameLayout>
+</layout>
