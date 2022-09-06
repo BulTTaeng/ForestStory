@@ -31,6 +31,10 @@
 - 해설 파일 불러오는 코드 추가
 - 여러개의 음원 play 추가
 
+`2022.09.06`  
+- 지정한 음악 play 및 notification bar , detail page 정보 update
+- 뒤로가기로 Exoplayer release
+
 
 </details><br>  
 

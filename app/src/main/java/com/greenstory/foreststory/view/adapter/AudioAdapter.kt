@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.exoplayer2.ExoPlayer
 import com.greenstory.foreststory.databinding.ItemAudioBinding
 import com.greenstory.foreststory.model.audio.AudioDto
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
+import com.greenstory.foreststory.view.fragment.audio.AudioPlayerFragment
 
-class AudioAdapter() : ListAdapter<AudioDto, AudioAdapter.AudioViewHolder>(AUDIO_DIFF_CALLBACK){
+class AudioAdapter(val player : ExoPlayer) : ListAdapter<AudioDto, AudioAdapter.AudioViewHolder>(AUDIO_DIFF_CALLBACK){
 
     lateinit var binding : ItemAudioBinding
     var currLoc = -1L
@@ -24,8 +26,11 @@ class AudioAdapter() : ListAdapter<AudioDto, AudioAdapter.AudioViewHolder>(AUDIO
             binding.itemArtistTextView.text = data.commentator
             binding.itemTrackTextView.text = data.audioName
 
+
             itemView.setOnClickListener {
                 if(currLoc.toInt() != absoluteAdapterPosition) {
+                    player.seekTo(absoluteAdapterPosition , 0)
+                    player.play()
                     binding.setChecked()
                     notifyItemChanged(currLoc.toInt())
                     currLoc = absoluteAdapterPosition.toLong()
@@ -61,7 +66,6 @@ class AudioAdapter() : ListAdapter<AudioDto, AudioAdapter.AudioViewHolder>(AUDIO
     }
 
     private fun ItemAudioBinding.setChecked() = consItemAudio.setBackgroundColor(Color.GRAY)
-
 
     companion object {
         val AUDIO_DIFF_CALLBACK = object : DiffUtil.ItemCallback<AudioDto>() {
