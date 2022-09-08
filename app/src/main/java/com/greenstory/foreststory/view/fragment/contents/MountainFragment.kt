@@ -50,7 +50,7 @@ class MountainFragment : Fragment() {
     private val songUrl: String =
         "https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/BIG%20Naughty%20%EC%84%9C%EB%8F%99%ED%98%84%20%20Vancouver.mp3?alt=media&token=04fbbc2a-9a70-4169-9743-33c059a4a1eb"
     var bitmap: Bitmap? = null
-    lateinit var playerNotificationManager : PlayerNotificationManager
+    var playerNotificationManager : PlayerNotificationManager? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -95,7 +95,7 @@ class MountainFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        playerNotificationManager.setPlayer(null)
+        playerNotificationManager?.setPlayer(null)
         player?.release()
     }
 
@@ -135,7 +135,7 @@ class MountainFragment : Fragment() {
             binding.playerView.controllerShowTimeoutMs = 0
             binding.playerView.setShowMultiWindowTimeBar(true)
 
-            playerNotificationManager.setPlayer(player)
+            playerNotificationManager?.setPlayer(player)
 
         }
     }

@@ -63,7 +63,15 @@ class SignUpFragment : Fragment() {
         }
         else{
             CoroutineScope(Dispatchers.Main).launch {
-                val userInfo = UserInfoEntity(binding.edtSignupName.text.toString() , binding.edtSignupEmail.text.toString(), "", false, "email" , ArrayList<String>() , ArrayList<String>())
+                val userInfo = UserInfoEntity(binding.edtSignupName.text.toString() ,
+                    binding.edtSignupEmail.text.toString(),
+                    "",
+                    false,
+                    "email" ,
+                    ArrayList<String>() ,
+                    ArrayList<String>(),
+                    getString(R.string.basic_profile))
+
                 val success = loginViewModel.emailSignUp(userInfo ,binding.edtSignupPassword.toString())
 
                 if(success){

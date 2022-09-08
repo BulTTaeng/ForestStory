@@ -98,7 +98,8 @@ class LoginFragment : Fragment() {
                                         false,
                                         "google",
                                         ArrayList<String>(),
-                                        ArrayList<String>())
+                                        ArrayList<String>(),
+                                    getString(R.string.basic_profile))
                                 )
                             }.join()
 
