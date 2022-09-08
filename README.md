@@ -35,6 +35,12 @@
 - 지정한 음악 play 및 notification bar , detail page 정보 update
 - 뒤로가기로 Exoplayer release
 
+`2022.09.08`  
+- Google Login 구현 
+- 로그아웃 구현
+
+
+
 
 </details><br>  
 

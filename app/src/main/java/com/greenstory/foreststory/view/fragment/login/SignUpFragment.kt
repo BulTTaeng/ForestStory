@@ -12,7 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentSignUpBinding
-import com.greenstory.foreststory.model.UserInfoEntity
+import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 import com.greenstory.foreststory.view.activity.login.LoginActivity
 import com.greenstory.foreststory.viewmodel.login.LoginViewModel
@@ -63,8 +63,16 @@ class SignUpFragment : Fragment() {
         }
         else{
             CoroutineScope(Dispatchers.Main).launch {
-                val userInfo = UserInfoEntity(binding.edtSignupName.text.toString() , binding.edtSignupEmail.text.toString() , binding.edtSignupPassword.text.toString(), "")
-                val success = loginViewModel.emailSignUp(userInfo)
+                val userInfo = UserInfoEntity(binding.edtSignupName.text.toString() ,
+                    binding.edtSignupEmail.text.toString(),
+                    "",
+                    false,
+                    "email" ,
+                    ArrayList<String>() ,
+                    ArrayList<String>(),
+                    getString(R.string.basic_profile))
+
+                val success = loginViewModel.emailSignUp(userInfo ,binding.edtSignupPassword.toString())
 
                 if(success){
                     val intent = Intent(loginActivity , ContentsActivity::class.java)

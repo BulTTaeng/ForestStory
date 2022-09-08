@@ -21,4 +21,7 @@
     <string name="try_later">잠시뒤 다시 시도해 주세요</string>
     <string name="check_id_password">아이디와 비밀번호를 확인 해 주세요</string>
     <string name="doubletap_to_exit">뒤로 버튼을 한 번 더 누르시면 앱이 종료됩니다</string>
+    <string name="basic_profile">https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/profile.png?alt=media&amp;token=a51a7ee7-2d15-4953-a3fc-54711bc3ddde</string>
+    <string name="do_logout">로그아웃 하였습니다</string>
+    <string name="logout_exception">로그아웃중 문제가 발생하였습니다. 잠시후 다시 시도해주세요</string>
 </resources>
