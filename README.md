@@ -39,6 +39,11 @@
 - Google Login 구현 
 - 로그아웃 구현
 
+`2022.09.13`  
+- Setting Page recyclerview 구현
+- 산 터치 이벤트 적용
+- 거리 순 정렬 추가
+
 
 
 

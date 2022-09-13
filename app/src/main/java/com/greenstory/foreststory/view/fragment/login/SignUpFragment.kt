@@ -1,6 +1,7 @@
 package com.greenstory.foreststory.view.fragment.login
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.greenstory.foreststory.R
@@ -62,28 +64,46 @@ class SignUpFragment : Fragment() {
             Toast.makeText(loginActivity , getText(R.string.id_name_empty) , Toast.LENGTH_LONG).show()
         }
         else{
-            CoroutineScope(Dispatchers.Main).launch {
-                val userInfo = UserInfoEntity(binding.edtSignupName.text.toString() ,
-                    binding.edtSignupEmail.text.toString(),
-                    "",
-                    false,
-                    "email" ,
-                    ArrayList<String>() ,
-                    ArrayList<String>(),
-                    getString(R.string.basic_profile))
-
-                val success = loginViewModel.emailSignUp(userInfo ,binding.edtSignupPassword.toString())
-
-                if(success){
-                    val intent = Intent(loginActivity , ContentsActivity::class.java)
-                    startActivity(intent)
-                    loginActivity.finish()
-                }
-                else{
-                    Toast.makeText(loginActivity , getText(R.string.try_later) , Toast.LENGTH_LONG).show()
-                }
-            }
+            doubleCheckEmail()
         }
 
     }
+
+    fun doubleCheckEmail(){
+
+        AlertDialog.Builder(loginActivity)
+            .setTitle(R.string.double_check_email)
+            .setMessage(R.string.double_check_email_message)
+            .setPositiveButton("아니요") {
+                    dialogInterface: DialogInterface, i: Int ->
+            } .setNegativeButton("네") {
+                    dialogInterface: DialogInterface, i: Int -> signUpWithEmail()
+            }.setCancelable(false).show()
+
+        }
+    fun signUpWithEmail() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val userInfo = UserInfoEntity(
+                binding.edtSignupName.text.toString(),
+                binding.edtSignupEmail.text.toString(),
+                "",
+                false,
+                "email",
+                ArrayList<String>(),
+                ArrayList<String>(),
+                getString(R.string.basic_profile)
+            )
+
+            val success = loginViewModel.emailSignUp(userInfo, binding.edtSignupPassword.toString())
+
+            if (success) {
+                val intent = Intent(loginActivity, ContentsActivity::class.java)
+                startActivity(intent)
+                loginActivity.finish()
+            } else {
+                Toast.makeText(loginActivity, getText(R.string.try_later), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
 }

@@ -102,20 +102,15 @@ class AudioPlayerFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
 
-            var success = false
-
             CoroutineScope(Dispatchers.IO).launch {
                 bitmap =
                     getBitmapFromURL("https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/abc.jpg?alt=media&token=2438536a-440d-4418-b022-3619ec387e09")
             }.join()
 
-            success = audioViewModel.getAudioData("NSWzzdpkMgpn7ndD7WDQ")
+            Glide.with(audioPlayerActivity).load(bitmap).into(binding.coverImageView)
+            initPlayerView()
+            initRecyclerView()
 
-            if(success) {
-                Glide.with(audioPlayerActivity).load(bitmap).into(binding.coverImageView)
-                initPlayerView()
-                initRecyclerView()
-            }
         }
     }
 
