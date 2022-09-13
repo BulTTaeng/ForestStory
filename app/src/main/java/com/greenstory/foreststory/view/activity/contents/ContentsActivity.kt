@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -14,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.ActivityContentsBinding
 import com.greenstory.foreststory.utility.GlobalApplication
+import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +23,7 @@ class ContentsActivity : AppCompatActivity() {
     lateinit var contentsController : NavController
     lateinit var navHostFragment: NavHostFragment
     lateinit var binding : ActivityContentsBinding
+    val mountainViewModel : MountainViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,5 +80,9 @@ class ContentsActivity : AppCompatActivity() {
             Toast.makeText(this, "앱 접근 권한이 거부 되었습니다. 추후 설정->앱 에서 권한 설정을 해주세요", Toast.LENGTH_LONG)
                 .show()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

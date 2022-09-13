@@ -2,6 +2,7 @@ package com.greenstory.foreststory.utility.module
 
 import com.greenstory.foreststory.repository.MainRepository
 import com.greenstory.foreststory.repository.audio.AudioRepository
+import com.greenstory.foreststory.repository.contents.MountainRepository
 import com.greenstory.foreststory.repository.login.LoginRepository
 import com.greenstory.foreststory.repository.contents.setting.SettingRepository
 import dagger.Module
@@ -31,5 +32,10 @@ class RepositoryModule() {
     @Provides
     fun provideAudioRepo() : AudioRepository{
         return AudioRepository()
+    }
+
+    @Provides
+    fun provideMountainRepo() : MountainRepository{
+        return MountainRepository()
     }
 }

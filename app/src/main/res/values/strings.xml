@@ -24,4 +24,6 @@
     <string name="basic_profile">https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/profile.png?alt=media&amp;token=a51a7ee7-2d15-4953-a3fc-54711bc3ddde</string>
     <string name="do_logout">로그아웃 하였습니다</string>
     <string name="logout_exception">로그아웃중 문제가 발생하였습니다. 잠시후 다시 시도해주세요</string>
+    <string name="double_check_email_message">정말 이 아이디로 가입을 할까요?</string>
+    <string name="double_check_email">존재 하지 않는 이메일을 입력할 경우, 비밀번호 재설정이 불가합니다.</string>
 </resources>
