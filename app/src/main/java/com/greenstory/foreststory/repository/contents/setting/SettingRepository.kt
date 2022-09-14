@@ -24,17 +24,18 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.utility.GlobalApplication
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 
 class SettingRepository {
     val firebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
 
-    val _mutableMyInfo = MutableLiveData<MutableList<String>>()
-    val _mutableReceiver = MutableLiveData<String>()
+    var resultString = ArrayList<String>()
 
-    val myInfo: LiveData<MutableList<String>>
-        get() = _mutableMyInfo
+    val _mutableReceiver = MutableLiveData<String>()
 
     val myReceiver: LiveData<String>
         get() = _mutableReceiver
@@ -63,7 +64,7 @@ class SettingRepository {
             return true
         }
 
-        val type = _mutableMyInfo.value?.get(3)
+        val type = resultString[3]
 
 
         return try{
@@ -103,22 +104,22 @@ class SettingRepository {
         }
     }
 
-    suspend fun getUserNameAndEmailProfileImage(userId: String): ArrayList<String> {
-        val docRef = db.collection("user").document(userId)
-        var resultString = ArrayList<String>()
+    suspend fun getUserNameAndEmailProfileImage() = flow{
+        val docRef = db.collection("user").document(firebaseAuth.currentUser!!.uid)
+        resultString.clear()
         docRef.get().addOnSuccessListener {
             resultString.add(it["name"].toString())
             resultString.add(it["email"].toString())
             resultString.add(it["profile"].toString())
             resultString.add(it["type"].toString())
-            _mutableMyInfo.value = resultString
         }.await()
-        return resultString
-    }
+
+        emit(resultString)
+    }.flowOn(Dispatchers.IO)
 
     suspend fun reCheckUser(email: String , password:String ,  acct: GoogleSignInAccount?) : Boolean{
         return try {
-            val type = _mutableMyInfo.value?.get(3)
+            val type = resultString[3]
 
             if(type == "google"){
                 val credential = GoogleAuthProvider.getCredential(acct!!.idToken , null)
