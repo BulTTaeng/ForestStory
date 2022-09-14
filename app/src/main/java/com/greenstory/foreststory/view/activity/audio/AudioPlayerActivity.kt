@@ -14,6 +14,7 @@ import com.greenstory.foreststory.viewmodel.audio.AudioViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -36,17 +37,12 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     fun getViewModelData(name : String?){
         CoroutineScope(Dispatchers.Main).launch {
-            val success = audioViewModel.getAudioData("NSWzzdpkMgpn7ndD7WDQ")
 
-            if(success){
-                supportFragmentManager.beginTransaction()
-                    .replace(binding.frameAudioPlayer.id, AudioPlayerFragment())
-                    .commit()
-            }
-            else{
-                Toast.makeText(getC() , getString(R.string.try_later) , Toast.LENGTH_SHORT).show()
-                getC().finish()
-            }
+            audioViewModel.getAudioData("NSWzzdpkMgpn7ndD7WDQ")
+
+            supportFragmentManager.beginTransaction()
+                .replace(binding.frameAudioPlayer.id, AudioPlayerFragment())
+                .commit()
         }
     }
 

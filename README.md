@@ -46,6 +46,7 @@
 
 `2022.09.14`  
 - 회원 탈퇴 추가
+- repository Live data -> Flow
 
 
 

@@ -133,13 +133,13 @@ class SettingFragment : Fragment() {
 
     fun getUserInfo(){
         CoroutineScope(Dispatchers.Main).launch {
-            settingViewModel.getUserNameAndEmailProfileImage(FirebaseAuth.getInstance().currentUser!!.uid)
+            settingViewModel.getUserNameAndEmailProfileImage()
             observeMyInfo()
         }
     }
 
     fun observeMyInfo(){
-        settingViewModel.fetchMyInfo().observe(viewLifecycleOwner , Observer{
+        settingViewModel.myInfo?.observe(viewLifecycleOwner , Observer{
             CoroutineScope(Dispatchers.Main).launch {
                 var profileImage = ""
                 binding.txtUserNameMyPage.text = it[0]

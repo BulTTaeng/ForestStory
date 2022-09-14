@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ import com.greenstory.foreststory.view.adapter.AudioAdapter
 import com.greenstory.foreststory.viewmodel.audio.AudioViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
@@ -101,34 +103,17 @@ class AudioPlayerFragment : Fragment() {
             }.join()
 
             Glide.with(audioPlayerActivity).load(bitmap).into(binding.coverImageView)
-            initPlayerView()
+            initPlayer()
             initRecyclerView()
 
         }
     }
 
-    fun initPlayerView(){
-
+    fun initPlayer(){
         player = ExoPlayer.Builder(audioPlayerActivity).build()
         binding.playerView.player = player
         binding.playerView.controllerShowTimeoutMs = 0
         binding.playerView.controllerHideOnTouch = false
-
-        player?.setMediaItems(audioViewModel.fetchAudioLinkData().value!!)
-        player?.prepare()
-
-        playerNotificationManager = PlayerNotificationManager.Builder(
-            audioPlayerActivity,
-            12, "ID"
-        )
-            .setChannelNameResourceId(R.string.id_name_empty)
-            .setChannelDescriptionResourceId(R.string.try_later)
-            .setMediaDescriptionAdapter(DescriptionAdapter(audioPlayerActivity, bitmap , audioViewModel.fetchAudioData().value!!))
-            .build()
-
-        playerNotificationManager.setPlayer(player)
-
-        binding.progressBarAudio.visibility = View.GONE
 
     }
 
@@ -137,7 +122,6 @@ class AudioPlayerFragment : Fragment() {
         adapter = AudioAdapter(player!!)
         binding.playListRecyclerView.layoutManager = LinearLayoutManager(audioPlayerActivity)
         binding.playListRecyclerView.adapter = adapter
-        binding.currAudioDto = audioViewModel.fetchAudioData().value!![0].mapper(0)
         observeData()
     }
 
@@ -145,19 +129,32 @@ class AudioPlayerFragment : Fragment() {
 
         var index = 0L
 
-        audioViewModel.fetchAudioData().observe(
-            viewLifecycleOwner, Observer {
-                binding.progressBarAudio.visibility = View.VISIBLE
+        audioViewModel.audioData?.observe(viewLifecycleOwner) {
+            binding.progressBarAudio.visibility = View.VISIBLE
+
+            adapter.submitList(it.map {
+                it.mapper(index++)
+            })
+
+            player?.setMediaItems(audioViewModel.fetchAudioLinkData().value!!)
+            player?.prepare()
+
+            playerNotificationManager = PlayerNotificationManager.Builder(
+                audioPlayerActivity,
+                12, "ID"
+            )
+                .setChannelNameResourceId(R.string.email)
+                .setChannelDescriptionResourceId(R.string.password)
+                .setMediaDescriptionAdapter(DescriptionAdapter(audioPlayerActivity, bitmap , audioViewModel.audioData?.value!!))
+                .build()
 
 
-                adapter.submitList(it.map{
-                    it.mapper(index++)
-                })
+            playerNotificationManager.setPlayer(player)
 
-                binding.progressBarAudio.visibility = View.GONE
+            binding.currAudioDto = audioViewModel.audioData?.value!![0].mapper(0)
 
-            }
-        )
+            binding.progressBarAudio.visibility = View.GONE
+        }
     }
 
     fun getBitmapFromURL(src: String?): Bitmap? {
