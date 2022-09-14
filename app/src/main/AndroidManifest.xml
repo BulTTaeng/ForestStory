@@ -25,6 +25,11 @@
         android:theme="@style/Theme.ForestStory"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <service
+            android:name=".repository.service.WithdrawalService"
+            android:enabled="true"
+            android:exported="false" />
+
         <activity
             android:name=".view.activity.audio.AudioPlayerActivity"
             android:exported="false" />

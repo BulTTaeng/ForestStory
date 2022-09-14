@@ -14,6 +14,10 @@ class GlobalApplication : Application() {
     var currContext : Context = this
     var communityId : String = ""
 
+    init{
+        instance = this
+    }
+
     override fun onCreate() {
         super.onCreate()
         KakaoSdk.init(this, getString(R.string.kakao_native_key))
@@ -23,5 +27,12 @@ class GlobalApplication : Application() {
         val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo: NetworkInfo? = connMgr.activeNetworkInfo
         return networkInfo?.isConnected == true
+    }
+
+    companion object {
+        lateinit var instance: GlobalApplication
+        fun ApplicationContext() : Context {
+            return instance.applicationContext
+        }
     }
 }

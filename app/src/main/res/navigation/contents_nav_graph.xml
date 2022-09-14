@@ -13,5 +13,13 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.setting.SettingFragment"
-        android:label="SettingFragment" />
+        android:label="SettingFragment" >
+        <action
+            android:id="@+id/action_settingFragment_to_reCheckUserFragment"
+            app:destination="@id/reCheckUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reCheckUserFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.ReCheckUserFragment"
+        android:label="ReCheckUserFragment" />
 </navigation>

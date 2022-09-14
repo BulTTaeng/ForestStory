@@ -63,8 +63,6 @@ class LoginRepository {
     // firebaseAuthWithGoogle
     // 0 : 원래 로그인 된 계정, 1 : 처음 구글 로그인 시도, 2 : 구글 로그인 실패
     suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) : Int {
-        val username: String = acct.displayName.toString()
-        val email: String = acct.email.toString()
         var isSuccess : Boolean = false
         var result : Int = -1
 

@@ -1,15 +1,13 @@
-package com.greenstory.foreststory.utility
+package com.greenstory.foreststory.view.adapter
 
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import androidx.annotation.Nullable
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.BitmapCallback
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.MediaDescriptionAdapter
-import com.greenstory.foreststory.model.audio.AudioDto
 import com.greenstory.foreststory.model.audio.AudioEntity
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 

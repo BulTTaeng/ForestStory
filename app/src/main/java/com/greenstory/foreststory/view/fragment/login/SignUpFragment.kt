@@ -50,6 +50,7 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.progressBarSignUp.visibility = View.GONE
     }
 
     fun btnSignUp(view: View){
@@ -83,6 +84,7 @@ class SignUpFragment : Fragment() {
         }
     fun signUpWithEmail() {
         CoroutineScope(Dispatchers.Main).launch {
+            binding.progressBarSignUp.visibility = View.VISIBLE
             val userInfo = UserInfoEntity(
                 binding.edtSignupName.text.toString(),
                 binding.edtSignupEmail.text.toString(),
@@ -94,7 +96,7 @@ class SignUpFragment : Fragment() {
                 getString(R.string.basic_profile)
             )
 
-            val success = loginViewModel.emailSignUp(userInfo, binding.edtSignupPassword.toString())
+            val success = loginViewModel.emailSignUp(userInfo, binding.edtSignupPassword.text.toString())
 
             if (success) {
                 val intent = Intent(loginActivity, ContentsActivity::class.java)
@@ -103,6 +105,7 @@ class SignUpFragment : Fragment() {
             } else {
                 Toast.makeText(loginActivity, getText(R.string.try_later), Toast.LENGTH_LONG).show()
             }
+            binding.progressBarSignUp.visibility = View.GONE
         }
     }
 
