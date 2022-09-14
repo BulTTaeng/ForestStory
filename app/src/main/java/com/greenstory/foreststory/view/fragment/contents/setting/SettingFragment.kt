@@ -126,7 +126,7 @@ class SettingFragment : Fragment() {
             )){
             when(it){
                 "로그아웃" -> logOut()
-                "회원 탈퇴" -> Log.d("www" , "wwwww")
+                "회원 탈퇴" -> withDraw()
             }
         }
     }
@@ -173,5 +173,9 @@ class SettingFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun withDraw(){
+        findNavController().navigate(R.id.reCheckUserFragment)
     }
 }
