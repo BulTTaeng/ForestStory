@@ -95,6 +95,8 @@ class AudioPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.txtMountainName.text = audioPlayerActivity.name
+
         CoroutineScope(Dispatchers.Main).launch {
 
             CoroutineScope(Dispatchers.IO).launch {

@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:constraint_referenced_ids="track_text_view, artist_text_view,
-        cover_image_card_view, bottom_background_view , player_view"
+        cover_image_card_view, bottom_background_view , player_view , txt_mountainName"
                 tools:visibility="visible" />
 
 
@@ -38,13 +38,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:constraint_referenced_ids="play_list_recycler_view, title_text_view , player_view " />
+                app:constraint_referenced_ids="play_list_recycler_view ,txt_playList, player_view " />
 
             <View
                 android:id="@+id/top_background_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/dark_gray"
+                android:background="@color/black"
                 app:layout_constraintBottom_toTopOf="@id/bottom_background_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
                 android:id="@+id/bottom_background_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/white"
+                android:background="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,39 +63,54 @@
                 app:layout_constraintVertical_weight="2" />
 
             <TextView
-                android:id="@+id/track_text_view"
+                android:id="@+id/txt_mountainName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@{currAudioDto.commentator}" />
-
-            <TextView
-                android:id="@+id/title_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="재생목록"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:text="bbbbbb"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/txt_playList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="재생목록"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/track_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="aaaa"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/artist_text_view"
+                tools:text="@{currAudioDto.commentator}" />
+
+            <TextView
                 android:id="@+id/artist_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:textColor="@color/light_gray"
+                android:layout_marginTop="65dp"
+                android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/track_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/cover_image_card_view"
                 tools:text="@{currAudioDto.audioName}" />
 
             <!--    translationY 속성으로 아래로 내림.
@@ -122,6 +137,7 @@
                     android:id="@+id/cover_image_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="fitXY"
                     tools:background="@color/purple_200" />
             </androidx.cardview.widget.CardView>
 
@@ -133,7 +149,7 @@
                 app:layout_constraintBottom_toTopOf="@id/player_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_text_view" />
+                app:layout_constraintTop_toBottomOf="@id/txt_playList" />
 
 
             <com.google.android.exoplayer2.ui.PlayerView
@@ -159,6 +175,6 @@
             android:id="@+id/progressBar_audio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"></ProgressBar>
+            android:layout_gravity="center" />
     </FrameLayout>
 </layout>

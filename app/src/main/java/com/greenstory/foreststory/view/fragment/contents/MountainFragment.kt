@@ -56,6 +56,7 @@ class MountainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getMountainData()
+
         binding.button.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 binding.progressBarMountain.visibility = View.VISIBLE
@@ -74,9 +75,9 @@ class MountainFragment : Fragment() {
     }
 
     fun observeData() {
-        mountainViewModel.mountainData?.observe(viewLifecycleOwner) {
+        mountainViewModel.mountainData.observe(viewLifecycleOwner) {
 
-            adapter.submitList(mountainViewModel.mountainData?.value?.map {
+            adapter.submitList(mountainViewModel.mountainData.value?.map {
                 it.copy()
             })
             binding.progressBarMountain.visibility = View.GONE
