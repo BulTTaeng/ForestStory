@@ -23,6 +23,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private var _viewBinding: ActivityAudioPlayerBinding? = null
     private val binding: ActivityAudioPlayerBinding get() = requireNotNull(_viewBinding)
     val audioViewModel : AudioViewModel by viewModels()
+    var name : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
         (applicationContext as GlobalApplication).currContext = this
 
-        val name = intent.getStringExtra("MOUNTAINNAME")
+        name = intent.getStringExtra("MOUNTAINNAME")
 
         getViewModelData(name)
     }
@@ -44,9 +45,5 @@ class AudioPlayerActivity : AppCompatActivity() {
                 .replace(binding.frameAudioPlayer.id, AudioPlayerFragment())
                 .commit()
         }
-    }
-
-    fun getC(): AudioPlayerActivity {
-        return this
     }
 }

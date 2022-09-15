@@ -48,6 +48,9 @@
 - 회원 탈퇴 추가
 - repository Live data -> Flow
 
+`2022.09.15`  
+- audioPlayer Fragment UI 수정
+
 
 
 
