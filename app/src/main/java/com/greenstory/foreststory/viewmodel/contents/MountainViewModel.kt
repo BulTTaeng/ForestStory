@@ -9,26 +9,31 @@ import com.greenstory.foreststory.repository.contents.MountainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
-class MountainViewModel @Inject constructor(val mountainRepo : MountainRepository) : ViewModel() {
+class MountainViewModel @Inject constructor(val mountainRepo: MountainRepository) : ViewModel() {
 
     val _mutableMountainData = MutableLiveData<MutableList<MountainDto>>()
-    val mountainData : LiveData<MutableList<MountainDto>>
-        get() =_mutableMountainData
+    val mountainData: LiveData<MutableList<MountainDto>>
+        get() = _mutableMountainData
 
 
-    suspend fun getMountainData(){
-        mountainRepo.getMountainData().collectLatest{
-            _mutableMountainData.value = it
+    fun getMountainData() {
+        viewModelScope.launch {
+            mountainRepo.getMountainData().collectLatest {
+                _mutableMountainData.value = it
+            }
         }
     }
 
-    suspend fun getMountainWithDistance(lati : Double , longi : Double){
-        mountainRepo.getMountainWithDistance(lati , longi).collectLatest(){
-            _mutableMountainData.value = it
+    fun getMountainWithDistance(lati: Double, longi: Double) {
+        viewModelScope.launch {
+            mountainRepo.getMountainWithDistance(lati, longi).collectLatest() {
+                _mutableMountainData.value = it
+            }
         }
 
     }

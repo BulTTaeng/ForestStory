@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.ActivityContentsBinding
 import com.greenstory.foreststory.utility.GlobalApplication
+import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +25,7 @@ class ContentsActivity : AppCompatActivity() {
     lateinit var navHostFragment: NavHostFragment
     lateinit var binding : ActivityContentsBinding
     val mountainViewModel : MountainViewModel by viewModels()
+    val commentatorViewModel : CommentatorViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

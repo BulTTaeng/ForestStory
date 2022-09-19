@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.greenstory.foreststory.repository.contents.setting.SettingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,8 +27,11 @@ class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) 
         return myReceiver
     }
 
-    suspend fun getUserNameAndEmailProfileImage(){
-        myInfo = settingRepo.getUserNameAndEmailProfileImage().asLiveData(viewModelScope.coroutineContext)
+    fun getUserNameAndEmailProfileImage(){
+        viewModelScope.launch {
+            myInfo = settingRepo.getUserNameAndEmailProfileImage()
+                .asLiveData(viewModelScope.coroutineContext)
+        }
     }
 
     fun getGoogleSignInClient(activity: Activity) : GoogleSignInClient {

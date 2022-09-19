@@ -37,13 +37,12 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     fun getViewModelData(name : String?){
-        CoroutineScope(Dispatchers.Main).launch {
 
             audioViewModel.getAudioData("NSWzzdpkMgpn7ndD7WDQ")
 
             supportFragmentManager.beginTransaction()
                 .replace(binding.frameAudioPlayer.id, AudioPlayerFragment())
                 .commit()
-        }
+
     }
 }

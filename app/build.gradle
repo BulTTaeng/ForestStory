@@ -100,5 +100,15 @@ dependencies {
 
     implementation("androidx.paging:paging-runtime-ktx:$paging_version")
 
+    //pull and refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //circle Image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //fragment
+    def fragment_version = "1.5.2"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
 
 }

@@ -26,4 +26,6 @@
     <string name="logout_exception">로그아웃중 문제가 발생하였습니다. 잠시후 다시 시도해주세요</string>
     <string name="double_check_email_message">정말 이 아이디로 가입을 할까요?</string>
     <string name="double_check_email">존재 하지 않는 이메일을 입력할 경우, 비밀번호 재설정이 불가합니다.</string>
+    <string name="recommand_commentator">이 해설가님은 어떠세요?</string>
+    <string name="today_commentator">오늘의 해설가</string>
 </resources>

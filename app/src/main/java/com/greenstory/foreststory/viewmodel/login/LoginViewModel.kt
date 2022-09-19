@@ -2,11 +2,15 @@ package com.greenstory.foreststory.viewmodel.login
 
 import android.app.Activity
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.repository.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,9 +20,11 @@ class LoginViewModel @Inject constructor(val loginRepo : LoginRepository): ViewM
         return loginRepo.emailSignUp(userInfo , password)
     }
 
-    suspend fun emailLogIn(id : String , password : String) : Boolean{
-        return loginRepo.emailLogIn(id, password)
-    }
+    suspend fun emailLogIn(id : String , password : String) : Deferred<Boolean> =
+        viewModelScope.async {
+            val result  =  loginRepo.emailLogIn(id, password)
+            result
+        }
 
     fun getGoogleSignInClient(activity: Activity) : GoogleSignInClient {
         return loginRepo.getGoogleSignInClient(activity)

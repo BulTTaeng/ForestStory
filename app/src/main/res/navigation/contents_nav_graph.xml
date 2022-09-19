@@ -22,4 +22,8 @@
         android:id="@+id/reCheckUserFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.setting.ReCheckUserFragment"
         android:label="ReCheckUserFragment" />
+    <fragment
+        android:id="@+id/commentatorFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.CommentatorFragment"
+        android:label="CommentatorFragment" />
 </navigation>
