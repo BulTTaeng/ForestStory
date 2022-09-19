@@ -51,6 +51,10 @@
 `2022.09.15`  
 - audioPlayer Fragment UI 수정
 
+`2022.09.19`  
+- 숲 해설가 페이지 추가
+- 숲 해설가 data load
+- lifecycle 문제 해결
 
 
 

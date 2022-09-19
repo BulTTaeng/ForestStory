@@ -31,10 +31,10 @@ import kotlinx.coroutines.*
 
 class SettingFragment : Fragment() {
 
-    lateinit var binding : FragmentSettingBinding
-    lateinit var settingViewModel : SettingViewModel
+    lateinit var binding: FragmentSettingBinding
+    lateinit var settingViewModel: SettingViewModel
     lateinit var contentsActivity: ContentsActivity
-    lateinit var adapter : SettingAdapter
+    lateinit var adapter: SettingAdapter
     private lateinit var googleSignInClient: GoogleSignInClient
 
     var isSetting = false
@@ -52,23 +52,24 @@ class SettingFragment : Fragment() {
 
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(isSetting){
+                if (isSetting) {
                     adapter.setOnClickListener(
-                        listOf("자격증 인증",
+                        listOf(
+                            "자격증 인증",
                             "관심 목록",
                             "프로필 변경",
                             "내 오디오 보기"
-                        )){
-                        when(it){
-                            "자격증 인증" -> Log.d("111" , "111")
-                            "관심 목록" -> Log.d("222" , "222")
-                            "프로필 변경" -> Log.d("333" , "333")
-                            "내 오디오 보기" -> Log.d("444" , "$444")
+                        )
+                    ) {
+                        when (it) {
+                            "자격증 인증" -> Log.d("111", "111")
+                            "관심 목록" -> Log.d("222", "222")
+                            "프로필 변경" -> Log.d("333", "333")
+                            "내 오디오 보기" -> Log.d("444", "$444")
                         }
                     }
                     isSetting = false
-                }
-                else{
+                } else {
                     activity?.finish()
                 }
             }
@@ -81,7 +82,7 @@ class SettingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_setting, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
         binding.fragment = this@SettingFragment
         return binding.root
     }
@@ -92,68 +93,69 @@ class SettingFragment : Fragment() {
         settingViewModel = ViewModelProvider(contentsActivity).get(SettingViewModel::class.java)
         googleSignInClient = settingViewModel.getGoogleSignInClient(contentsActivity)
         getUserInfo()
+        observeMyInfo()
         initRecyclerView()
     }
 
-    fun btnSetting(view: View){
+    fun btnSetting(view: View) {
         reSettingRecyclerView()
     }
 
-    fun initRecyclerView(){
+    fun initRecyclerView() {
         adapter = SettingAdapter()
         adapter.setOnClickListener(
-            listOf("자격증 인증",
+            listOf(
+                "자격증 인증",
                 "관심 목록",
                 "프로필 변경",
                 "내 오디오 보기"
-        )){
-            when(it){
-                "자격증 인증" -> Log.d("111" , "111")
-                "관심 목록" -> Log.d("222" , "222")
-                "프로필 변경" -> Log.d("333" , "333")
-                "내 오디오 보기" -> Log.d("444" , "$444")
+            )
+        ) {
+            when (it) {
+                "자격증 인증" -> Log.d("111", "111")
+                "관심 목록" -> Log.d("222", "222")
+                "프로필 변경" -> Log.d("333", "333")
+                "내 오디오 보기" -> Log.d("444", "$444")
             }
         }
         binding.recyclerSetting.layoutManager = LinearLayoutManager(contentsActivity)
         binding.recyclerSetting.adapter = adapter
     }
 
-    fun reSettingRecyclerView(){
+    fun reSettingRecyclerView() {
         isSetting = true
         adapter.setOnClickListener(
-            listOf("로그아웃",
+            listOf(
+                "로그아웃",
                 "회원 탈퇴"
-            )){
-            when(it){
+            )
+        ) {
+            when (it) {
                 "로그아웃" -> logOut()
                 "회원 탈퇴" -> withDraw()
             }
         }
     }
 
-    fun getUserInfo(){
-        CoroutineScope(Dispatchers.Main).launch {
-            settingViewModel.getUserNameAndEmailProfileImage()
-            observeMyInfo()
-        }
+    fun getUserInfo() {
+        settingViewModel.getUserNameAndEmailProfileImage()
     }
 
-    fun observeMyInfo(){
-        settingViewModel.myInfo?.observe(viewLifecycleOwner , Observer{
-            CoroutineScope(Dispatchers.Main).launch {
-                var profileImage = ""
-                binding.txtUserNameMyPage.text = it[0]
-                binding.txtUserEmailMyPage.text = it[1]
-                profileImage = it[2]
+    fun observeMyInfo() {
+        settingViewModel.myInfo?.observe(viewLifecycleOwner, Observer {
 
-                Glide.with(contentsActivity).load(profileImage)
-                    .transform(CenterCrop(), RoundedCorners(100)).into(binding.imgProfileImage)
-            }
+            var profileImage = ""
+            binding.txtUserNameMyPage.text = it[0]
+            binding.txtUserEmailMyPage.text = it[1]
+            profileImage = it[2]
+
+            Glide.with(contentsActivity).load(profileImage).into(binding.imgProfileImage)
+
         })
     }
 
-    fun logOut(){
-        var signCompleteCheck : Boolean = false
+    fun logOut() {
+        var signCompleteCheck: Boolean = false
         binding.progressBarSetting.visibility = View.VISIBLE
         CoroutineScope(Dispatchers.Main).launch {
 
@@ -161,21 +163,29 @@ class SettingFragment : Fragment() {
 
             when (signCompleteCheck) {
                 true -> {
-                    Toast.makeText(contentsActivity, getString(R.string.do_logout), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        contentsActivity,
+                        getString(R.string.do_logout),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     binding.progressBarSetting.visibility = View.GONE
                     val intent = Intent(getActivity(), LoginActivity::class.java)
                     startActivity(intent)
                     ActivityCompat.finishAffinity(contentsActivity)
                 }
                 false -> {
-                    Toast.makeText(contentsActivity, getString(R.string.logout_exception), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        contentsActivity,
+                        getString(R.string.logout_exception),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     binding.progressBarSetting.visibility = View.GONE
                 }
             }
         }
     }
 
-    fun withDraw(){
+    fun withDraw() {
         findNavController().navigate(R.id.reCheckUserFragment)
     }
 }

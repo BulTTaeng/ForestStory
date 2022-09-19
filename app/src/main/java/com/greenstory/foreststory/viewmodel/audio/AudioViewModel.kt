@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.greenstory.foreststory.model.audio.AudioEntity
 import com.greenstory.foreststory.repository.audio.AudioRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,8 +23,11 @@ class AudioViewModel @Inject constructor(val audioRepo : AudioRepository) : View
         return audioLinkData
     }
 
-    suspend fun getAudioData(mountainName : String){
-        audioData = audioRepo.getAudioData(mountainName).asLiveData(viewModelScope.coroutineContext)
+    fun getAudioData(mountainName : String){
+        viewModelScope.launch {
+            audioData =
+                audioRepo.getAudioData(mountainName).asLiveData(viewModelScope.coroutineContext)
+        }
     }
 
 }

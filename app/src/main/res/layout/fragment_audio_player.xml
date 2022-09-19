@@ -82,7 +82,7 @@
                 android:layout_marginTop="30dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="재생목록"
+                android:text="해설목록"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

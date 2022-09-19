@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -26,7 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class MountainFragment : Fragment() {
+class MountainFragment : Fragment(), LifecycleOwner {
     lateinit var binding: FragmentMountainBinding
     lateinit var contentsActivity: ContentsActivity
     lateinit var adapter: MountainAdapter
@@ -55,28 +56,23 @@ class MountainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeData()
         getMountainData()
-
+        initRecyclerView()
         binding.button.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
                 binding.progressBarMountain.visibility = View.VISIBLE
                 mountainViewModel.getMountainWithDistance(37.1, 37.1)
-            }
+
         }
     }
 
     fun getMountainData() {
-        CoroutineScope(Dispatchers.Main).launch {
-            binding.progressBarMountain.visibility = View.VISIBLE
-            mountainViewModel.getMountainData()
-            initRecyclerView()
-            observeData()
-        }
+        binding.progressBarMountain.visibility = View.VISIBLE
+        mountainViewModel.getMountainData()
     }
 
     fun observeData() {
         mountainViewModel.mountainData.observe(viewLifecycleOwner) {
-
             adapter.submitList(mountainViewModel.mountainData.value?.map {
                 it.copy()
             })
