@@ -25,6 +25,10 @@
         android:theme="@style/Theme.ForestStory"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".view.activity.contents.CommentatorActivity"
+            android:exported="false" />
+
         <service
             android:name=".repository.service.WithdrawalService"
             android:enabled="true"

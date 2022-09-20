@@ -1,5 +1,6 @@
 package com.greenstory.foreststory.view.adapter
 
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.greenstory.foreststory.databinding.ItemCommentatorBinding
 import com.greenstory.foreststory.model.contents.CommentatorDto
+import com.greenstory.foreststory.view.activity.contents.CommentatorActivity
 
 
 class CommentatorAdapter : ListAdapter<CommentatorDto, CommentatorAdapter.CommentatorViewHolder>(COMMENTATOR_DIFF_CALLBACK){
@@ -23,7 +25,9 @@ class CommentatorAdapter : ListAdapter<CommentatorDto, CommentatorAdapter.Commen
             binding.commetatorDto = data
             Glide.with(itemView.context).load(data.profile).into(imgProfileImageInCommentator)
             itemView.setOnClickListener {
-                Log.d("tttttttt" , txtCommentatorName.text.toString())
+                val intent = Intent(itemView.context , CommentatorActivity::class.java)
+                intent.putExtra("INFO" , data)
+                itemView.context.startActivity(intent)
             }
         }
 

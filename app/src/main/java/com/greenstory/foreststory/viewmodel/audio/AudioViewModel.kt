@@ -30,4 +30,11 @@ class AudioViewModel @Inject constructor(val audioRepo : AudioRepository) : View
         }
     }
 
+    fun getAudioDataWithInfo(mountainName : String , audioIdList : ArrayList<String>){
+        viewModelScope.launch {
+            audioData =
+                audioRepo.getAudioDataWithInfo(mountainName , audioIdList).asLiveData(viewModelScope.coroutineContext)
+        }
+    }
+
 }

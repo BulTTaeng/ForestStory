@@ -56,8 +56,8 @@ class MountainFragment : Fragment(), LifecycleOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeData()
         getMountainData()
+        observeData()
         initRecyclerView()
         binding.button.setOnClickListener {
                 binding.progressBarMountain.visibility = View.VISIBLE

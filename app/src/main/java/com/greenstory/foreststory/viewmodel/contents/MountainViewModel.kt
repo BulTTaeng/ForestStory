@@ -38,4 +38,12 @@ class MountainViewModel @Inject constructor(val mountainRepo: MountainRepository
 
     }
 
+    fun getMountainDataContain(list : ArrayList<String>){
+        viewModelScope.launch {
+            mountainRepo.getMountainDataContain(list).collectLatest() {
+                _mutableMountainData.value = it
+            }
+        }
+    }
+
 }

@@ -106,6 +106,7 @@ class AudioPlayerFragment : Fragment() {
 
             Glide.with(audioPlayerActivity).load(bitmap).into(binding.coverImageView)
             initPlayer()
+            observeData()
             initRecyclerView()
 
         }
@@ -122,9 +123,8 @@ class AudioPlayerFragment : Fragment() {
 
     fun initRecyclerView(){
         adapter = AudioAdapter(player!!)
-        binding.playListRecyclerView.layoutManager = LinearLayoutManager(audioPlayerActivity)
-        binding.playListRecyclerView.adapter = adapter
-        observeData()
+        binding.recyclerPlayList.layoutManager = LinearLayoutManager(audioPlayerActivity)
+        binding.recyclerPlayList.adapter = adapter
     }
 
     fun observeData(){
@@ -176,7 +176,7 @@ class AudioPlayerFragment : Fragment() {
     fun AudioEntity.mapper(index : Long): AudioDto =
         AudioDto(id = index , link , audioName , commentator , likeNum , false)
 
-    fun showDetailPage(view: View){
+    fun btnShowCoverImage(view: View){
         if(binding.playListGroup.isVisible){
             var loc = adapter.currLoc.toInt()
             if(loc == -1 ){
@@ -188,6 +188,11 @@ class AudioPlayerFragment : Fragment() {
             binding.playListGroup.visibility = View.GONE
             binding.playerViewGroup.visibility = View.VISIBLE
         }
+    }
+
+    fun btnShowList(view: View){
+        binding.playerViewGroup.visibility = View.GONE
+        binding.playListGroup.visibility = View.VISIBLE
     }
 
 }

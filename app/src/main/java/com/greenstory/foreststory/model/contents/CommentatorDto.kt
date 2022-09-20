@@ -1,5 +1,9 @@
 package com.greenstory.foreststory.model.contents
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class CommentatorDto (
     val audio : ArrayList<String> = ArrayList<String>(),
     val likedNum : Long = 0L,
@@ -8,4 +12,4 @@ data class CommentatorDto (
     val name : String = "",
     val profile : String = "",
     val explain : String =""
-        )
+        ): Parcelable
