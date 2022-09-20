@@ -59,20 +59,24 @@ class AudioRepository {
 
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getAudioDataWithInfo(mountainName : String , audioId : String) = flow{
+    suspend fun getAudioDataWithInfo(mountainName : String , audioIdList : ArrayList<String>) = flow{
 
         var temp = AudioEntity()
         var mediaItem : MediaItem
 
         try {
-            db.collection("story").document(mountainName).collection(mountainName).document(audioId)
-                .get().addOnCompleteListener { it ->
-                    if (it.isSuccessful) {
-                        temp = it.result.toObject(AudioEntity::class.java)!!
-
-                        mediaItem =
-                            MediaItem.fromUri(Uri.parse(temp.link))
-                        _mutableSingleLink.value = mediaItem
+            db.collection("story").document(mountainName).collection(mountainName).get().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        for(it in task.result){
+                            if(audioIdList.contains(it.id)){
+                                temp = it.toObject(AudioEntity::class.java)
+                                audioList.add(temp)
+                                mediaItem =
+                                    MediaItem.fromUri(Uri.parse(temp.link))
+                                audioLink.add(mediaItem)
+                            }
+                        }
+                        _mutableAudioLink.value = audioLink
                     }
                 }.await()
             emit(audioList)
