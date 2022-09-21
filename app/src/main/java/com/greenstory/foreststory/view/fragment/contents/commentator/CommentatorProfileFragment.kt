@@ -14,10 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentCommentatorProfileBinding
+import com.greenstory.foreststory.model.contents.MountainDto
+import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.CommentatorActivity
 import com.greenstory.foreststory.view.adapter.CommentatorMountainAdapter
 import com.greenstory.foreststory.view.adapter.MountainAdapter
 import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 
 class CommentatorProfileFragment : Fragment() {
@@ -52,8 +55,13 @@ class CommentatorProfileFragment : Fragment() {
         Glide.with(commentatorActivity).load(commentatorActivity.commentatorDto.profile).into(binding.imgCommentatorImage)
 
         getMountainData(commentatorActivity.commentatorDto.mountain)
-        observeData()
         initRecycler()
+        repeatOnStarted {
+            mountainViewModel.mountainData.collectLatest { event ->
+                binding.progressBarCommentatorProfile.visibility = View.VISIBLE
+                handleEvent(event)
+            }
+        }
 
     }
 
@@ -62,19 +70,30 @@ class CommentatorProfileFragment : Fragment() {
         mountainViewModel.getMountainDataContain(list)
     }
 
-    fun observeData() {
-        mountainViewModel.mountainData.observe(viewLifecycleOwner) {
-            adapter.submitList(mountainViewModel.mountainData.value?.map {
-                it.copy()
-            })
-            binding.progressBarCommentatorProfile.visibility = View.GONE
-        }
-    }
+//    fun observeData() {
+//        mountainViewModel.mountainData.observe(viewLifecycleOwner) {
+//            adapter.submitList(mountainViewModel.mountainData.value?.map {
+//                it.copy()
+//            })
+//            binding.progressBarCommentatorProfile.visibility = View.GONE
+//        }
+//    }
 
     fun initRecycler(){
         adapter = CommentatorMountainAdapter()
         binding.recyclerCommentatorMountain.layoutManager = LinearLayoutManager(commentatorActivity)
         binding.recyclerCommentatorMountain.adapter = adapter
+    }
+
+    fun updateMountain(mountainList : ArrayList<MountainDto>){
+        adapter.submitList(mountainList.map {
+            it.copy()
+        })
+        binding.progressBarCommentatorProfile.visibility = View.GONE
+    }
+
+    fun handleEvent(event: MountainViewModel.Event) = when (event) {
+        is MountainViewModel.Event.Mountains -> updateMountain(event.mountains)
     }
 
 

@@ -23,13 +23,16 @@ import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentAudioPlayerBinding
 import com.greenstory.foreststory.model.audio.AudioDto
 import com.greenstory.foreststory.model.audio.AudioEntity
+import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.adapter.DescriptionAdapter
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
 import com.greenstory.foreststory.view.adapter.AudioAdapter
 import com.greenstory.foreststory.viewmodel.audio.AudioViewModel
+import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
@@ -95,19 +98,25 @@ class AudioPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.txtMountainName.text = audioPlayerActivity.name
+        binding.txtMountainName.text = audioPlayerActivity.mountainInfo?.name
 
         CoroutineScope(Dispatchers.Main).launch {
 
             CoroutineScope(Dispatchers.IO).launch {
                 bitmap =
-                    getBitmapFromURL("https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/abc.jpg?alt=media&token=2438536a-440d-4418-b022-3619ec387e09")
+                    getBitmapFromURL(audioPlayerActivity.mountainInfo?.image)
             }.join()
 
             Glide.with(audioPlayerActivity).load(bitmap).into(binding.coverImageView)
             initPlayer()
-            observeData()
             initRecyclerView()
+            repeatOnStarted {
+                audioViewModel.audioData.collectLatest { event ->
+                    handleEvent(event)
+                }
+            }
+
+            //observeData()
 
         }
     }
@@ -127,36 +136,33 @@ class AudioPlayerFragment : Fragment() {
         binding.recyclerPlayList.adapter = adapter
     }
 
-    fun observeData(){
-
+    fun getAudio(audioList : ArrayList<AudioEntity>){
         var index = 0L
 
-        audioViewModel.audioData?.observe(viewLifecycleOwner) {
-            binding.progressBarAudio.visibility = View.VISIBLE
+        binding.progressBarAudio.visibility = View.VISIBLE
 
-            adapter.submitList(it.map {
-                it.mapper(index++)
-            })
+        adapter.submitList(audioList.map {
+            it.mapper(index++)
+        })
 
-            player?.setMediaItems(audioViewModel.fetchAudioLinkData().value!!)
-            player?.prepare()
+        player?.setMediaItems(audioViewModel.fetchAudioLinkData().value!!)
+        player?.prepare()
 
-            playerNotificationManager = PlayerNotificationManager.Builder(
-                audioPlayerActivity,
-                12, "ID"
-            )
-                .setChannelNameResourceId(R.string.email)
-                .setChannelDescriptionResourceId(R.string.password)
-                .setMediaDescriptionAdapter(DescriptionAdapter(audioPlayerActivity, bitmap , audioViewModel.audioData?.value!!))
-                .build()
+        playerNotificationManager = PlayerNotificationManager.Builder(
+            audioPlayerActivity,
+            12, "ID"
+        )
+            .setChannelNameResourceId(R.string.email)
+            .setChannelDescriptionResourceId(R.string.password)
+            .setMediaDescriptionAdapter(DescriptionAdapter(audioPlayerActivity, bitmap , audioList))
+            .build()
 
 
-            playerNotificationManager.setPlayer(player)
+        playerNotificationManager.setPlayer(player)
 
-            binding.currAudioDto = audioViewModel.audioData?.value!![0].mapper(0)
+        binding.currAudioDto = audioList[0].mapper(0)
 
-            binding.progressBarAudio.visibility = View.GONE
-        }
+        binding.progressBarAudio.visibility = View.GONE
     }
 
     fun getBitmapFromURL(src: String?): Bitmap? {
@@ -175,6 +181,10 @@ class AudioPlayerFragment : Fragment() {
 
     fun AudioEntity.mapper(index : Long): AudioDto =
         AudioDto(id = index , link , audioName , commentator , likeNum , false)
+
+    private fun handleEvent(event: AudioViewModel.Event) = when (event) {
+        is AudioViewModel.Event.Audios -> getAudio(event.audios)
+    }
 
     fun btnShowCoverImage(view: View){
         if(binding.playListGroup.isVisible){

@@ -23,11 +23,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentSettingBinding
+import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 import com.greenstory.foreststory.view.activity.login.LoginActivity
 import com.greenstory.foreststory.view.adapter.SettingAdapter
+import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import com.greenstory.foreststory.viewmodel.contents.setting.SettingViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collectLatest
 
 class SettingFragment : Fragment() {
 
@@ -39,7 +42,6 @@ class SettingFragment : Fragment() {
 
     var isSetting = false
     private lateinit var callback: OnBackPressedCallback
-    private lateinit var callback2: OnBackPressedCallback
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -92,9 +94,14 @@ class SettingFragment : Fragment() {
         binding.progressBarSetting.visibility = View.GONE
         settingViewModel = ViewModelProvider(contentsActivity).get(SettingViewModel::class.java)
         googleSignInClient = settingViewModel.getGoogleSignInClient(contentsActivity)
-        getUserInfo()
-        observeMyInfo()
+
+        settingViewModel.getUserNameAndEmailProfileImage()
         initRecyclerView()
+        repeatOnStarted {
+            settingViewModel.myInfo.collectLatest { event ->
+                handleEvent(event)
+            }
+        }
     }
 
     fun btnSetting(view: View) {
@@ -137,21 +144,13 @@ class SettingFragment : Fragment() {
         }
     }
 
-    fun getUserInfo() {
-        settingViewModel.getUserNameAndEmailProfileImage()
-    }
+    fun getUserInfo(info : ArrayList<String>) {
+        var profileImage = ""
+        binding.txtUserNameMyPage.text = info[0]
+        binding.txtUserEmailMyPage.text = info[1]
+        profileImage = info[2]
 
-    fun observeMyInfo() {
-        settingViewModel.myInfo?.observe(viewLifecycleOwner, Observer {
-
-            var profileImage = ""
-            binding.txtUserNameMyPage.text = it[0]
-            binding.txtUserEmailMyPage.text = it[1]
-            profileImage = it[2]
-
-            Glide.with(contentsActivity).load(profileImage).into(binding.imgProfileImage)
-
-        })
+        Glide.with(contentsActivity).load(profileImage).into(binding.imgProfileImage)
     }
 
     fun logOut() {
@@ -187,5 +186,9 @@ class SettingFragment : Fragment() {
 
     fun withDraw() {
         findNavController().navigate(R.id.reCheckUserFragment)
+    }
+
+    private fun handleEvent(event: SettingViewModel.Event) = when (event) {
+        is SettingViewModel.Event.Info -> getUserInfo(event.info)
     }
 }

@@ -61,6 +61,10 @@
 - 숲 해설가 프로파일 페이지에서 audioActivity 라우팅 추가
 - 숲 해설가의 audio 파일, mountain 만 불러오는 로직 추가(mountain , audio ViewModel)
 
+`2022.09.21`  
+- LiveData + Observe -> EventFlow + emit + collect
+- commentatorReservationPage 구현
+
 
 
 </details><br>  
