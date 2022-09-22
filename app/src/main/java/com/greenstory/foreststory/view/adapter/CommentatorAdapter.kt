@@ -17,13 +17,21 @@ import com.greenstory.foreststory.view.activity.contents.CommentatorActivity
 class CommentatorAdapter : ListAdapter<CommentatorDto, CommentatorAdapter.CommentatorViewHolder>(COMMENTATOR_DIFF_CALLBACK){
 
     lateinit var binding : ItemCommentatorBinding
+    var hashTags : String =""
 
     inner class CommentatorViewHolder(
         private val binding: ItemCommentatorBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindData(data: CommentatorDto) = with(binding) {
             binding.commetatorDto = data
+            hashTags = ""
             Glide.with(itemView.context).load(data.profile).into(imgProfileImageInCommentator)
+
+            for(it in data.hashTag.split(" ")){
+                hashTags += "#$it "
+            }
+            txtHashTag.text = hashTags
+
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context , CommentatorActivity::class.java)
                 intent.putExtra("INFO" , data)

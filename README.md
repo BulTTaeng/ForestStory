@@ -65,6 +65,10 @@
 - LiveData + Observe -> EventFlow + emit + collect
 - commentatorReservationPage 구현
 
+`2022.09.22`  
+- 검색 기능 이름 -> hashTag
+- popupMenu 추가
+
 
 
 </details><br>  

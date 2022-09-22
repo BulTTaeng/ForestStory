@@ -5,10 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
@@ -204,5 +203,35 @@ class AudioPlayerFragment : Fragment() {
         binding.playerViewGroup.visibility = View.GONE
         binding.playListGroup.visibility = View.VISIBLE
     }
+
+    fun btnShowOptions(view: View){
+
+        val themeWrapper = ContextThemeWrapper(context , R.style.MyPopupMenu)
+        val popupMenu = PopupMenu(themeWrapper , binding.btnShowOptions, Gravity.END , 0 , R.style.MyPopupMenu)
+
+        popupMenu.inflate(R.menu.show_options_audio)
+        popupMenu.show()
+
+
+        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener{
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                when(item?.itemId){
+                    R.id.report -> {
+                        return true
+                    }
+                    R.id.block -> {
+                        return true
+                    }
+                    R.id.share ->{
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+        popupMenu.show()
+    }
+
+
 
 }

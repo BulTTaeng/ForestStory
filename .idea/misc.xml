@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3165" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/drawable/background_roundedge.xml" value="0.4795" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3165" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/drawable/popup_menu_audio.xml" value="0.3155" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/drawable/radius_white_border.xml" value="0.3165" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_audio_player.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_commentator.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_contents.xml" value="0.2989583333333333" />
@@ -25,6 +29,7 @@
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_mountain.xml" value="0.553125" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_setting.xml" value="0.553125" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/menu/bottom_nav_menu.xml" value="0.31354166666666666" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/menu/show_options_audio.xml" value="0.5541666666666667" />
       </map>
     </option>
   </component>
