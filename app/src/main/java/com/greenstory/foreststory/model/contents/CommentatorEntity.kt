@@ -7,5 +7,6 @@ data class CommentatorEntity (
     val id : String = "",
     val name : String = "",
     val profile : String = "",
-    val explain : String =""
+    val explain : String ="",
+    val hashTag : String =""
     )

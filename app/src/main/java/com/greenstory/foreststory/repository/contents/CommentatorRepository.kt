@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 import com.greenstory.foreststory.model.contents.CommentatorDto
 import com.greenstory.foreststory.model.contents.CommentatorEntity
 import com.greenstory.foreststory.model.contents.MountainDto
@@ -45,7 +46,7 @@ class CommentatorRepository {
     }.flowOn(Dispatchers.IO)
 
     fun CommentatorEntity.mapper( ): CommentatorDto =
-        CommentatorDto(audio , likedNum, mountain, id, name, profile, explain)
+        CommentatorDto(audio , likedNum, mountain, id, name, profile, explain, hashTag)
 
     suspend fun searchCommentators(str : String) = flow{
         foundCommentators.clear()
@@ -56,7 +57,7 @@ class CommentatorRepository {
                     if (task.isSuccessful) {
                         for (it in task.result) {
                             temp = it.toObject(CommentatorEntity::class.java)
-                            if(temp.name.contains(str)) {
+                            if(temp.hashTag.contains(str)) {
                                 foundCommentators.add(temp.mapper())
                             }
                         }
