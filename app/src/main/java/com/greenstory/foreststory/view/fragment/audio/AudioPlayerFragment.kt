@@ -67,9 +67,13 @@ class AudioPlayerFragment : Fragment() {
                 override fun handleOnBackPressed() {
                     if(binding.playListGroup.isVisible){
                         if(System.currentTimeMillis() - backPressedTime < 2500){
-                            playerNotificationManager.setPlayer(null)
+
+                            if (AudioPlayerFragment()::playerNotificationManager.isInitialized) {
+                                playerNotificationManager.setPlayer(null)
+                            }
                             player?.release()
                             audioPlayerActivity.finish()
+
                             return  // 로직 종료(토스트 메시지 안 띄우기 위해)
                         }
                         Toast.makeText(audioPlayerActivity, getText(R.string.doubletap_to_exit), Toast.LENGTH_SHORT).show()
