@@ -13,7 +13,7 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.setting.SettingFragment"
-        android:label="SettingFragment" >
+        android:label="SettingFragment">
         <action
             android:id="@+id/action_settingFragment_to_reCheckUserFragment"
             app:destination="@id/reCheckUserFragment" />
@@ -25,5 +25,17 @@
     <fragment
         android:id="@+id/commentatorFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.CommentatorFragment"
-        android:label="CommentatorFragment" />
+        android:label="CommentatorFragment">
+        <action
+            android:id="@+id/action_commentatorFragment_to_commentatorSearchFragment"
+            app:destination="@id/commentatorSearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentatorSearchFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.CommentatorSearchFragment"
+        android:label="CommentatorSearchFragment">
+        <argument
+            android:name="searchString"
+            app:argType="string" />
+    </fragment>
 </navigation>

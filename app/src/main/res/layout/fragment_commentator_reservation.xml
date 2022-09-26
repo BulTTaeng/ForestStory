@@ -58,7 +58,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@{commentatorInfo.explain}"
         android:textColor="@color/blue_green"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,8 +74,25 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:text="날짜 고르기"
+        android:clickable="true"
+        android:onClick="@{fragment::txtSelectDay}"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_commentatorHashTag" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_commentatorHashTag"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/txt_selectedDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="        "
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txt_selectDay"
+        app:layout_constraintTop_toBottomOf="@+id/txt_commentatorHashTag"
+        tools:text="2022/9/17(토)"/>
 
     <TextView
         android:id="@+id/txt_selectLocation"
@@ -84,11 +100,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:onClick="@{fragment::txtSelectLocation}"
         android:text="장소 고르기"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_selectDay" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_selectDay"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/txt_selectedLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txt_selectLocation"
+        app:layout_constraintTop_toBottomOf="@+id/txt_selectDay"
+        tools:text="무등산"/>
 
     <TextView
         android:id="@+id/txt_selectProgram"
@@ -97,10 +129,25 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:text="프로그램 고르기"
+        android:clickable="true"
+        android:onClick="@{fragment::txtSelectedProgram}"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_selectLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_selectLocation"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/txt_selectedProgram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txt_selectProgram"
+        app:layout_constraintTop_toBottomOf="@+id/txt_selectLocation"
+        tools:text = "무등산 숲해설"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="140dp"
