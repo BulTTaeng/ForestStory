@@ -29,15 +29,12 @@ class CommentatorRepository {
             commentators.clear()
             try {
 
-                db.collection("commentator").orderBy("likedNum" , Query.Direction.DESCENDING).get()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            for (it in task.result) {
-                                temp = it.toObject(CommentatorEntity::class.java)
-                                commentators.add(temp.mapper())
-                            }
-                        }
-                    }.await()
+                val commentatorDocuments = db.collection("commentator").orderBy("likedNum" , Query.Direction.DESCENDING).get().await()
+
+                for (it in commentatorDocuments) {
+                    temp = it.toObject(CommentatorEntity::class.java)
+                    commentators.add(temp.mapper())
+                }
                 emit(commentators)
             } catch (e: Exception) {
                 Log.d("getMountain Exception", e.toString())
@@ -52,17 +49,14 @@ class CommentatorRepository {
         foundCommentators.clear()
         try {
             //여기서도 인기순으로 나와야 하나?
-            db.collection("commentator").orderBy("likedNum" , Query.Direction.DESCENDING).get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (it in task.result) {
-                            temp = it.toObject(CommentatorEntity::class.java)
-                            if(temp.hashTag.contains(str)) {
-                                foundCommentators.add(temp.mapper())
-                            }
-                        }
-                    }
-                }.await()
+            val commentatorDocuments = db.collection("commentator").orderBy("likedNum" , Query.Direction.DESCENDING).get().await()
+
+            for (it in commentatorDocuments) {
+                temp = it.toObject(CommentatorEntity::class.java)
+                if(temp.hashTag.contains(str)) {
+                    foundCommentators.add(temp.mapper())
+                }
+            }
 
             emit(foundCommentators)
         }catch (e: Exception) {
