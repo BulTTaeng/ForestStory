@@ -69,41 +69,33 @@ class WithdrawalService() : Service() {
         var isSuccess : Boolean = false
         var loginType : String = ""
 
-        db.collection("user").document(uuid).get().addOnSuccessListener {
-            loginType = it["type"].toString()
-        }.await()
+        return try {
 
-        fAuth!!.delete().addOnCompleteListener{
-            if(it.isSuccessful){
-                FirebaseAuth.getInstance().signOut()
-                isSuccess = true
-            }
-        }.await()
+            val userDocument = db.collection("user").document(uuid).get().await()
 
-        if (isSuccess) {
-            db.collection("user").document(uuid).delete().addOnCompleteListener{
-                if(it.isSuccessful){
-                    FirebaseAuth.getInstance().signOut()
-                    check = true
-                }
-                else{
-                    check = false
-                }
-                if (loginType.equals("kakao")) {
-                    Log.d("카카오로그인","카카오 회원탈퇴")
-                    UserApiClient.instance.unlink { error ->
-                        if (error != null) {
-                            Log.d("카카오로그인","회원 탈퇴 실패")
-                        }else {
-                            Log.d("카카오로그인","회원 탈퇴 성공")
-                        }
+            loginType = userDocument["type"].toString()
+
+            fAuth.delete().await()
+
+            FirebaseAuth.getInstance().signOut()
+
+            db.collection("user").document(uuid).delete().await()
+
+            if (loginType.equals("kakao")) {
+                Log.d("카카오로그인", "카카오 회원탈퇴")
+                UserApiClient.instance.unlink { error ->
+                    if (error != null) {
+                        Log.d("카카오로그인", "회원 탈퇴 실패")
+                    } else {
+                        Log.d("카카오로그인", "회원 탈퇴 성공")
                     }
                 }
-            }.await()
+            }
+
+            true
+        }catch (e : Exception){
+            Log.d("deleteAccount" , e.toString())
+            false
         }
-        else {
-            check = false
-        }
-        return check
     }
 }

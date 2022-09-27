@@ -4,7 +4,7 @@ data class UserInfoEntity(
     val name: String,
     val email : String,
     var userId : String,
-    var isAdmin : Boolean,
+    var admin : Boolean,
     val type : String,
     val likeContents : ArrayList<String>,
     val likePerson : ArrayList<String>,

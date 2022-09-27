@@ -21,22 +21,19 @@ class MountainRepository {
 
     val mountainList = ArrayList<MountainDto>()
 
-
-
     suspend fun getMountainData() =flow{
 
         mountainList.clear()
 
         try {
             var temp = MountainEntity()
-            db.collection("mountain").get().addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    for(it in task.result){
-                        temp = it.toObject(MountainEntity::class.java)
-                        mountainList.add(temp.mapper(0.0F))
-                    }
-                }
-            }.await()
+            val mountains = db.collection("mountain").get().await()
+
+            for(it in mountains){
+                temp = it.toObject(MountainEntity::class.java)
+                mountainList.add(temp.mapper(0.0F))
+            }
+
             emit(mountainList)
         }catch (e : Exception){
             Log.d("getMountain Exception" , e.toString())
@@ -49,16 +46,14 @@ class MountainRepository {
 
         try {
             var temp = MountainEntity()
-            db.collection("mountain").get().addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    for(it in task.result){
-                        temp = it.toObject(MountainEntity::class.java)
-                        if(list.contains(temp.name)) {
-                            mountainList.add(temp.mapper(0.0F))
-                        }
-                    }
+            val mountains = db.collection("mountain").get().await()
+
+            for(it in mountains){
+                temp = it.toObject(MountainEntity::class.java)
+                if(list.contains(temp.name)) {
+                    mountainList.add(temp.mapper(0.0F))
                 }
-            }.await()
+            }
 
             emit(mountainList)
         }catch (e : Exception){

@@ -105,16 +105,21 @@ class SettingRepository {
     }
 
     suspend fun getUserNameAndEmailProfileImage() = flow{
-        val docRef = db.collection("user").document(firebaseAuth.currentUser!!.uid)
-        resultString.clear()
-        docRef.get().addOnSuccessListener {
+
+        try {
+            val docRef = db.collection("user").document(firebaseAuth.currentUser!!.uid)
+            resultString.clear()
+            val it = docRef.get().await()
+
             resultString.add(it["name"].toString())
             resultString.add(it["email"].toString())
             resultString.add(it["profile"].toString())
             resultString.add(it["type"].toString())
-        }.await()
 
-        emit(resultString)
+            emit(resultString)
+        }catch (e : Exception){
+            Log.d("getUserInfo" , e.toString())
+        }
     }.flowOn(Dispatchers.IO)
 
     suspend fun reCheckUser(email: String , password:String ,  acct: GoogleSignInAccount?) : Boolean{
@@ -125,7 +130,6 @@ class SettingRepository {
                 val credential = GoogleAuthProvider.getCredential(acct!!.idToken , null)
                 firebaseAuth.currentUser!!
                     .reauthenticate(credential).await()
-                Log.d("heree" , "hhhhhhh")
             }
 
             else{
