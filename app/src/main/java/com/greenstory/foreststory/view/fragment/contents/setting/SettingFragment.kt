@@ -12,8 +12,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -30,12 +32,13 @@ import com.greenstory.foreststory.view.adapter.SettingAdapter
 import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import com.greenstory.foreststory.viewmodel.contents.setting.SettingViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 class SettingFragment : Fragment() {
 
+    val settingViewModel: SettingViewModel by activityViewModels()
     lateinit var binding: FragmentSettingBinding
-    lateinit var settingViewModel: SettingViewModel
     lateinit var contentsActivity: ContentsActivity
     lateinit var adapter: SettingAdapter
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -66,7 +69,7 @@ class SettingFragment : Fragment() {
                         when (it) {
                             "자격증 인증" -> Log.d("111", "111")
                             "관심 목록" -> Log.d("222", "222")
-                            "프로필 변경" -> Log.d("333", "333")
+                            "프로필 변경" -> toChangeProfile()
                             "내 오디오 보기" -> Log.d("444", "$444")
                         }
                     }
@@ -92,13 +95,12 @@ class SettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.progressBarSetting.visibility = View.GONE
-        settingViewModel = ViewModelProvider(contentsActivity).get(SettingViewModel::class.java)
         googleSignInClient = settingViewModel.getGoogleSignInClient(contentsActivity)
 
         settingViewModel.getUserNameAndEmailProfileImage()
         initRecyclerView()
         repeatOnStarted {
-            settingViewModel.myInfo.collectLatest { event ->
+            settingViewModel.myInfo.collect() { event ->
                 handleEvent(event)
             }
         }
@@ -121,7 +123,7 @@ class SettingFragment : Fragment() {
             when (it) {
                 "자격증 인증" -> Log.d("111", "111")
                 "관심 목록" -> Log.d("222", "222")
-                "프로필 변경" -> Log.d("333", "333")
+                "프로필 변경" -> toChangeProfile()
                 "내 오디오 보기" -> Log.d("444", "$444")
             }
         }
@@ -188,7 +190,12 @@ class SettingFragment : Fragment() {
         findNavController().navigate(R.id.reCheckUserFragment)
     }
 
+    fun toChangeProfile(){
+        findNavController().navigate(R.id.changeProfileFragment)
+    }
+
     private fun handleEvent(event: SettingViewModel.Event) = when (event) {
         is SettingViewModel.Event.Info -> getUserInfo(event.info)
+        else -> {}
     }
 }

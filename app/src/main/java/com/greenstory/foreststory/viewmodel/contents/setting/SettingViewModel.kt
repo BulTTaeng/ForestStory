@@ -1,6 +1,7 @@
 package com.greenstory.foreststory.viewmodel.contents.setting
 
 import android.app.Activity
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -22,6 +23,8 @@ class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) 
 
     private val myReceiver = settingRepo.myReceiver
 
+    var selectedImageUri : Uri? = null
+
     private val _myInfo = MutableEventFlow<Event>()
     val myInfo = _myInfo.asEventFlow()
 
@@ -42,6 +45,15 @@ class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) 
         }
     }
 
+
+    fun updateProfile( nickName : String){
+        viewModelScope.launch {
+            settingRepo.updateProfile(selectedImageUri, nickName).collectLatest {
+                _myInfo.emit(Event.UpdateInfo(it))
+            }
+        }
+    }
+
     fun getGoogleSignInClient(activity: Activity) : GoogleSignInClient {
         return settingRepo.getGoogleSignInClient(activity)
     }
@@ -58,8 +70,13 @@ class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) 
         settingRepo.unRegister()
     }
 
+    suspend fun isAdmin() : Boolean{
+        return settingRepo.isAdmin()
+    }
+
     sealed class Event {
         data class Info(val info : ArrayList<String>) : Event()
+        data class UpdateInfo(val success : Boolean) : Event()
     }
 
 }

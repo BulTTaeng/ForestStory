@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_commentatorFragment_to_commentatorSearchFragment"
             app:destination="@id/commentatorSearchFragment" />
+        <action
+            android:id="@+id/action_commentatorFragment_to_changeProfileFragment"
+            app:destination="@id/changeProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/commentatorSearchFragment"
@@ -38,4 +41,9 @@
             android:name="searchString"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/changeProfileFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.ChangeProfileFragment"
+        android:label="fragment_change_profile"
+        tools:layout="@layout/fragment_change_profile" />
 </navigation>
