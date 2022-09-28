@@ -63,10 +63,6 @@ class CommentatorFragment : Fragment() {
         //observeData()
         initRecycler()
 
-        binding.swipeCommetator.setOnRefreshListener {
-            binding.progressBarCommentator.visibility = View.VISIBLE
-            commentatorViewModel.getCommentators()
-        }
         repeatOnStarted {
             commentatorViewModel.commentatorData.collectLatest { event ->
                 handleEvent(event)
@@ -88,7 +84,6 @@ class CommentatorFragment : Fragment() {
         adapter.submitList(commentators.map {
             it.copy()
         })
-        binding.swipeCommetator.isRefreshing = false
         binding.progressBarCommentator.visibility = View.GONE
     }
 

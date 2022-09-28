@@ -1,10 +1,8 @@
 package com.greenstory.foreststory.utility.event
 
+import android.util.Log
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface EventFlow<out T> : Flow<T> {
@@ -39,6 +37,7 @@ private class EventFlowImpl<T>(
                 collector.emit(slot.value)
             }
         }
+
 
     override suspend fun emit(value: T) {
         flow.emit(EventFlowSlot(value))
