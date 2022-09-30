@@ -30,7 +30,7 @@
         <!-- dialog의 배경 변경 -->
         <item name="background">@drawable/btn_x</item>
         <!-- 선택한 날짜를 표시할 색상 -->
-        <item name="colorControlActivated">@color/red</item>
+        <item name="colorControlActivated">@color/blue_green</item>
         <item name="colorControlHighlight">@color/gray</item>
         <!-- 취소/확인버튼 색상 -->
         <item name="android:textColor">@color/black</item>
