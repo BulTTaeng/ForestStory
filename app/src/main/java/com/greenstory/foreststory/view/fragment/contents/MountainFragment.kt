@@ -59,24 +59,25 @@ class MountainFragment : Fragment(), LifecycleOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.progressBarMountain.visibility = View.GONE
         getMountainData()
         initRecyclerView()
         repeatOnStarted {
             mountainViewModel.mountainData.collectLatest { event ->
-                binding.progressBarMountain.visibility = View.VISIBLE
+                //binding.progressBarMountain.visibility = View.VISIBLE
                 handleEvent(event)
             }
         }
 
         binding.button.setOnClickListener {
-                binding.progressBarMountain.visibility = View.VISIBLE
-                mountainViewModel.getMountainWithDistance(37.1, 37.1)
-
+            //binding.progressBarMountain.visibility = View.VISIBLE
+            showSampleData(true)
+            mountainViewModel.getMountainWithDistance(37.1, 37.1)
         }
     }
 
     fun getMountainData() {
-        binding.progressBarMountain.visibility = View.VISIBLE
+        showSampleData(true)
         mountainViewModel.getMountainData()
     }
 
@@ -90,11 +91,23 @@ class MountainFragment : Fragment(), LifecycleOwner {
         adapter.submitList(mountainList.map {
             it.copy()
         })
-        binding.progressBarMountain.visibility = View.GONE
+        showSampleData(false)
     }
 
     fun handleEvent(event: MountainViewModel.Event) = when (event) {
         is MountainViewModel.Event.Mountains -> updateMountain(event.mountains)
+    }
+
+    private fun showSampleData(isLoading: Boolean) {
+        if (isLoading) {
+            binding.sflMountain.startShimmer()
+            binding.sflMountain.visibility = View.VISIBLE
+            binding.recyclerMountain.visibility = View.GONE
+        } else {
+            binding.sflMountain.stopShimmer()
+            binding.sflMountain.visibility = View.GONE
+            binding.recyclerMountain.visibility = View.VISIBLE
+        }
     }
 
 }

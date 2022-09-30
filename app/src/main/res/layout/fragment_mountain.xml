@@ -36,6 +36,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_home" />
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/sfl_mountain"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_home">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_mountain" />
+
+                <include layout="@layout/item_mountain" />
+
+                <include layout="@layout/item_mountain" />
+
+                <include layout="@layout/item_mountain" />
+
+                <include layout="@layout/item_mountain" />
+
+                <include layout="@layout/item_mountain" />
+
+                <include layout="@layout/item_mountain" />
+
+                <!-- 원하는 개수만큼 반복 -->
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <ProgressBar
             android:id="@+id/progressBar_mountain"
             style="?android:attr/progressBarStyle"

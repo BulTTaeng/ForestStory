@@ -115,5 +115,8 @@ dependencies {
     def activity_version = "1.6.0-alpha05"
     implementation "androidx.activity:activity-ktx:1.6.0-alpha05"
 
+    //스켈레톤 로딩
+    implementation "com.facebook.shimmer:shimmer:0.5.0"
+
 
 }
