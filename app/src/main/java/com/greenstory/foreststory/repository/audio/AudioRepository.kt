@@ -13,6 +13,7 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class AudioRepository {
     val db = FirebaseFirestore.getInstance()
@@ -40,19 +41,21 @@ class AudioRepository {
         var mediaItem : MediaItem
 
         try {
-            db.collection("story").document(mountainName).collection(mountainName)
-                .orderBy("likeNum").get().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (it in task.result) {
-                            temp = it.toObject(AudioEntity::class.java)
-                            audioList.add(temp)
-                            mediaItem =
-                                MediaItem.fromUri(Uri.parse(temp.link))
-                            audioLink.add(mediaItem)
-                        }
-                        _mutableAudioLink.value = audioLink
-                    }
-                }.await()
+            var stories = db.collection("story").document(mountainName).collection(mountainName)
+                .orderBy("likeNum").get().await()
+
+            for (it in stories) {
+                temp = it.toObject(AudioEntity::class.java)
+                audioList.add(temp)
+                mediaItem =
+                    MediaItem.fromUri(Uri.parse(temp.link))
+                audioLink.add(mediaItem)
+            }
+
+            withContext(Dispatchers.Main) {
+                _mutableAudioLink.value = audioLink
+            }
+
             emit(audioList)
         }catch (e : Exception){
             Log.d("getAudio" , e.toString())
@@ -60,22 +63,28 @@ class AudioRepository {
 
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getAudioDataWithInfo(mountainName : String , audioId : String) = flow{
+    suspend fun getAudioDataWithInfo(mountainName : String , audioIdList : ArrayList<String>) = flow{
 
         var temp = AudioEntity()
         var mediaItem : MediaItem
 
         try {
-            db.collection("story").document(mountainName).collection(mountainName).document(audioId)
-                .get().addOnCompleteListener { it ->
-                    if (it.isSuccessful) {
-                        temp = it.result.toObject(AudioEntity::class.java)!!
+            val stories = db.collection("story").document(mountainName).collection(mountainName).get().await()
 
-                        mediaItem =
-                            MediaItem.fromUri(Uri.parse(temp.link))
-                        _mutableSingleLink.value = mediaItem
-                    }
-                }.await()
+            for(it in stories){
+                if(audioIdList.contains(it.id)){
+                    temp = it.toObject(AudioEntity::class.java)
+                    audioList.add(temp)
+                    mediaItem =
+                        MediaItem.fromUri(Uri.parse(temp.link))
+                    audioLink.add(mediaItem)
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                _mutableAudioLink.value = audioLink
+            }
+
             emit(audioList)
         }catch (e : Exception){
             Log.d("getAudio" , e.toString())

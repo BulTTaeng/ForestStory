@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,7 +33,7 @@ class ReCheckUserFragment : Fragment() {
 
     lateinit var binding : FragmentReCheckUserBinding
     lateinit var contentsActivity : ContentsActivity
-    lateinit var settingViewModel : SettingViewModel
+    val settingViewModel: SettingViewModel by activityViewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,7 +56,6 @@ class ReCheckUserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        settingViewModel = ViewModelProvider(contentsActivity).get(SettingViewModel::class.java)
         binding.progressBarReCheckUser.visibility = View.GONE
     }
 

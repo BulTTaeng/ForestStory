@@ -67,7 +67,7 @@ class LoginEmailFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             val success = loginViewModel.emailLogIn(binding.edtEmail.text.toString() , binding.edtPassword.text.toString())
 
-            if(success){
+            if(success.await()){
                 val intent = Intent(loginActivity , ContentsActivity::class.java)
                 startActivity(intent)
                 loginActivity.finish()

@@ -4,6 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 apply plugin: 'kotlin-android'
@@ -14,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "com.greenstory.foreststory"
-        minSdk 21
+        minSdk 22
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -58,6 +59,7 @@ dependencies {
 
     // firebase
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.2'
 
     // Declare the dependency for the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics-ktx'
@@ -99,6 +101,22 @@ dependencies {
     def paging_version = "3.1.1"
 
     implementation("androidx.paging:paging-runtime-ktx:$paging_version")
+
+    //pull and refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //circle Image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //fragment
+    def fragment_version = "1.5.2"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
+    def activity_version = "1.6.0-alpha05"
+    implementation "androidx.activity:activity-ktx:1.6.0-alpha05"
+
+    //스켈레톤 로딩
+    implementation "com.facebook.shimmer:shimmer:0.5.0"
 
 
 }

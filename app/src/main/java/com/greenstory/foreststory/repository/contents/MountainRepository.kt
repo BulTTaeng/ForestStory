@@ -21,31 +21,45 @@ class MountainRepository {
 
     val mountainList = ArrayList<MountainDto>()
 
-
-
     suspend fun getMountainData() =flow{
 
         mountainList.clear()
 
         try {
             var temp = MountainEntity()
-            db.collection("mountain").get().addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    for(it in task.result){
-                        temp = it.toObject(MountainEntity::class.java)
-                        mountainList.add(temp.mapper(0.0F))
-                    }
-                }
-            }.await()
+            val mountains = db.collection("mountain").get().await()
+
+            for(it in mountains){
+                temp = it.toObject(MountainEntity::class.java)
+                mountainList.add(temp.mapper(0.0F))
+            }
+
             emit(mountainList)
         }catch (e : Exception){
             Log.d("getMountain Exception" , e.toString())
         }
     }.flowOn(Dispatchers.IO)
 
-    fun setMountainData(data : ArrayList<MountainDto>){
-        //_mutableMountainData.value = data
-    }
+    suspend fun getMountainDataContain(list : ArrayList<String>) =flow{
+
+        mountainList.clear()
+
+        try {
+            var temp = MountainEntity()
+            val mountains = db.collection("mountain").get().await()
+
+            for(it in mountains){
+                temp = it.toObject(MountainEntity::class.java)
+                if(list.contains(temp.name)) {
+                    mountainList.add(temp.mapper(0.0F))
+                }
+            }
+
+            emit(mountainList)
+        }catch (e : Exception){
+            Log.d("getMountain Exception" , e.toString())
+        }
+    }.flowOn(Dispatchers.IO)
 
     fun getMountainWithDistance(lati : Double , longi : Double) = flow{
 

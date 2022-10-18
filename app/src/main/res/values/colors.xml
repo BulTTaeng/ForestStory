@@ -17,4 +17,12 @@
     <color name="dark_gray">#848C95</color>
     <color name="brown">#776767</color>
     <color name="light_green">#86EF8D </color>
+    <color name="dark_blue">#042940</color>
+    <color name="blue_green">#005C53</color>
+    <color name="middle_green">#9FC131</color>
+    <color name="bright_green">#DBF227</color>
+    <color name="light_brown_green">#D6D58E</color>
+    <color name="light_blue_green">#008174</color>
+    <color name="ligth_green_floating_button">#B1D63B</color>
+
 </resources>

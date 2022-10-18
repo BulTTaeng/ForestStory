@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="commetatorDto"
+            type="com.greenstory.foreststory.model.contents.CommentatorDto" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cons_itemAudio"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_commentatorImageInSearch"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_commentator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:text="@{commetatorDto.name}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_commentatorImageInSearch"
+        app:layout_constraintTop_toTopOf="@id/img_commentatorImageInSearch"
+        tools:text="애국가" />
+
+    <TextView
+        android:id="@+id/txt_commentatorHashTagInSearch"
+        app:layout_constraintStart_toEndOf="@id/img_commentatorImageInSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_commentator"
+        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:textSize="10sp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="@color/gray"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        tools:text="대한민국"
+        android:layout_height="wrap_content" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

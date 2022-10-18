@@ -32,12 +32,12 @@ class LoginRepository {
     }
 
     suspend fun writerUserToFireStore(userInfo: UserInfoEntity) : Boolean{
-        try {
+        return try {
             db.collection("user").document(userInfo.userId).set(userInfo).await()
-            return true
+            true
         }catch (e: Exception){
             Log.w("[write FireStore]", "FireStore write Exception!")
-            return false
+            false
         }
     }
 
@@ -63,36 +63,25 @@ class LoginRepository {
     // firebaseAuthWithGoogle
     // 0 : 원래 로그인 된 계정, 1 : 처음 구글 로그인 시도, 2 : 구글 로그인 실패
     suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) : Int {
-        var isSuccess : Boolean = false
-        var result : Int = -1
+        var result = -1
+        return try {
 
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+            val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
 
-        firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener{ task ->
-                if (task.isSuccessful) {
-                    Log.w("Google Login", "firebaseAuthWithGoogle 성공", task.exception)
-                    isSuccess = true
-                } else {
-                    Log.w("Google Login", "firebaseAuthWithGoogle 실패", task.exception)
-                    result=2
-                }
-            }.await()
-        when (isSuccess) {
-            true -> {
-                db.collection("user").document(firebaseAuth.currentUser!!.uid).get().addOnCompleteListener { task->
-                    if (task.result["name"] as String? == null) {
-                        result = 1
-                    } else {
-                        result = 0
-                    }
-                }.await()
+            firebaseAuth.signInWithCredential(credential).await()
+            val userInfoDocument = db.collection("user").document(firebaseAuth.currentUser!!.uid).get().await()
+
+            if (userInfoDocument["name"] as String? == null) {
+                result = 1
+            } else {
+                result = 0
             }
-            false ->{
-                4
-            }
+
+            result
+        }catch (e:Exception){
+            Log.d("googleLoginError" , e.toString())
+            2
         }
-        return result
     }
 
 

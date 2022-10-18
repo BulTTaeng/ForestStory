@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/report"
+        android:enabled="true"
+        android:title="신고하기" />
+
+    <item android:id="@+id/block"
+        android:enabled="true"
+        android:title="차단하기" />
+
+    <item android:id="@+id/share"
+        android:enabled="true"
+        android:title="공유하기" />
+
+</menu>

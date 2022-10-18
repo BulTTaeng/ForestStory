@@ -28,8 +28,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="track_text_view, artist_text_view,
-        cover_image_card_view, bottom_background_view , player_view , txt_mountainName"
+                app:constraint_referenced_ids="txt_audioCommentator, txt_audioName,
+        card_coverImage, view_background , player_view , txt_mountainName"
                 tools:visibility="visible" />
 
 
@@ -38,21 +38,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:constraint_referenced_ids="play_list_recycler_view ,txt_playList, player_view " />
+                app:constraint_referenced_ids="recycler_playList ,txt_playList, player_view " />
 
             <View
                 android:id="@+id/top_background_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/bottom_background_view"
+                app:layout_constraintBottom_toTopOf="@id/view_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_weight="3" />
 
             <View
-                android:id="@+id/bottom_background_view"
+                android:id="@+id/view_background"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@color/black"
@@ -82,36 +82,83 @@
                 android:layout_marginTop="30dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="재생목록"
+                android:text="해설목록"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/track_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="aaaa"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
+            <ImageButton
+                android:id="@+id/btn_showList"
+                android:layout_width="30dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="100dp"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_x"
+                android:onClick="@{fragment::btnShowList}"
+                app:layout_constraintEnd_toStartOf="@+id/txt_audioName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/artist_text_view"
-                tools:text="@{currAudioDto.commentator}" />
+                app:layout_constraintTop_toBottomOf="@+id/card_coverImage"/>
+
 
             <TextView
-                android:id="@+id/artist_text_view"
+                android:id="@+id/txt_audioName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="65dp"
+                android:layout_marginTop="95dp"
+                android:text="@{currAudioDto.audioName}"
                 android:textColor="@color/white"
-                android:textSize="15sp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/btn_like"
+                app:layout_constraintStart_toEndOf="@id/btn_showList"
+                app:layout_constraintTop_toBottomOf="@+id/card_coverImage"
+                tools:text="산을 노래하다" />
+
+
+            <TextView
+                android:id="@+id/txt_audioCommentator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@{currAudioDto.commentator}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/btn_like"
+                app:layout_constraintStart_toEndOf="@id/btn_showList"
+                app:layout_constraintTop_toBottomOf="@id/txt_audioName"
+                tools:text="숲 해설가" />
+
+            <ImageButton
+                android:id="@+id/btn_like"
+                android:layout_width="30dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="100dp"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_x"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cover_image_card_view"
-                tools:text="@{currAudioDto.audioName}" />
+                app:layout_constraintStart_toEndOf="@id/txt_audioName"
+                app:layout_constraintTop_toBottomOf="@+id/card_coverImage"/>
+
+            <TextView
+                android:id="@+id/btn_showOptions"
+                android:layout_width="30dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="100dp"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="•••"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:onClick="@{fragment::btnShowOptions}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_like"
+                app:layout_constraintTop_toBottomOf="@+id/card_coverImage" />
+
+
 
             <!--    translationY 속성으로 아래로 내림.
                         이럴 경우 이를 참조해서 제약을 거는 경우 원래 위치 기준으로 제약함
@@ -120,7 +167,7 @@
                     cardCornerRadius 둥근 모양을 형성하도록
             -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cover_image_card_view"
+                android:id="@+id/card_coverImage"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="36dp"
@@ -139,10 +186,11 @@
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     tools:background="@color/purple_200" />
+
             </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/play_list_recycler_view"
+                android:id="@+id/recycler_playList"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
@@ -155,8 +203,8 @@
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/player_view"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:onClick="@{fragment::showDetailPage}"
+                android:layout_height="101dp"
+                android:onClick="@{fragment::btnShowCoverImage}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

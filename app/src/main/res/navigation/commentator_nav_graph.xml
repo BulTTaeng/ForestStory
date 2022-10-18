@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/commentator_nav_graph"
+    app:startDestination="@id/commentatorProfileFragment">
+
+    <fragment
+        android:id="@+id/commentatorReservationFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.commentator.CommentatorReservationFragment"
+        android:label="fragment_commentator_reservation"
+        tools:layout="@layout/fragment_commentator_reservation" />
+    <fragment
+        android:id="@+id/commentatorProfileFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.commentator.CommentatorProfileFragment"
+        android:label="fragment_commentator_profile"
+        tools:layout="@layout/fragment_commentator_profile" >
+        <action
+            android:id="@+id/action_commentatorProfileFragment_to_commentatorReservationFragment"
+            app:destination="@id/commentatorReservationFragment" />
+    </fragment>
+</navigation>

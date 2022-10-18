@@ -28,7 +28,7 @@ class MountainAdapter : ListAdapter<MountainDto, MountainAdapter.MountainViewHol
 
             itemView.setOnClickListener {
                 val intent = Intent(it.context , AudioPlayerActivity::class.java)
-                intent.putExtra("MOUNTAINNAME" , data.name)
+                intent.putExtra("MOUNTAIN" , data)
                 it.context.startActivity(intent)
             }
         }

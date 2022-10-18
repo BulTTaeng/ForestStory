@@ -51,6 +51,45 @@
 `2022.09.15`  
 - audioPlayer Fragment UI 수정
 
+`2022.09.19`  
+- 숲 해설가 페이지 추가
+- 숲 해설가 data load
+- lifecycle 문제 해결
+
+`2022.09.20`  
+- 숲 해설가 프로파일 페이지 추가
+- 숲 해설가 프로파일 페이지에서 audioActivity 라우팅 추가
+- 숲 해설가의 audio 파일, mountain 만 불러오는 로직 추가(mountain , audio ViewModel)
+
+`2022.09.21`  
+- LiveData + Observe -> EventFlow + emit + collect
+- commentatorReservationPage 구현
+
+`2022.09.22`  
+- 검색 기능 이름 -> hashTag
+- popupMenu 추가
+
+`2022.09.23`  
+- 해설가 검색 페이지 구현
+- hashTag show
+
+`2022.09.26`  
+- 숲 해설가 예약페이지 캘린더 구현
+- 산 고르기 구현
+
+`2022.09.27`  
+- firebase 동기화 제대로 수정
+
+`2022.09.28`  
+- 프로필 변경 추가
+- 회전에 각 페이지가 대응할 수 있도록 수정
+
+`2022.09.30`  
+- 스켈레톤 로딩 화면 추가
+
+`2022.10.06`  
+- google analysis 연동
+- firebase bom 버전 업데이트
 
 
 
@@ -59,3 +98,4 @@
 --- 
 
 ### TODO
+git
