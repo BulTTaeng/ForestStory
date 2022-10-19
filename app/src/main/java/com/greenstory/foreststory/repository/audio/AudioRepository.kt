@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.greenstory.foreststory.model.audio.AudioEntity
+import com.greenstory.foreststory.model.audio.Audios
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.flow
@@ -20,11 +21,7 @@ class AudioRepository {
     val firebaseAuth = FirebaseAuth.getInstance()
     val audioList = ArrayList<AudioEntity>()
     val audioLink = ArrayList<MediaItem>()
-
-    val _mutableAudioLink = MutableLiveData<MutableList<MediaItem>>()
-
-    val audioLinkData: LiveData<MutableList<MediaItem>>
-        get() = _mutableAudioLink
+    var audios = Audios()
 
     val _mutableSingleLink = MutableLiveData<MediaItem>()
 
@@ -32,7 +29,7 @@ class AudioRepository {
         get() = _mutableSingleLink
 
 
-    suspend fun getAudioData(mountainName : String , ) = flow{
+    suspend fun getAudioData(mountainName : String , detailName : String ) = flow{
 
         audioList.clear()
         audioLink.clear()
@@ -41,7 +38,7 @@ class AudioRepository {
         var mediaItem : MediaItem
 
         try {
-            var stories = db.collection("story").document(mountainName).collection(mountainName)
+            var stories = db.collection("story").document(mountainName).collection(detailName)
                 .orderBy("likeNum").get().await()
 
             for (it in stories) {
@@ -52,24 +49,22 @@ class AudioRepository {
                 audioLink.add(mediaItem)
             }
 
-            withContext(Dispatchers.Main) {
-                _mutableAudioLink.value = audioLink
-            }
-
-            emit(audioList)
+            audios.audioLink = audioLink
+            audios.audioList = audioList
+            emit(audios)
         }catch (e : Exception){
             Log.d("getAudio" , e.toString())
         }
 
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getAudioDataWithInfo(mountainName : String , audioIdList : ArrayList<String>) = flow{
+    suspend fun getAudioDataWithInfo(mountainName : String , detailName : String , audioIdList : ArrayList<String>) = flow{
 
         var temp = AudioEntity()
         var mediaItem : MediaItem
 
         try {
-            val stories = db.collection("story").document(mountainName).collection(mountainName).get().await()
+            val stories = db.collection("story").document(mountainName).collection(detailName).get().await()
 
             for(it in stories){
                 if(audioIdList.contains(it.id)){
@@ -81,11 +76,9 @@ class AudioRepository {
                 }
             }
 
-            withContext(Dispatchers.Main) {
-                _mutableAudioLink.value = audioLink
-            }
-
-            emit(audioList)
+            audios.audioLink = audioLink
+            audios.audioList = audioList
+            emit(audios)
         }catch (e : Exception){
             Log.d("getAudio" , e.toString())
         }

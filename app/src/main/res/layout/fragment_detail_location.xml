@@ -7,7 +7,7 @@
 
         <variable
             name="fragment"
-            type="com.greenstory.foreststory.view.fragment.contents.MountainFragment" />
+            type="com.greenstory.foreststory.view.fragment.contents.DetailLocationFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -70,7 +70,7 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <ProgressBar
-            android:id="@+id/progressBar_mountain"
+            android:id="@+id/progressBar_detailLoc"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,25 +78,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/background_roundedge_light_green">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="내 주변 숲 찾기"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

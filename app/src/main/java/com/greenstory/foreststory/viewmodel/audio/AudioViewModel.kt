@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.exoplayer2.MediaItem
 import com.greenstory.foreststory.model.audio.AudioEntity
+import com.greenstory.foreststory.model.audio.Audios
 import com.greenstory.foreststory.repository.audio.AudioRepository
 import com.greenstory.foreststory.utility.event.MutableEventFlow
 import com.greenstory.foreststory.utility.event.asEventFlow
@@ -18,33 +19,27 @@ import javax.inject.Inject
 @HiltViewModel
 class AudioViewModel @Inject constructor(val audioRepo: AudioRepository) : ViewModel() {
 
-    private var audioLinkData = audioRepo.audioLinkData
-
     private val _audioData = MutableEventFlow<AudioViewModel.Event>()
     val audioData = _audioData.asEventFlow()
 
-    fun fetchAudioLinkData(): LiveData<MutableList<MediaItem>> {
-        return audioLinkData
-    }
-
-    fun getAudioData(mountainName: String) {
+    fun getAudioData(mountainName: String , detailName : String) {
         viewModelScope.launch {
-            audioRepo.getAudioData(mountainName).collectLatest {
-                _audioData.emit(Event.Audios(it))
+            audioRepo.getAudioData(mountainName, detailName).collectLatest {
+                _audioData.emit(Event.AudiosList(it))
             }
         }
     }
 
-    fun getAudioDataWithInfo(mountainName: String, audioIdList: ArrayList<String>) {
+    fun getAudioDataWithInfo(mountainName: String, detailName : String , audioIdList: ArrayList<String>) {
         viewModelScope.launch {
-            audioRepo.getAudioDataWithInfo(mountainName, audioIdList).collectLatest {
-                _audioData.emit(Event.Audios(it))
+            audioRepo.getAudioDataWithInfo(mountainName, detailName , audioIdList).collectLatest {
+                _audioData.emit(Event.AudiosList(it))
             }
         }
     }
 
     sealed class Event {
-        data class Audios(val audios: ArrayList<AudioEntity>) : Event()
+        data class AudiosList(val audios: Audios) : Event()
     }
 
 }

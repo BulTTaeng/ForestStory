@@ -36,7 +36,8 @@
 
         <activity
             android:name=".view.activity.audio.AudioPlayerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.login.LoginActivity"
             android:exported="false" />
@@ -59,15 +60,15 @@
         </activity>
         <activity
             android:name="com.greenstory.foreststory.view.activity.SplashActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.greenstory.foreststory.view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.greenstory.foreststory.view.activity.MainActivity"
+            android:exported="false">
         </activity>
     </application>
 

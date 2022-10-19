@@ -27,7 +27,7 @@ class CommentatorProfileFragment : Fragment() {
 
     lateinit var binding: FragmentCommentatorProfileBinding
     lateinit var commentatorActivity: CommentatorActivity
-    lateinit var adapter : CommentatorMountainAdapter
+    lateinit var adapter : MountainAdapter
     val mountainViewModel: MountainViewModel by activityViewModels()
 
     override fun onAttach(context: Context) {
@@ -80,7 +80,7 @@ class CommentatorProfileFragment : Fragment() {
 //    }
 
     fun initRecycler(){
-        adapter = CommentatorMountainAdapter()
+        adapter = MountainAdapter(false)
         binding.recyclerCommentatorMountain.layoutManager = LinearLayoutManager(commentatorActivity)
         binding.recyclerCommentatorMountain.adapter = adapter
     }
@@ -94,6 +94,7 @@ class CommentatorProfileFragment : Fragment() {
 
     fun handleEvent(event: MountainViewModel.Event) = when (event) {
         is MountainViewModel.Event.Mountains -> updateMountain(event.mountains)
+        else ->{}
     }
 
 

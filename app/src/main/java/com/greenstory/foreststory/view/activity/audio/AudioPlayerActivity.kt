@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.ActivityAudioPlayerBinding
 import com.greenstory.foreststory.model.contents.CommentatorDto
+import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.utility.GlobalApplication
 import com.greenstory.foreststory.utility.event.repeatOnStarted
@@ -28,6 +29,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     val audioViewModel : AudioViewModel by viewModels()
     var mountainInfo : MountainDto? = null
     var commentatorDto : CommentatorDto? = CommentatorDto()
+    var detailInfo : DetailLocationInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,18 +38,20 @@ class AudioPlayerActivity : AppCompatActivity() {
         (applicationContext as GlobalApplication).currContext = this
 
         mountainInfo = intent.getParcelableExtra<MountainDto>("MOUNTAIN")
+        detailInfo = intent.getParcelableExtra<DetailLocationInfo>("DETAIL")
         commentatorDto = intent.getParcelableExtra<CommentatorDto>("COMMENTATORINFO")
 
 
-        getViewModelData(mountainInfo?.name)
+        getViewModelData(mountainInfo?.name , detailInfo?.name)
     }
 
-    fun getViewModelData(name : String?){
+    private fun getViewModelData(name : String? , detailName : String?){
+
         if(commentatorDto == null) {
-            audioViewModel.getAudioData("NSWzzdpkMgpn7ndD7WDQ")
+            audioViewModel.getAudioData(name!! , detailName!!)
         }
         else{
-            audioViewModel.getAudioDataWithInfo(name!!,commentatorDto!!.audio)
+            audioViewModel.getAudioDataWithInfo(name!!,detailName!!, commentatorDto!!.audio)
         }
         supportFragmentManager.beginTransaction()
             .replace(binding.frameAudioPlayer.id, AudioPlayerFragment())

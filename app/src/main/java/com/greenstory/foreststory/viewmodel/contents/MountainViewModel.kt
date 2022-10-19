@@ -2,10 +2,12 @@ package com.greenstory.foreststory.viewmodel.contents
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.repository.contents.MountainRepository
 import com.greenstory.foreststory.utility.event.MutableEventFlow
 import com.greenstory.foreststory.utility.event.asEventFlow
+import com.greenstory.foreststory.viewmodel.audio.AudioViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,7 +19,13 @@ class MountainViewModel @Inject constructor(val mountainRepo: MountainRepository
     private val _mountainData = MutableEventFlow<Event>()
     val mountainData = _mountainData.asEventFlow()
 
-
+    fun getDetailLoc(mountainName: String){
+        viewModelScope.launch {
+            mountainRepo.getDetailLoc(mountainName).collectLatest {
+                _mountainData.emit(Event.DetailLocations(it))
+            }
+        }
+    }
 
     fun getMountainData() {
         viewModelScope.launch {
@@ -46,6 +54,7 @@ class MountainViewModel @Inject constructor(val mountainRepo: MountainRepository
 
     sealed class Event {
         data class Mountains(val mountains : ArrayList<MountainDto>) : Event()
+        data class DetailLocations(val locs : ArrayList<DetailLocationInfo>) : Event()
     }
 
 }

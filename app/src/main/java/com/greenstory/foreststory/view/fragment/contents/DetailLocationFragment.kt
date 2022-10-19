@@ -1,7 +1,6 @@
 package com.greenstory.foreststory.view.fragment.contents
 
 import android.content.Context
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,36 +10,26 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.greenstory.foreststory.R
-import com.greenstory.foreststory.databinding.FragmentMountainBinding
-import com.greenstory.foreststory.model.contents.MountainDto
+import com.greenstory.foreststory.databinding.FragmentDetailLocationBinding
+import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
-import com.greenstory.foreststory.view.adapter.MountainAdapter
-import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
+import com.greenstory.foreststory.view.adapter.DetailLocationAdapter
 import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
-
-class MountainFragment : Fragment(), LifecycleOwner {
-    lateinit var binding: FragmentMountainBinding
-    lateinit var contentsActivity: ContentsActivity
-    lateinit var adapter: MountainAdapter
+class DetailLocationFragment : Fragment() , LifecycleOwner {
+    lateinit var binding: FragmentDetailLocationBinding
+    lateinit var adapter: DetailLocationAdapter
     val mountainViewModel: MountainViewModel by activityViewModels()
-    var mountainListDistance = ArrayList<MountainDto>()
+    private val args by navArgs<DetailLocationFragmentArgs>()
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        contentsActivity = context as ContentsActivity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,42 +41,41 @@ class MountainFragment : Fragment(), LifecycleOwner {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mountain, container, false)
-        binding.fragment = this@MountainFragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_location, container, false)
+        binding.fragment = this@DetailLocationFragment
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.progressBarMountain.visibility = View.GONE
-        getMountainData()
+        binding.progressBarDetailLoc.visibility = View.GONE
+        getLocationData()
         initRecyclerView()
         repeatOnStarted {
             mountainViewModel.mountainData.collectLatest { event ->
-                //binding.progressBarMountain.visibility = View.VISIBLE
                 handleEvent(event)
             }
         }
-
-        binding.button.setOnClickListener {
-            //binding.progressBarMountain.visibility = View.VISIBLE
-            showSampleData(true)
-            mountainViewModel.getMountainWithDistance(37.1, 37.1)
-        }
     }
 
-    fun getMountainData() {
+    fun getLocationData() {
         showSampleData(true)
-        mountainViewModel.getMountainData()
+        mountainViewModel.getDetailLoc(args.dataInfo.name)
     }
 
-    fun initRecyclerView() {
-        adapter = MountainAdapter(true)
-        binding.recyclerMountain.layoutManager = LinearLayoutManager(contentsActivity)
+    private fun initRecyclerView() {
+        if(requireContext().toString().contains("ContentsActivity")){
+            adapter = DetailLocationAdapter(args.dataInfo , true)
+        }
+        else {
+            adapter = DetailLocationAdapter(args.dataInfo , false)
+        }
+
+        binding.recyclerMountain.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerMountain.adapter = adapter
     }
 
-    fun updateMountain(mountainList : ArrayList<MountainDto>){
+    private fun updateLocations(mountainList : ArrayList<DetailLocationInfo>){
         adapter.submitList(mountainList.map {
             it.copy()
         })
@@ -95,8 +83,8 @@ class MountainFragment : Fragment(), LifecycleOwner {
     }
 
     fun handleEvent(event: MountainViewModel.Event) = when (event) {
-        is MountainViewModel.Event.Mountains -> updateMountain(event.mountains)
-        else ->{}
+        is MountainViewModel.Event.DetailLocations -> updateLocations(event.locs)
+        else -> {}
     }
 
     private fun showSampleData(isLoading: Boolean) {
