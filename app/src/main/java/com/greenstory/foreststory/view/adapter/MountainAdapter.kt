@@ -4,6 +4,9 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
@@ -12,9 +15,13 @@ import com.greenstory.foreststory.databinding.ItemMountainBinding
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
+import com.greenstory.foreststory.view.fragment.contents.CommentatorFragmentDirections
+import com.greenstory.foreststory.view.fragment.contents.MountainFragment
+import com.greenstory.foreststory.view.fragment.contents.MountainFragmentDirections
+import com.greenstory.foreststory.view.fragment.contents.commentator.CommentatorProfileFragmentDirections
 
 
-class MountainAdapter : ListAdapter<MountainDto, MountainAdapter.MountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
+class MountainAdapter(val loadAll : Boolean) : ListAdapter<MountainDto, MountainAdapter.MountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
 
     lateinit var binding : ItemMountainBinding
 
@@ -27,9 +34,20 @@ class MountainAdapter : ListAdapter<MountainDto, MountainAdapter.MountainViewHol
             Glide.with(itemView.context).load(data.image).into(binding.imgMountainImage)
 
             itemView.setOnClickListener {
-                val intent = Intent(it.context , AudioPlayerActivity::class.java)
-                intent.putExtra("MOUNTAIN" , data)
-                it.context.startActivity(intent)
+//                val intent = Intent(it.context , AudioPlayerActivity::class.java)
+//                intent.putExtra("MOUNTAIN" , data)
+//                it.context.startActivity(intent)
+                val navController = Navigation.findNavController(itemView)
+                if(loadAll) {
+                    navController.navigate(
+                        MountainFragmentDirections.actionMountainFragmentToDetailLocationFragment(
+                            data
+                        )
+                    )
+                }
+                else{
+                    navController.navigate(CommentatorProfileFragmentDirections.actionCommentatorProfileFragmentToDetailLocationFragment2(data))
+                }
             }
         }
 

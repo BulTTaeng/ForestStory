@@ -22,6 +22,7 @@ import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentAudioPlayerBinding
 import com.greenstory.foreststory.model.audio.AudioDto
 import com.greenstory.foreststory.model.audio.AudioEntity
+import com.greenstory.foreststory.model.audio.Audios
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.adapter.DescriptionAdapter
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
@@ -139,16 +140,21 @@ class AudioPlayerFragment : Fragment() {
         binding.recyclerPlayList.adapter = adapter
     }
 
-    fun getAudio(audioList : ArrayList<AudioEntity>){
+    fun getAudio(audios : Audios){
+        if(audios.audioList.isEmpty()) {
+            Toast.makeText(audioPlayerActivity , getString(R.string.no_audios) , Toast.LENGTH_SHORT).show()
+            binding.progressBarAudio.visibility = View.GONE
+            return
+        }
         var index = 0L
 
         binding.progressBarAudio.visibility = View.VISIBLE
 
-        adapter.submitList(audioList.map {
+        adapter.submitList(audios.audioList.map {
             it.mapper(index++)
         })
 
-        player?.setMediaItems(audioViewModel.fetchAudioLinkData().value!!)
+        player?.setMediaItems(audios.audioLink)
         player?.prepare()
 
         playerNotificationManager = PlayerNotificationManager.Builder(
@@ -157,13 +163,14 @@ class AudioPlayerFragment : Fragment() {
         )
             .setChannelNameResourceId(R.string.email)
             .setChannelDescriptionResourceId(R.string.password)
-            .setMediaDescriptionAdapter(DescriptionAdapter(audioPlayerActivity, bitmap , audioList))
+            .setMediaDescriptionAdapter(DescriptionAdapter(audioPlayerActivity, bitmap , audios.audioList))
             .build()
 
 
         playerNotificationManager.setPlayer(player)
 
-        binding.currAudioDto = audioList[0].mapper(0)
+            binding.currAudioDto = audios.audioList[0].mapper(0)
+
 
         binding.progressBarAudio.visibility = View.GONE
     }
@@ -186,7 +193,7 @@ class AudioPlayerFragment : Fragment() {
         AudioDto(id = index , link , audioName , commentator , likeNum , false)
 
     private fun handleEvent(event: AudioViewModel.Event) = when (event) {
-        is AudioViewModel.Event.Audios -> getAudio(event.audios)
+        is AudioViewModel.Event.AudiosList -> getAudio(event.audios)
     }
 
     fun btnShowCoverImage(view: View){

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,19 @@ class MountainRepository {
     val firebaseAuth = FirebaseAuth.getInstance()
 
     val mountainList = ArrayList<MountainDto>()
+
+    var detailLoc = ArrayList<DetailLocationInfo>()
+
+    suspend fun getDetailLoc(mountainName: String) = flow {
+        detailLoc.clear()
+        val detailLists = db.collection("story").document(mountainName).get().await()
+        val lists = detailLists["detailLocation"] as ArrayList<String>
+        val images = detailLists["locationImage"] as ArrayList<String>
+        for(i in 0 until lists.size){
+            detailLoc.add(DetailLocationInfo(lists[i] , images[i]))
+        }
+        emit(detailLoc)
+    }.flowOn(Dispatchers.IO)
 
     suspend fun getMountainData() =flow{
 

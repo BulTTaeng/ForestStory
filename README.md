@@ -91,6 +91,8 @@
 - google analysis 연동
 - firebase bom 버전 업데이트
 
+`2022.10.18`  
+- 산 및 숲 페이지 구조 , db 구조 수정
 
 
 </details><br>  
@@ -98,4 +100,3 @@
 --- 
 
 ### TODO
-git

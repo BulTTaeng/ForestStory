@@ -14,9 +14,20 @@
         android:id="@+id/commentatorProfileFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.commentator.CommentatorProfileFragment"
         android:label="fragment_commentator_profile"
-        tools:layout="@layout/fragment_commentator_profile" >
+        tools:layout="@layout/fragment_commentator_profile">
         <action
             android:id="@+id/action_commentatorProfileFragment_to_commentatorReservationFragment"
             app:destination="@id/commentatorReservationFragment" />
+        <action
+            android:id="@+id/action_commentatorProfileFragment_to_detailLocationFragment2"
+            app:destination="@id/detailLocationFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailLocationFragment2"
+        android:name="com.greenstory.foreststory.view.fragment.contents.DetailLocationFragment"
+        android:label="DetailLocationFragment">
+        <argument
+            android:name="dataInfo"
+            app:argType="com.greenstory.foreststory.model.contents.MountainDto" />
     </fragment>
 </navigation>
