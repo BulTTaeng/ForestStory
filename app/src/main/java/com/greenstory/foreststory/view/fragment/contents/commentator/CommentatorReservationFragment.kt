@@ -61,7 +61,7 @@ class CommentatorReservationFragment : Fragment() {
     }
 
     fun btnBackButtonInCommentatorReservation(view: View){
-        findNavController().navigate(R.id.commentatorProfileFragment)
+        activity?.onBackPressed()
     }
 
     fun btnReservation(view: View){

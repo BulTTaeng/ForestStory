@@ -57,6 +57,8 @@ class ReCheckUserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.progressBarReCheckUser.visibility = View.GONE
+
+
     }
 
     fun startService()

@@ -94,6 +94,8 @@
 `2022.10.18`  
 - 산 및 숲 페이지 구조 , db 구조 수정
 
+`2022.10.19`  
+- Firebase DynamicLink handle 코드 추가
 
 </details><br>  
 

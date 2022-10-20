@@ -32,7 +32,7 @@
                     android:id="@+id/img_NuruLogoLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/nuru1" />
+                    android:src="@drawable/splash" />
 
                 <ProgressBar
                     android:id="@+id/progressBar_loginEmail"
