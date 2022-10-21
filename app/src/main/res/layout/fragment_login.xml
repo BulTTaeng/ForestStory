@@ -21,17 +21,26 @@
             android:orientation="vertical"
             android:weightSum="9">
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/player_view_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="btn_googleSignIn, card_kakaoLogin,
+        cons_clickHere"
+                tools:visibility="visible" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_weight="6.5"
                 android:layout_marginBottom="30dp">
 
                 <ImageView
                     android:id="@+id/img_NuruLogoLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/splash"
+                    android:src="@drawable/foreststory_blue_green"
                     android:scaleType="fitXY"/>
 
                 <ProgressBar
@@ -74,60 +83,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="0.4"
-                android:elevation="3dp"
-                android:outlineAmbientShadowColor="@color/black"
-                android:outlineSpotShadowColor="@color/black"
-                android:background="@drawable/radius_white_border">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:background="@null"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/txt_hardLogin1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hard_login1"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <Button
-                        android:id="@+id/btn_clickHere"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        android:text="여기를 클릭"
-                        android:textColor="@color/light_green"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/txt_hardLogin1"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hard_login2"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/btn_clickHere"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cons_toEmailLoginPage"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginStart="35dp"
@@ -165,7 +121,7 @@
                         android:text="로그인"
                         android:textColor="@color/light_green"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/txt_hardLogin1"
+                        app:layout_constraintStart_toEndOf="@id/txt_alreadySignup"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </LinearLayout>

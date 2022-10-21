@@ -1,6 +1,7 @@
 package com.greenstory.foreststory.model.contents
 
 data class MountainEntity (
+    val explain : String = "",
     val image : String ="",
     val name : String = "",
     val latitude : Double = 0.0,
