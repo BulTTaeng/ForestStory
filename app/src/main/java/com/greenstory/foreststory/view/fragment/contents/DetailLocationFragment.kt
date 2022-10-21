@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentDetailLocationBinding
 import com.greenstory.foreststory.model.contents.DetailLocationInfo
@@ -49,6 +50,9 @@ class DetailLocationFragment : Fragment() , LifecycleOwner {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.progressBarDetailLoc.visibility = View.GONE
+        binding.txtLocation.text = args.dataInfo.name
+        binding.txtExplainMountain.text = args.dataInfo.explain
+        Glide.with(requireContext()).load(args.dataInfo.image).into(binding.imgMountainImageInDetail)
         getLocationData()
         initRecyclerView()
         repeatOnStarted {
@@ -73,6 +77,7 @@ class DetailLocationFragment : Fragment() , LifecycleOwner {
 
         binding.recyclerMountain.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerMountain.adapter = adapter
+        binding.recyclerMountain.isNestedScrollingEnabled = false
     }
 
     private fun updateLocations(mountainList : ArrayList<DetailLocationInfo>){

@@ -102,7 +102,7 @@ class AudioPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.txtMountainName.text = audioPlayerActivity.mountainInfo?.name
+        binding.txtDetailName.text = audioPlayerActivity.detailInfo?.name
 
         CoroutineScope(Dispatchers.Main).launch {
 
@@ -112,6 +112,9 @@ class AudioPlayerFragment : Fragment() {
             }.join()
 
             Glide.with(audioPlayerActivity).load(bitmap).into(binding.coverImageView)
+            Glide.with(audioPlayerActivity).load(audioPlayerActivity.detailInfo?.image).into(binding.imgDetailLocation)
+            binding.txtExplainDetail.text = audioPlayerActivity.detailInfo?.explain
+
             initPlayer()
             initRecyclerView()
             repeatOnStarted {
@@ -119,10 +122,8 @@ class AudioPlayerFragment : Fragment() {
                     handleEvent(event)
                 }
             }
-
-            //observeData()
-
         }
+
     }
 
     fun initPlayer(){
@@ -135,9 +136,10 @@ class AudioPlayerFragment : Fragment() {
 
 
     fun initRecyclerView(){
-        adapter = AudioAdapter(player!!)
+        adapter = AudioAdapter(player!! , this)
         binding.recyclerPlayList.layoutManager = LinearLayoutManager(audioPlayerActivity)
         binding.recyclerPlayList.adapter = adapter
+        binding.recyclerPlayList.isNestedScrollingEnabled = false
     }
 
     fun getAudio(audios : Audios){
@@ -187,6 +189,10 @@ class AudioPlayerFragment : Fragment() {
             e.printStackTrace()
             null
         }
+    }
+
+    fun updateTextInPlayer(audioName : String){
+        binding.txtAudioNameInPlayer.text = audioName
     }
 
     fun AudioEntity.mapper(index : Long): AudioDto =
@@ -242,7 +248,6 @@ class AudioPlayerFragment : Fragment() {
         })
         popupMenu.show()
     }
-
 
 
 }

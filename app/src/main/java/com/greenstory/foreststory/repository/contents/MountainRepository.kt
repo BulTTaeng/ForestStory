@@ -29,8 +29,9 @@ class MountainRepository {
         val detailLists = db.collection("story").document(mountainName).get().await()
         val lists = detailLists["detailLocation"] as ArrayList<String>
         val images = detailLists["locationImage"] as ArrayList<String>
+        val explain = detailLists["explain"] as ArrayList<String>
         for(i in 0 until lists.size){
-            detailLoc.add(DetailLocationInfo(lists[i] , images[i]))
+            detailLoc.add(DetailLocationInfo(lists[i] , images[i] , explain[i]))
         }
         emit(detailLoc)
     }.flowOn(Dispatchers.IO)
@@ -102,6 +103,6 @@ class MountainRepository {
     }.flowOn(Dispatchers.IO)
 
     fun MountainEntity.mapper(dis : Float): MountainDto =
-        MountainDto(image, name , latitude , longitude, distance = dis)
+        MountainDto(explain, image, name , latitude , longitude, distance = dis)
 
 }

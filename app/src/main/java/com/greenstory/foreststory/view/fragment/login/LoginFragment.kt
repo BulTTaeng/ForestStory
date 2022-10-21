@@ -23,6 +23,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.view.activity.login.LoginActivity
 import com.greenstory.foreststory.viewmodel.login.LoginViewModel
+import com.rommansabbir.animationx.Fade
+import com.rommansabbir.animationx.Slide
+import com.rommansabbir.animationx.animationXFade
+import com.rommansabbir.animationx.animationXSlide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -65,6 +69,16 @@ class LoginFragment : Fragment() {
         binding.btnGoogleSignIn.setOnClickListener{
             signInGoogle()
         }
+        binding.imgNuruLogoLogin.animationXSlide(Slide.SLIDE_IN_DOWN , duration = 1200)
+
+        binding.btnGoogleSignIn.animationXSlide(Slide.SLIDE_IN_UP , duration = 500)
+        binding.cardKakaoLogin.animationXSlide(Slide.SLIDE_IN_UP, duration = 500 )
+        binding.consToEmailLoginPage.animationXSlide(Slide.SLIDE_IN_UP , duration = 500)
+
+//        binding.btnGoogleSignIn.animationXFade(Fade.FADE_IN_UP)
+//        binding.cardKakaoLogin.animationXFade(Fade.FADE_IN_UP)
+//        binding.consClickHere.animationXFade(Fade.FADE_IN_UP)
+//        binding.consToEmailLoginPage.animationXFade(Fade.FADE_IN_UP)
 
     }
 

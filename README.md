@@ -97,6 +97,9 @@
 `2022.10.19`  
 - Firebase DynamicLink handle 코드 추가
 
+`2022.10.20`  
+- Detail page , audio play page 수정
+
 </details><br>  
 
 --- 

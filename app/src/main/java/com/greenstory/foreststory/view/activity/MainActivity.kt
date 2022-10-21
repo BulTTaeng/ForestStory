@@ -50,14 +50,21 @@ class MainActivity : AppCompatActivity() {
 
         if(isLogin == 0){ // 로그인
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
             finish()
         }
         else if (isLogin == 1){ // 콘텐츠로
             val intent = Intent(this@MainActivity, ContentsActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
             finish()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
     }
 
     fun checkInternet(){
