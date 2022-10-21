@@ -108,19 +108,19 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <include layout="@layout/item_mountain" />
+                    <include layout="@layout/item_detail_location" />
 
-                    <include layout="@layout/item_mountain" />
+                    <include layout="@layout/item_detail_location" />
 
-                    <include layout="@layout/item_mountain" />
+                    <include layout="@layout/item_detail_location" />
 
-                    <include layout="@layout/item_mountain" />
+                    <include layout="@layout/item_detail_location" />
 
-                    <include layout="@layout/item_mountain" />
+                    <include layout="@layout/item_detail_location" />
 
-                    <include layout="@layout/item_mountain" />
+                    <include layout="@layout/item_detail_location" />
 
-                    <include layout="@layout/item_mountain" />
+                    <include layout="@layout/item_detail_location" />
 
                     <!-- 원하는 개수만큼 반복 -->
 

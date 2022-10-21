@@ -1,6 +1,7 @@
 package com.greenstory.foreststory.repository.contents
 
 import android.location.Location
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -28,10 +30,15 @@ class MountainRepository {
         detailLoc.clear()
         val detailLists = db.collection("story").document(mountainName).get().await()
         val lists = detailLists["detailLocation"] as ArrayList<String>
-        val images = detailLists["locationImage"] as ArrayList<String>
-        val explain = detailLists["explain"] as ArrayList<String>
-        for(i in 0 until lists.size){
-            detailLoc.add(DetailLocationInfo(lists[i] , images[i] , explain[i]))
+//        val images = detailLists["locationImage"] as ArrayList<String>
+//        val explain = detailLists["explain"] as ArrayList<String>
+//        for(i in 0 until lists.size){
+//            detailLoc.add(DetailLocationInfo(lists[i] , images[i] , explain[i]))
+//        }
+
+        for(it in lists){
+            val info = db.collection("story").document(mountainName).collection(it).document(it).get().await()
+            detailLoc.add(info.toObject(DetailLocationInfo::class.java)!!)
         }
         emit(detailLoc)
     }.flowOn(Dispatchers.IO)
