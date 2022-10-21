@@ -133,7 +133,7 @@ class ContentsActivity : AppCompatActivity() {
             "https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/front.png?alt=media&token=b54603b5-c22f-4aff-856e-c7cb71fcff2a" ,
             "오늘 우리가 찾을 포이는 한국산림복지진흥원을 대표하는 귀염둥이 마스코트입니다.   " +
                     "함께 즐길 놀이는 바로 지도를 보면서 목적지를 찾아가고 안내판에 제시되어 있는 문제와 미션을 풀어 빙고를 완성해가는 미션 완성형 놀이인데요! " +
-                    "숲 속 곳곳에 숨어 있는 포이를 찾아 떠날 준비 되었나요?")
+                    "숲 속 곳곳에 숨어 있는 포이를 찾아 떠날 준비 되었나요?" , "숲 해설가A" , "실내" , "2시간" , "전체")
 
         intent.putExtra("MOUNTAIN" , mountaindto)
         intent.putExtra("DETAIL", data)

@@ -100,6 +100,11 @@
 `2022.10.20`  
 - Detail page , audio play page 수정
 
+`2022.10.21`  
+- AnimationX로 animation추가
+- db 구조 수정
+- Detail Page UI 및 DetailPageLocation data class 수정
+
 </details><br>  
 
 --- 
