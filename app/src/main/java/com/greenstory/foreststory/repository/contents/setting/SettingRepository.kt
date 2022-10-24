@@ -50,7 +50,6 @@ class SettingRepository {
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val msg = intent.getStringExtra("KEYVALUE")
-            Log.d("wwwwww", msg.toString())
             _mutableReceiver.value = msg?.toString()
         }
     }

@@ -1,5 +1,6 @@
 package com.greenstory.foreststory.repository.contents
 
+import android.os.Parcelable
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -9,6 +10,7 @@ import com.greenstory.foreststory.model.contents.CommentatorDto
 import com.greenstory.foreststory.model.contents.CommentatorEntity
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
@@ -43,7 +45,7 @@ class CommentatorRepository {
     }.flowOn(Dispatchers.IO)
 
     fun CommentatorEntity.mapper( ): CommentatorDto =
-        CommentatorDto(audio , likedNum, mountain, id, name, profile, explain, hashTag)
+        CommentatorDto(audio , likedNum, mountain, id, name, profile, explain, hashTag , mountains)
 
     suspend fun searchCommentators(str : String) = flow{
         foundCommentators.clear()
@@ -60,7 +62,7 @@ class CommentatorRepository {
 
             emit(foundCommentators)
         }catch (e: Exception) {
-            Log.d("getMountain Exception", e.toString())
+            Log.d("Search Exception", e.toString())
         }
     }.flowOn(Dispatchers.IO)
 

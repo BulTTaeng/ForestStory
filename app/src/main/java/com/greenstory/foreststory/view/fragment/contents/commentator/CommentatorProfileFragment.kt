@@ -1,13 +1,12 @@
 package com.greenstory.foreststory.view.fragment.contents.commentator
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,6 @@ import com.greenstory.foreststory.databinding.FragmentCommentatorProfileBinding
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.CommentatorActivity
-import com.greenstory.foreststory.view.adapter.CommentatorMountainAdapter
 import com.greenstory.foreststory.view.adapter.MountainAdapter
 import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -54,7 +52,14 @@ class CommentatorProfileFragment : Fragment() {
         binding.commentatorInfo = commentatorActivity.commentatorDto
         Glide.with(commentatorActivity).load(commentatorActivity.commentatorDto.profile).into(binding.imgCommentatorImage)
 
-        getMountainData(commentatorActivity.commentatorDto.mountain)
+        var hashTags = ""
+
+        for(it in commentatorActivity.commentatorDto.hashTag.split(" ")){
+            hashTags += "#$it "
+        }
+        binding.txtHashTagCommentator.text = hashTags
+
+        getMountainData(commentatorActivity.commentatorDto.mountains)
         initRecycler()
         repeatOnStarted {
             mountainViewModel.mountainData.collectLatest { event ->
@@ -100,6 +105,10 @@ class CommentatorProfileFragment : Fragment() {
 
     fun btnBackButtonInCommentator(view: View){
         activity?.finish()
+    }
+
+    fun btnBookMark(view: View){
+        binding.btnBookMark.setImageDrawable(resources.getDrawable(R.drawable.bookmark_filled))
     }
 
     fun btnOfflineReservation(view: View){
