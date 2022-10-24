@@ -4,17 +4,17 @@
     <item
         android:id="@+id/mountainFragment"
         android:enabled="true"
-        android:icon="@drawable/btn_x"
-        android:title="산" />
+        android:icon="@drawable/mountain_bottom_nav"
+        android:title="홈" />
 
     <item android:id="@+id/commentatorFragment"
         android:enabled="true"
-        android:icon="@drawable/btn_x"
-        android:title="숲 해설가" />
+        android:icon="@drawable/search_bottom_nav"
+        android:title="검색" />
 
     <item android:id="@+id/settingFragment"
         android:enabled="true"
-        android:icon="@drawable/btn_x"
-        android:title="세팅" />
+        android:icon="@drawable/profile_bottom_nav"
+        android:title="프로필" />
 
 </menu>

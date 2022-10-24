@@ -129,7 +129,6 @@ class ReCheckUserFragment : Fragment() {
                         observeReceiver()
                     }
                     else{
-                        Log.d("wwwwwwwwwwwwwwww" , binding.edtReCheckEmail.text.toString() + binding.edtReCheckPassword.text.toString())
                         Toast.makeText(contentsActivity , "비밀번호와 아이디를 확인해 주세요", Toast.LENGTH_LONG).show()
                         binding.progressBarReCheckUser.visibility = View.GONE
                     }

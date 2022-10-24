@@ -105,6 +105,10 @@
 - db 구조 수정
 - Detail Page UI 및 DetailPageLocation data class 수정
 
+`2022.10.24`  
+- Reservation page 프로그램 고르기 update
+- Reservation , search page UI 수정
+
 </details><br>  
 
 --- 
