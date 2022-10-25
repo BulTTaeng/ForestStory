@@ -25,6 +25,7 @@
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_login.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_login_email.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_mountain.xml" value="0.22" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_profile.xml" value="0.5" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_re_check_user.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_setting.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_sign_up.xml" value="0.31354166666666666" />
@@ -33,9 +34,11 @@
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_commentator_search.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_detail_location.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_mountain.xml" value="0.553125" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_mountain_in_profile.xml" value="0.4548952543822146" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_setting.xml" value="0.553125" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/menu/bottom_nav_menu.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/menu/show_options_audio.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/menu/show_options_edit.xml" value="0.4548952543822146" />
       </map>
     </option>
   </component>

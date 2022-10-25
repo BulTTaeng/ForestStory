@@ -3,6 +3,7 @@ package com.greenstory.foreststory.repository.contents
 import android.os.Parcelable
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
@@ -10,6 +11,7 @@ import com.greenstory.foreststory.model.contents.CommentatorDto
 import com.greenstory.foreststory.model.contents.CommentatorEntity
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
+import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.channelFlow
@@ -45,7 +47,7 @@ class CommentatorRepository {
     }.flowOn(Dispatchers.IO)
 
     fun CommentatorEntity.mapper( ): CommentatorDto =
-        CommentatorDto(audio , likedNum, mountain, id, name, profile, explain, hashTag , mountains)
+        CommentatorDto(likedNum, mountain, id, name, profile, explain, hashTag , mountains)
 
     suspend fun searchCommentators(str : String) = flow{
         foundCommentators.clear()
@@ -66,5 +68,19 @@ class CommentatorRepository {
         }
     }.flowOn(Dispatchers.IO)
 
+
+    suspend fun getUserInfo() = flow {
+        val userDoc = db.collection("user").document(firebaseAuth.currentUser!!.uid).get().await()
+        val admin = userDoc.toObject(UserInfoEntity::class.java)
+        emit(admin)
+    }.flowOn(Dispatchers.IO)
+
+
+    suspend fun getMyCommentator() =flow{
+        val my = db.collection("commentator").document(firebaseAuth.currentUser!!.uid).get().await()
+        val info = my.toObject(CommentatorEntity::class.java)
+        val infoDto = info?.mapper()
+        emit(infoDto)
+    }.flowOn(Dispatchers.IO)
 
 }

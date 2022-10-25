@@ -1,14 +1,17 @@
 package com.greenstory.foreststory.viewmodel.contents
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.UserInfo
 import com.greenstory.foreststory.model.contents.CommentatorDto
+import com.greenstory.foreststory.model.contents.CommentatorEntity
+import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.repository.contents.CommentatorRepository
 import com.greenstory.foreststory.utility.event.MutableEventFlow
 import com.greenstory.foreststory.utility.event.asEventFlow
+import com.kakao.usermgmt.response.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -27,8 +30,7 @@ class CommentatorViewModel @Inject constructor(val commentatorRepo : Commentator
     private val _commentatorData = MutableEventFlow<Event>()
     val commentatorData = _commentatorData.asEventFlow()
 
-    private val _foundCommentatorData = MutableEventFlow<Event>()
-    val foundCommentatorData = _foundCommentatorData.asEventFlow()
+    var userInfo : UserInfoEntity? = null
 
     fun getCommentators(){
         viewModelScope.launch {
@@ -41,8 +43,32 @@ class CommentatorViewModel @Inject constructor(val commentatorRepo : Commentator
     fun searchCommentators(str : String){
         viewModelScope.launch {
             commentatorRepo.searchCommentators(str).collectLatest {
-                _foundCommentatorData.emit(Event.FoundCommentators(it))
+                _commentatorData.emit(Event.FoundCommentators(it))
                 Log.d("view Model" , it.toString())
+            }
+        }
+    }
+
+    fun getUserInfo(){
+        viewModelScope.launch {
+            commentatorRepo.getUserInfo().collectLatest {
+                userInfo = it
+            }
+        }
+    }
+
+    fun getMyCommentator(){
+        viewModelScope.launch {
+            commentatorRepo.getMyCommentator().collectLatest() {
+                _commentatorData.emit(Event.OneCommentator(it))
+            }
+        }
+    }
+
+    fun getMyAudioImages(programNames :ArrayList<String>){
+        viewModelScope.launch {
+            commentatorRepo.getMyCommentator().collectLatest() {
+                _commentatorData.emit(Event.OneCommentator(it))
             }
         }
     }
@@ -50,6 +76,7 @@ class CommentatorViewModel @Inject constructor(val commentatorRepo : Commentator
     sealed class Event {
         data class Commentators(val commentators : ArrayList<CommentatorDto>) : Event()
         data class FoundCommentators(val foundCommentators : ArrayList<CommentatorDto>) : Event()
+        data class OneCommentator(val oneCommentator: CommentatorDto?) : Event()
     }
 
 

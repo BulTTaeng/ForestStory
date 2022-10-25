@@ -14,7 +14,7 @@ import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
 import com.greenstory.foreststory.view.activity.contents.CommentatorActivity
 
-class DetailLocationAdapter(val mountaindto : MountainDto , val loadAll : Boolean) : ListAdapter<DetailLocationInfo, DetailLocationAdapter.DetailLocViewHolder>(DETAILLOC_DIFF_CALLBACK){
+class DetailLocationAdapter(val mountaindto : MountainDto) : ListAdapter<DetailLocationInfo, DetailLocationAdapter.DetailLocViewHolder>(DETAILLOC_DIFF_CALLBACK){
 
     lateinit var binding : ItemDetailLocationBinding
 
@@ -30,10 +30,6 @@ class DetailLocationAdapter(val mountaindto : MountainDto , val loadAll : Boolea
                 val intent = Intent(it.context , AudioPlayerActivity::class.java)
                 intent.putExtra("MOUNTAIN" , mountaindto)
                 intent.putExtra("DETAIL", data)
-
-                if(!loadAll){
-                    intent.putExtra("COMMENTATORINFO" , (itemView.context as CommentatorActivity).commentatorDto )
-                }
                 it.context.startActivity(intent)
             }
         }

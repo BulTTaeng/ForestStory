@@ -43,6 +43,24 @@ class MountainRepository {
         emit(detailLoc)
     }.flowOn(Dispatchers.IO)
 
+    suspend fun getDetailLocContains(mountainName: String , containsList : ArrayList<String>) = flow{
+        val programLists = ArrayList<String>()
+
+        val detailListsContains = db.collection("story").document(mountainName).get().await()
+        val lists = detailListsContains["detailLocation"] as ArrayList<String>
+        for (it in lists){
+            if(containsList.contains(it)){
+                programLists.add(it)
+            }
+        }
+        detailLoc.clear()
+        for(it in programLists){
+            val info = db.collection("story").document(mountainName).collection(it).document(it).get().await()
+            detailLoc.add(info.toObject(DetailLocationInfo::class.java)!!)
+        }
+        emit(detailLoc)
+    }.flowOn(Dispatchers.IO)
+
     suspend fun getMountainData() =flow{
 
         mountainList.clear()

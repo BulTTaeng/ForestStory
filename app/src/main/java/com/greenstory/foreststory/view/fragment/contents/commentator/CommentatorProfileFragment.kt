@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentCommentatorProfileBinding
+import com.greenstory.foreststory.model.contents.CommentatorPrograms
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.CommentatorActivity
@@ -27,6 +28,7 @@ class CommentatorProfileFragment : Fragment() {
     lateinit var commentatorActivity: CommentatorActivity
     lateinit var adapter : MountainAdapter
     val mountainViewModel: MountainViewModel by activityViewModels()
+    var commentatorPrograms = CommentatorPrograms()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,6 +52,7 @@ class CommentatorProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.commentatorInfo = commentatorActivity.commentatorDto
+        extractProgramsName()
         Glide.with(commentatorActivity).load(commentatorActivity.commentatorDto.profile).into(binding.imgCommentatorImage)
 
         var hashTags = ""
@@ -84,8 +87,18 @@ class CommentatorProfileFragment : Fragment() {
 //        }
 //    }
 
+    fun extractProgramsName(){
+        for(it in commentatorActivity.commentatorDto.mountains){
+            if(commentatorActivity.commentatorDto.mountain[it] != null) {
+                for (names in commentatorActivity.commentatorDto.mountain[it]!!) {
+                    commentatorPrograms.detailProgramLists.add(names)
+                }
+            }
+        }
+    }
+
     fun initRecycler(){
-        adapter = MountainAdapter(false)
+        adapter = MountainAdapter(2 , commentatorPrograms)
         binding.recyclerCommentatorMountain.layoutManager = LinearLayoutManager(commentatorActivity)
         binding.recyclerCommentatorMountain.adapter = adapter
     }

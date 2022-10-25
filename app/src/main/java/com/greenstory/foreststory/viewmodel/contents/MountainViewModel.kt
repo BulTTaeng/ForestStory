@@ -27,6 +27,14 @@ class MountainViewModel @Inject constructor(val mountainRepo: MountainRepository
         }
     }
 
+    fun getDetailLocContains(mountainName: String , containsList : ArrayList<String>){
+        viewModelScope.launch {
+            mountainRepo.getDetailLocContains(mountainName , containsList).collectLatest {
+                _mountainData.emit(Event.DetailLocations(it))
+            }
+        }
+    }
+
     fun getMountainData() {
         viewModelScope.launch {
             mountainRepo.getMountainData().collectLatest {

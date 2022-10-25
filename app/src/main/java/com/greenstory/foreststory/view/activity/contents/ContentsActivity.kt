@@ -52,6 +52,8 @@ class ContentsActivity : AppCompatActivity() {
         contentsController = navHostFragment.navController
         binding.bottomNavi.setupWithNavController(contentsController)
 
+        commentatorViewModel.getUserInfo()
+
         val permissions = arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,

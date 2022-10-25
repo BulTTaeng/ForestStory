@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.greenstory.foreststory.databinding.ItemMountainBinding
+import com.greenstory.foreststory.model.contents.CommentatorPrograms
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
@@ -19,9 +20,10 @@ import com.greenstory.foreststory.view.fragment.contents.CommentatorFragmentDire
 import com.greenstory.foreststory.view.fragment.contents.MountainFragment
 import com.greenstory.foreststory.view.fragment.contents.MountainFragmentDirections
 import com.greenstory.foreststory.view.fragment.contents.commentator.CommentatorProfileFragmentDirections
+import com.greenstory.foreststory.view.fragment.contents.setting.ProfileFragmentDirections
 
 
-class MountainAdapter(val loadAll : Boolean) : ListAdapter<MountainDto, MountainAdapter.MountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
+class MountainAdapter(val loadAll : Int , val pLists : CommentatorPrograms) : ListAdapter<MountainDto, MountainAdapter.MountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
 
     lateinit var binding : ItemMountainBinding
 
@@ -38,16 +40,12 @@ class MountainAdapter(val loadAll : Boolean) : ListAdapter<MountainDto, Mountain
 //                intent.putExtra("MOUNTAIN" , data)
 //                it.context.startActivity(intent)
                 val navController = Navigation.findNavController(itemView)
-                if(loadAll) {
-                    navController.navigate(
-                        MountainFragmentDirections.actionMountainFragmentToDetailLocationFragment(
-                            data
-                        )
-                    )
+
+                when(loadAll){
+                    1 -> navController.navigate(MountainFragmentDirections.actionMountainFragmentToDetailLocationFragment(data,pLists)) //From MountainPage
+                    2 -> navController.navigate(CommentatorProfileFragmentDirections.actionCommentatorProfileFragmentToDetailLocationFragment2(data , pLists)) // from CommentatorPage
                 }
-                else{
-                    navController.navigate(CommentatorProfileFragmentDirections.actionCommentatorProfileFragmentToDetailLocationFragment2(data))
-                }
+
             }
         }
 

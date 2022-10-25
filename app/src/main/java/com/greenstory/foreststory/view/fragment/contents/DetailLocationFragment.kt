@@ -64,15 +64,21 @@ class DetailLocationFragment : Fragment() , LifecycleOwner {
 
     fun getLocationData() {
         showSampleData(true)
-        mountainViewModel.getDetailLoc(args.dataInfo.name)
+        if(args.programs.detailProgramLists.isEmpty() || args.programs.detailProgramLists == null){
+            mountainViewModel.getDetailLoc(args.dataInfo.name)
+        }
+        else{
+            mountainViewModel.getDetailLocContains(args.dataInfo.name , args.programs.detailProgramLists)
+        }
+
     }
 
     private fun initRecyclerView() {
         if(requireContext().toString().contains("ContentsActivity")){
-            adapter = DetailLocationAdapter(args.dataInfo , true)
+            adapter = DetailLocationAdapter(args.dataInfo)
         }
         else {
-            adapter = DetailLocationAdapter(args.dataInfo , false)
+            adapter = DetailLocationAdapter(args.dataInfo)
         }
 
         binding.recyclerMountain.layoutManager = LinearLayoutManager(requireContext())
