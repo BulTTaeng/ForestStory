@@ -39,7 +39,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         mountainInfo = intent.getParcelableExtra<MountainDto>("MOUNTAIN")
         detailInfo = intent.getParcelableExtra<DetailLocationInfo>("DETAIL")
-        commentatorDto = intent.getParcelableExtra<CommentatorDto>("COMMENTATORINFO")
+        //commentatorDto = intent.getParcelableExtra<CommentatorDto>("COMMENTATORINFO")
 
 
         getViewModelData(mountainInfo?.name , detailInfo?.name)
@@ -47,12 +47,8 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun getViewModelData(name : String? , detailName : String?){
 
-        if(commentatorDto == null) {
-            audioViewModel.getAudioData(name!! , detailName!!)
-        }
-        else{
-            audioViewModel.getAudioDataWithInfo(name!!,detailName!!, commentatorDto!!.audio)
-        }
+        audioViewModel.getAudioData(name!! , detailName!!)
+
         supportFragmentManager.beginTransaction()
             .replace(binding.frameAudioPlayer.id, AudioPlayerFragment())
             .commit()

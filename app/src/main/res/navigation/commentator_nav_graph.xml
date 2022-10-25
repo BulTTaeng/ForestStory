@@ -29,5 +29,8 @@
         <argument
             android:name="dataInfo"
             app:argType="com.greenstory.foreststory.model.contents.MountainDto" />
+        <argument
+            android:name="programs"
+            app:argType="com.greenstory.foreststory.model.contents.CommentatorPrograms"/>
     </fragment>
 </navigation>

@@ -26,8 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="btn_googleSignIn, card_kakaoLogin,
-        cons_clickHere"
+                app:constraint_referenced_ids="btn_googleSignIn, card_kakaoLogin"
                 tools:visibility="visible" />
 
             <FrameLayout

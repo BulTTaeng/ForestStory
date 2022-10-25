@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentMountainBinding
+import com.greenstory.foreststory.model.contents.CommentatorPrograms
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
@@ -82,7 +83,7 @@ class MountainFragment : Fragment(), LifecycleOwner {
     }
 
     fun initRecyclerView() {
-        adapter = MountainAdapter(true)
+        adapter = MountainAdapter(1 , CommentatorPrograms())
         binding.recyclerMountain.layoutManager = LinearLayoutManager(contentsActivity)
         binding.recyclerMountain.adapter = adapter
     }
@@ -91,6 +92,7 @@ class MountainFragment : Fragment(), LifecycleOwner {
         adapter.submitList(mountainList.map {
             it.copy()
         })
+
         showSampleData(false)
     }
 

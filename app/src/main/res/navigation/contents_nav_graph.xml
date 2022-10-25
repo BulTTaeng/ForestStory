@@ -9,7 +9,7 @@
         android:id="@+id/mountainFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.MountainFragment"
         android:label="fragment_mountain"
-        tools:layout="@layout/fragment_mountain" >
+        tools:layout="@layout/fragment_mountain">
         <action
             android:id="@+id/action_mountainFragment_to_detailLocationFragment"
             app:destination="@id/detailLocationFragment" />
@@ -54,8 +54,19 @@
         android:id="@+id/detailLocationFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.DetailLocationFragment"
         android:label="DetailLocationFragment">
-    <argument
-        android:name="dataInfo"
-        app:argType="com.greenstory.foreststory.model.contents.MountainDto" />
+        <argument
+            android:name="dataInfo"
+            app:argType="com.greenstory.foreststory.model.contents.MountainDto" />
+        <argument
+            android:name="programs"
+            app:argType="com.greenstory.foreststory.model.contents.CommentatorPrograms"/>
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.ProfileFragment"
+        android:label="ProfileFragment">
+        <action
+            android:id="@+id/action_profileFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
     </fragment>
 </navigation>

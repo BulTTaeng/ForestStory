@@ -109,6 +109,11 @@
 - Reservation page 프로그램 고르기 update
 - Reservation , search page UI 수정
 
+`2022.10.25`  
+- ProfilePage 추가
+- 기존 로직 수정(개별적 오디오 -> 프로그램)
+- db field 수정
+
 </details><br>  
 
 --- 

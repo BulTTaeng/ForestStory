@@ -40,7 +40,7 @@ class CommentatorSearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         repeatOnStarted {
-            commentatorViewModel.foundCommentatorData.collectLatest { event ->
+            commentatorViewModel.commentatorData.collectLatest { event ->
                 handleEvent(event)
             }
         }
