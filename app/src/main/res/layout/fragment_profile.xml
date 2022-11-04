@@ -19,16 +19,16 @@
             android:id="@+id/commentator_view_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="card_profile"
+            android:visibility="gone"
+            app:constraint_referenced_ids="txt_myProgram , recycler_myMountain"
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/user_view_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="card_profile"
+            android:visibility="gone"
+            app:constraint_referenced_ids="txt_noProgram , img_noMountain"
             tools:visibility="visible" />
 
         <TextView
@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="프로필"
             android:textColor="@color/black"
             android:textSize="24sp"
@@ -49,9 +50,11 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:src="@drawable/settings_small"
+            android:onClick="@{fragment::btnSettingInProfile}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="12dp"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_profile"
@@ -202,6 +205,28 @@
             android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_myProgram"/>
+
+        <ImageView
+            android:id="@+id/img_noMountain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_profile"
+            app:srcCompat="@drawable/block" />
+
+        <TextView
+            android:id="@+id/txt_noProgram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="프로그램이 없습니다"
+            android:textSize="18sp"
+            android:textColor="@color/google_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_noMountain" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

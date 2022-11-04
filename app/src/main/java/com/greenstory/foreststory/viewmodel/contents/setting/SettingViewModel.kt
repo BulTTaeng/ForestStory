@@ -22,7 +22,6 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) : ViewModel()  {
 
     private val myReceiver = settingRepo.myReceiver
-
     var selectedImageUri : Uri? = null
 
     private val _myInfo = MutableEventFlow<Event>()

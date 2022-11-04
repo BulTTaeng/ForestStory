@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.greenstory.foreststory.R
@@ -57,7 +58,7 @@ class ProfileFragment : Fragment() {
             if (commentatorViewModel.userInfo!!.admin) {
                 showCommentatorPage()
             } else {
-
+                showUserPage()
             }
         }
         else{
@@ -67,7 +68,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showCommentatorPage(){
-
+        binding.userViewGroup.visibility = View.GONE
+        binding.commentatorViewGroup.visibility = View.VISIBLE
         commentatorViewModel.getMyCommentator()
 
         repeatOnStarted {
@@ -82,6 +84,14 @@ class ProfileFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun showUserPage(){
+        binding.commentatorViewGroup.visibility = View.GONE
+        binding.imgVerified.visibility = View.GONE
+        binding.txtExplainCommentator.visibility = View.GONE
+        binding.txtHashTagCommentator.visibility = View.GONE
+        binding.userViewGroup.visibility = View.VISIBLE
     }
 
     fun initRecycler(list: ArrayList<MountainDto>) {
@@ -122,6 +132,10 @@ class ProfileFragment : Fragment() {
             }
         }
 
+    }
+
+    fun btnSettingInProfile(view: View){
+        findNavController().navigate(R.id.settingFragment)
     }
 
     private fun updateRecycler(list: ArrayList<MountainDto>){
