@@ -43,7 +43,6 @@ class SettingFragment : Fragment() {
     lateinit var adapter: SettingAdapter
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    var isSetting = false
     private lateinit var callback: OnBackPressedCallback
 
     override fun onAttach(context: Context) {
@@ -53,34 +52,6 @@ class SettingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (isSetting) {
-                    adapter.setOnClickListener(
-                        listOf(
-                            "자격증 인증",
-                            "관심 목록",
-                            "프로필 변경",
-                            "내 오디오 보기"
-                        )
-                    ) {
-                        when (it) {
-                            "자격증 인증" -> Log.d("111", "111")
-                            "관심 목록" -> Log.d("222", "222")
-                            "프로필 변경" -> toChangeProfile()
-                            "내 오디오 보기" -> Log.d("444", "$444")
-                        }
-                    }
-                    isSetting = false
-                } else {
-                    activity?.finish()
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-
     }
 
     override fun onCreateView(
@@ -106,9 +77,7 @@ class SettingFragment : Fragment() {
         }
     }
 
-    fun btnSetting(view: View) {
-        reSettingRecyclerView()
-    }
+
 
     fun initRecyclerView() {
         adapter = SettingAdapter()
@@ -117,7 +86,9 @@ class SettingFragment : Fragment() {
                 "자격증 인증",
                 "관심 목록",
                 "프로필 변경",
-                "내 오디오 보기"
+                "내 오디오 보기",
+                "로그아웃",
+                "회원 탈퇴"
             )
         ) {
             when (it) {
@@ -125,25 +96,12 @@ class SettingFragment : Fragment() {
                 "관심 목록" -> Log.d("222", "222")
                 "프로필 변경" -> toChangeProfile()
                 "내 오디오 보기" -> Log.d("444", "$444")
-            }
-        }
-        binding.recyclerSetting.layoutManager = LinearLayoutManager(contentsActivity)
-        binding.recyclerSetting.adapter = adapter
-    }
-
-    fun reSettingRecyclerView() {
-        isSetting = true
-        adapter.setOnClickListener(
-            listOf(
-                "로그아웃",
-                "회원 탈퇴"
-            )
-        ) {
-            when (it) {
                 "로그아웃" -> logOut()
                 "회원 탈퇴" -> withDraw()
             }
         }
+        binding.recyclerSetting.layoutManager = LinearLayoutManager(contentsActivity)
+        binding.recyclerSetting.adapter = adapter
     }
 
     fun getUserInfo(info : ArrayList<String>) {

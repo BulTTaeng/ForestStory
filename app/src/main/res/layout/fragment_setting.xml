@@ -48,19 +48,6 @@
             app:layout_constraintStart_toEndOf="@id/img_profileImage"
             app:layout_constraintTop_toBottomOf="@id/txt_UserNameMyPage" />
 
-        <ImageButton
-            android:id="@+id/btn_setting"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="16dp"
-            android:background="@android:color/transparent"
-            android:onClick="@{fragment::btnSetting}"
-            android:scaleType="fitCenter"
-            android:src="@drawable/settings"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_setting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_setting"
             android:layout_width="match_parent"

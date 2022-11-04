@@ -114,6 +114,10 @@
 - 기존 로직 수정(개별적 오디오 -> 프로그램)
 - db field 수정
 
+`2022.11.04`  
+- HashTage수정 text Field 추가
+- 숲 해설가, 사용자에 따른 프로필 page view 변경
+
 </details><br>  
 
 --- 
