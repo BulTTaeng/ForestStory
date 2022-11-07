@@ -1,4 +1,4 @@
-package com.greenstory.foreststory.utility.`interface`.viewmodelevent
+package com.greenstory.foreststory.utility.interfaces.viewmodelevent
 
 import kotlinx.coroutines.flow.Flow
 

@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.greenstory.foreststory.model.userinfo.UserInfoEntity
+import com.greenstory.foreststory.utility.classes.login.GoogleLogin
 import com.greenstory.foreststory.view.activity.login.LoginActivity
 import com.greenstory.foreststory.viewmodel.login.LoginViewModel
 import com.rommansabbir.animationx.Fade
@@ -87,55 +88,21 @@ class LoginFragment : Fragment() {
         binding.progressBarLogin.visibility =View.VISIBLE
 
         if(requestCode == GOOGLE_SIGN_IN){
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                var account = task.getResult(ApiException::class.java)
-                var condition : Int = -1
-                var check = false
-                CoroutineScope(Dispatchers.Main).launch {
+            val otherLogin = GoogleLogin()
+            CoroutineScope(Dispatchers.Main).launch {
 
-                    condition = loginViewModel.firebaseAuthWithGoogle(account!!)
-
-                    when (condition) {
-                        0 -> { //이미 로그인 한 적이 있음
-                            moveToContents()
-                        }
-                        1 -> { // 처음 로그인 한거임
-
-                            CoroutineScope(Dispatchers.IO).launch {
-                                check = loginViewModel.writerUserToFireStore(
-                                    UserInfoEntity(
-                                        account.displayName.toString(),
-                                        account.email.toString(),
-                                        FirebaseAuth.getInstance().currentUser!!.uid,
-                                        false,
-                                        "google",
-                                        ArrayList<String>(),
-                                        ArrayList<String>(),
-                                    getString(R.string.basic_profile))
-                                )
-                            }.join()
-
-                            if(check){
-                                moveToContents()
-                            }
-                            else{
-                                Toast.makeText(loginActivity , getString(R.string.try_later) , Toast.LENGTH_LONG).show()
-                            }
-                        }
-                        2 -> { //error
-                            Toast.makeText(loginActivity , "로그인에 실패하였습니다." , Toast.LENGTH_SHORT).show()
-                            binding.progressBarLogin.visibility = View.GONE
-                        }
+                when (loginViewModel.firebaseAuthing(data, otherLogin)) {
+                    0 -> { //전에 로그인 한적 있음
+                        moveToContents()
+                    }
+                    1 -> { // 처음임
+                        moveToMakeProfileFragment()
+                    }
+                    else -> {
+                        Toast.makeText(loginActivity , "로그인에 실패하였습니다." , Toast.LENGTH_SHORT).show()
+                        binding.progressBarLogin.visibility = View.GONE
                     }
                 }
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-                binding.btnGoogleSignIn.isEnabled=true
-                binding.btnGoogleSignIn.isClickable=true
-                binding.progressBarLogin.visibility = View.GONE
             }
         }
     }
@@ -156,11 +123,16 @@ class LoginFragment : Fragment() {
         //activity?.finish()
     }
 
-    fun moveToContents() {
+    private fun moveToContents() {
         binding.progressBarLogin.visibility = View.GONE
         val intent = Intent(loginActivity , ContentsActivity()::class.java)
         startActivity(intent)
         activity?.finish()
+    }
+
+    private fun moveToMakeProfileFragment(){
+        binding.progressBarLogin.visibility = View.GONE
+        findNavController().navigate(R.id.makeProfileFragment)
     }
 
     companion object {

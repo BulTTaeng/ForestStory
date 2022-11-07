@@ -93,15 +93,26 @@ class SignUpFragment : Fragment() {
     }
 
     fun signUpWithEmail() {
-        CoroutineScope(Dispatchers.Main).launch {
-            binding.progressBarSignUp.visibility = View.VISIBLE
-            loginViewModel.userInfo.email = binding.edtSignupEmail.text.toString()
-            loginViewModel.userInfo.admin = false
-            loginViewModel.userInfo.profile = getString(R.string.basic_profile)
-            loginViewModel.userInfo.type = "email"
-            loginViewModel.password = binding.edtSignupPassword.text.toString()
 
-            findNavController().navigate(R.id.makeProfileFragment)
+        binding.progressBarSignUp.visibility = View.VISIBLE
+        loginViewModel.userInfo.email = binding.edtSignupEmail.text.toString()
+        loginViewModel.userInfo.admin = false
+        loginViewModel.userInfo.profile = getString(R.string.basic_profile)
+        loginViewModel.userInfo.type = "email"
+        loginViewModel.password = binding.edtSignupPassword.text.toString()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val success = loginViewModel.emailSignUp()
+            if(success){
+                findNavController().navigate(R.id.makeProfileFragment)
+            }
+            else{
+                Toast.makeText(loginActivity, getText(R.string.try_later), Toast.LENGTH_SHORT).show()
+            }
+
+            binding.progressBarSignUp.visibility = View.GONE
+        }
+
 
 
 //            val success =
@@ -114,8 +125,7 @@ class SignUpFragment : Fragment() {
 //            } else {
 //                Toast.makeText(loginActivity, getText(R.string.try_later), Toast.LENGTH_LONG).show()
 //            }
-            binding.progressBarSignUp.visibility = View.GONE
-        }
+
     }
 
     private fun setTextListener(){

@@ -56,6 +56,7 @@ class MakeProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Glide.with(loginActivity).load(loginViewModel.userInfo.profile).into(binding.imgUserProfileImage)
+        binding.edtName.setText(loginViewModel.userInfo.name)
         registerPhotoPicker()
     }
 
@@ -93,7 +94,7 @@ class MakeProfileFragment : Fragment() {
             binding.progressBarMakeProfile.visibility =View.VISIBLE
             CoroutineScope(Dispatchers.Main).launch {
                 val success =
-                    loginViewModel.emailSignUp(loginViewModel.userInfo, loginViewModel.password)
+                    loginViewModel.writerUserToFireStore()
                 goToContentsActivity(success)
             }
         }
