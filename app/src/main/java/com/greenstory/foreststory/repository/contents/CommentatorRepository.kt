@@ -47,7 +47,7 @@ class CommentatorRepository {
     }.flowOn(Dispatchers.IO)
 
     fun CommentatorEntity.mapper( ): CommentatorDto =
-        CommentatorDto(likedNum, mountain, id, name, profile, explain, hashTag , mountains)
+        CommentatorDto(likedNum, mountain, id, name, profile, explain, hashTag , mountains , nickName)
 
     suspend fun searchCommentators(str : String) = flow{
         foundCommentators.clear()
