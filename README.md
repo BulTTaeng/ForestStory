@@ -118,6 +118,10 @@
 - HashTage수정 text Field 추가
 - 숲 해설가, 사용자에 따른 프로필 page view 변경
 
+`2022.11.07`  
+- 로그인 과정 Figma version으로 업데이트
+- MakeProfile 추가
+
 </details><br>  
 
 --- 

@@ -54,7 +54,11 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         if(commentatorViewModel.userInfo != null) {
+
+            binding.txtProfile.text = commentatorViewModel.userInfo?.nickName
+
             if (commentatorViewModel.userInfo!!.admin) {
                 showCommentatorPage()
             } else {
@@ -89,9 +93,11 @@ class ProfileFragment : Fragment() {
     private fun showUserPage(){
         binding.commentatorViewGroup.visibility = View.GONE
         binding.imgVerified.visibility = View.GONE
-        binding.txtExplainCommentator.visibility = View.GONE
         binding.txtHashTagCommentator.visibility = View.GONE
         binding.userViewGroup.visibility = View.VISIBLE
+        binding.txtExplainCommentator.text = commentatorViewModel.userInfo?.explain
+        binding.txtCommentatorName.text = commentatorViewModel.userInfo?.name
+        Glide.with(contentsActivity).load(commentatorViewModel.userInfo?.profile).into(binding.imgCommentatorImage)
     }
 
     fun initRecycler(list: ArrayList<MountainDto>) {

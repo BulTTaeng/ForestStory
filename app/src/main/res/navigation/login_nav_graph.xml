@@ -18,7 +18,11 @@
         android:id="@+id/signUpFragment"
         android:name="com.greenstory.foreststory.view.fragment.login.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_makeProfileFragment"
+            app:destination="@id/makeProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginEmailFragment"
         android:name="com.greenstory.foreststory.view.fragment.login.LoginEmailFragment"
@@ -28,4 +32,9 @@
             android:id="@+id/action_loginEmailFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/makeProfileFragment"
+        android:name="com.greenstory.foreststory.view.fragment.login.MakeProfileFragment"
+        android:label="fragment_make_profile"
+        tools:layout="@layout/fragment_make_profile" />
 </navigation>

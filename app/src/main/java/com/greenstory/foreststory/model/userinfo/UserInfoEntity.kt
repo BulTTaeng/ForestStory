@@ -5,12 +5,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class UserInfoEntity(
-    val name: String = "",
-    val email : String = "",
+    var name: String = "",
+    var email : String = "",
     var userId : String ="",
     var admin : Boolean =false,
-    val type : String = "",
+    var type : String = "",
     val likeContents : ArrayList<String> = ArrayList<String>(),
     val likePerson : ArrayList<String> = ArrayList<String>(),
-    var profile : String =""
+    var profile : String ="",
+    var nickName : String ="",
+    var explain : String = ""
 ): Parcelable

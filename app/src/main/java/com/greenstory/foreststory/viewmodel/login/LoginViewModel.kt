@@ -16,6 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(val loginRepo : LoginRepository): ViewModel() {
 
+    val userInfo = UserInfoEntity()
+    var password : String = ""
+
     suspend fun emailSignUp(userInfo: UserInfoEntity , password: String) : Boolean{
         return loginRepo.emailSignUp(userInfo , password)
     }

@@ -12,5 +12,6 @@ data class CommentatorDto (
     val profile : String = "",
     val explain : String ="",
     val hashTag : String ="",
-    val mountains : ArrayList<String> = ArrayList<String>()
+    val mountains : ArrayList<String> = ArrayList<String>(),
+    val nickName : String =""
         ): Parcelable
