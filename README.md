@@ -121,6 +121,7 @@
 `2022.11.07`  
 - 로그인 과정 Figma version으로 업데이트
 - MakeProfile 추가
+- Login에서 OCP를 위한 interface 추가
 
 </details><br>  
 

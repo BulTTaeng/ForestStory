@@ -1,6 +1,7 @@
 package com.greenstory.foreststory.repository.login
 
 import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -8,9 +9,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.model.userinfo.UserInfoEntity
+import com.greenstory.foreststory.model.userinfo.UserInfoLogin
+import com.greenstory.foreststory.utility.interfaces.login.OtherLoginInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class LoginRepository {
@@ -19,26 +26,20 @@ class LoginRepository {
     val db = FirebaseFirestore.getInstance()
 
     suspend fun emailSignUp(userInfo : UserInfoEntity , password: String) : Boolean {
-        try {
-            var check = false
-            firebaseAuth!!.createUserWithEmailAndPassword(userInfo.email, password).await()
+        return try {
+            firebaseAuth.createUserWithEmailAndPassword(userInfo.email, password).await()
             userInfo.userId = firebaseAuth.currentUser!!.uid
-            check = writerUserToFireStore(userInfo)
-            return check
+            writerUserToFireStore(userInfo)
+            true
         } catch (exception : Exception) {
             Log.w("[EmailSignUp]", "Email Sign Up Exception!")
-            return false
+            false
         }
     }
 
-    suspend fun writerUserToFireStore(userInfo: UserInfoEntity) : Boolean{
-        return try {
-            db.collection("user").document(userInfo.userId).set(userInfo).await()
-            true
-        }catch (e: Exception){
-            Log.w("[write FireStore]", "FireStore write Exception!")
-            false
-        }
+    @Throws(Exception::class)
+    suspend fun writerUserToFireStore(userInfo: UserInfoEntity){
+        db.collection("user").document(userInfo.userId).set(userInfo).await()
     }
 
     suspend fun emailLogIn(id : String , password : String) : Boolean{
@@ -81,6 +82,38 @@ class LoginRepository {
         }catch (e:Exception){
             Log.d("googleLoginError" , e.toString())
             2
+        }
+    }
+
+    //if-else를 없애고 싶은데 signUp 과 login이 한 버튼으로 작용하기 때문에 어쩔 수 없다...
+    suspend fun firebaseAuthing(data : Intent?, otherLogins : OtherLoginInterface) : UserInfoEntity {
+
+        val result = otherLogins.signUpOrLogin(data)
+        val info = UserInfoEntity(
+            result.name,
+            result.email,
+            FirebaseAuth.getInstance().currentUser!!.uid,
+            false,
+            result.type,
+            ArrayList<String>(),
+            ArrayList<String>(),
+            "https://firebasestorage.googleapis.com/v0/b/foreststory-390cf.appspot.com/o/profile.png?alt=media&token=a51a7ee7-2d15-4953-a3fc-54711bc3ddde"
+        )
+
+        return try {
+            when (result.exist) {
+                0 -> { //이전에 로그인 한 적 있음
+                    info.explain = "exist"
+                }
+                1 -> { // 처음 로그인 한거임
+                    writerUserToFireStore(info)
+                }
+            }
+            info
+        }catch (e:Exception){
+            Log.d("googleLoginError" , e.toString())
+            info.explain ="error"
+            info
         }
     }
 
