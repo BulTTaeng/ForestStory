@@ -1,6 +1,7 @@
 package com.greenstory.foreststory.view.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.ItemMountainInProfileBinding
 import com.greenstory.foreststory.model.contents.CommentatorPrograms
 import com.greenstory.foreststory.model.contents.MountainDto
+import com.greenstory.foreststory.view.activity.contents.setting.edit.EditMyMountainActivity
 
 
 class MyMountainAdapter(val pLists : CommentatorPrograms) : ListAdapter<MountainDto, MyMountainAdapter.MyMountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
@@ -33,8 +35,9 @@ class MyMountainAdapter(val pLists : CommentatorPrograms) : ListAdapter<Mountain
             }
 
             itemView.setOnClickListener {
-                val navController = Navigation.findNavController(itemView)
-                //navController.navigate(ProfileFragmentDirections.actionProfileFragmentToDetailLocationFragment(data, pLists)) //from myProfile
+                val intent = Intent(itemView.context , EditMyMountainActivity::class.java)
+                intent.putExtra("MOUNTAINNAME" , data.name)
+                itemView.context.startActivity(intent)
             }
         }
 

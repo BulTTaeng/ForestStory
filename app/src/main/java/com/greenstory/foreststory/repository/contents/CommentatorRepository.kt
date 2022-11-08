@@ -7,10 +7,7 @@ import com.google.firebase.auth.UserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
-import com.greenstory.foreststory.model.contents.CommentatorDto
-import com.greenstory.foreststory.model.contents.CommentatorEntity
-import com.greenstory.foreststory.model.contents.MountainDto
-import com.greenstory.foreststory.model.contents.MountainEntity
+import com.greenstory.foreststory.model.contents.*
 import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
@@ -46,8 +43,6 @@ class CommentatorRepository {
 
     }.flowOn(Dispatchers.IO)
 
-    fun CommentatorEntity.mapper( ): CommentatorDto =
-        CommentatorDto(likedNum, mountain, id, name, profile, explain, hashTag , mountains , nickName)
 
     suspend fun searchCommentators(str : String) = flow{
         foundCommentators.clear()

@@ -93,7 +93,7 @@ class DetailLocationFragment : Fragment() , LifecycleOwner {
         showSampleData(false)
     }
 
-    fun handleEvent(event: MountainViewModel.Event) = when (event) {
+    private fun handleEvent(event: MountainViewModel.Event) = when (event) {
         is MountainViewModel.Event.DetailLocations -> updateLocations(event.locs)
         else -> {}
     }

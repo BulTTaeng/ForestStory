@@ -23,6 +23,7 @@ import com.greenstory.foreststory.databinding.FragmentAudioPlayerBinding
 import com.greenstory.foreststory.model.audio.AudioDto
 import com.greenstory.foreststory.model.audio.AudioEntity
 import com.greenstory.foreststory.model.audio.Audios
+import com.greenstory.foreststory.model.audio.mapper
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.adapter.DescriptionAdapter
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
@@ -194,9 +195,6 @@ class AudioPlayerFragment : Fragment() {
     fun updateTextInPlayer(audioName : String){
         binding.txtAudioNameInPlayer.text = audioName
     }
-
-    fun AudioEntity.mapper(index : Long): AudioDto =
-        AudioDto(id = index , link , audioName , commentator , likeNum , false)
 
     private fun handleEvent(event: AudioViewModel.Event) = when (event) {
         is AudioViewModel.Event.AudiosList -> getAudio(event.audios)

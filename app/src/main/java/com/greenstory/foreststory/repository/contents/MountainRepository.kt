@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
+import com.greenstory.foreststory.model.contents.mapper
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
@@ -127,7 +128,6 @@ class MountainRepository {
         }
     }.flowOn(Dispatchers.IO)
 
-    fun MountainEntity.mapper(dis : Float): MountainDto =
-        MountainDto(explain, image, name , latitude , longitude, distance = dis)
+
 
 }

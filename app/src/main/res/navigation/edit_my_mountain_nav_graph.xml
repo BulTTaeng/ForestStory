@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/edit_my_mountain_nav_graph"
+    app:startDestination="@id/editMyMountainFragment">
+
+    <fragment
+        android:id="@+id/editMyMountainFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.edit.EditMyMountainFragment"
+        android:label="EditMyMountainFragment" />
+</navigation>

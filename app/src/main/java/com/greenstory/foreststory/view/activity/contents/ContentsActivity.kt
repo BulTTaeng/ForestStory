@@ -45,8 +45,6 @@ class ContentsActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_contents)
         binding.activity = this@ContentsActivity
 
-        (applicationContext as GlobalApplication).currContext = this
-
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_contents_container) as NavHostFragment
         contentsController = navHostFragment.navController
@@ -65,6 +63,11 @@ class ContentsActivity : AppCompatActivity() {
 
         dealDynamicLink()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (applicationContext as GlobalApplication).currContext = this
     }
 
     fun requirePermissions(permissions: Array<String>, requestCode: Int) {
@@ -122,6 +125,7 @@ class ContentsActivity : AppCompatActivity() {
             }
     }
 
+    //TODO :: 여기 나중에 db에서 값 읽어와서 처리해주기
     private fun toAudioPage(case : Int){
         val intent = Intent(this , AudioPlayerActivity::class.java)
         val mountaindto = MountainDto("국립나주숲체원은 호남의 8대 명산, 생태적 가치를 지닌 금성산에 위치하여 금성산의 야생차 군락과 나주의 문화를 기반으로, 맞춤형 산림교육, 산림문화 프로그램을 제공합니다.",
@@ -129,6 +133,7 @@ class ContentsActivity : AppCompatActivity() {
         "나주숲체원",
             35.04774849999999,
             126.70006650000003,
+            "전라남도 나주",
         0.0F)
 
         val data = DetailLocationInfo("포이 찾아 삼만리" ,
