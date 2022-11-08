@@ -127,6 +127,7 @@
 - Profile 페이지에서 Edit page 작성
 - mapper Model안으로 위치 변경
 - follow page 추가
+- 인증 페이지 추가
 
 </details><br>  
 

@@ -43,7 +43,6 @@ class SettingFragment : Fragment() {
     lateinit var adapter: SettingAdapter
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    private lateinit var callback: OnBackPressedCallback
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -86,16 +85,14 @@ class SettingFragment : Fragment() {
                 "자격증 인증",
                 "관심 목록",
                 "프로필 변경",
-                "내 오디오 보기",
                 "로그아웃",
                 "회원 탈퇴"
             )
         ) {
             when (it) {
-                "자격증 인증" -> Log.d("111", "111")
+                "자격증 인증" -> findNavController().navigate(R.id.verifyCommentatorFragment)
                 "관심 목록" -> Log.d("222", "222")
                 "프로필 변경" -> toChangeProfile()
-                "내 오디오 보기" -> Log.d("444", "$444")
                 "로그아웃" -> logOut()
                 "회원 탈퇴" -> withDraw()
             }
@@ -122,22 +119,12 @@ class SettingFragment : Fragment() {
 
             when (signCompleteCheck) {
                 true -> {
-                    Toast.makeText(
-                        contentsActivity,
-                        getString(R.string.do_logout),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(contentsActivity, getString(R.string.do_logout), Toast.LENGTH_SHORT).show()
                     binding.progressBarSetting.visibility = View.GONE
-                    val intent = Intent(getActivity(), LoginActivity::class.java)
-                    startActivity(intent)
-                    ActivityCompat.finishAffinity(contentsActivity)
+                    closeAllAndToLoginActivity()
                 }
                 false -> {
-                    Toast.makeText(
-                        contentsActivity,
-                        getString(R.string.logout_exception),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(contentsActivity, getString(R.string.logout_exception), Toast.LENGTH_SHORT).show()
                     binding.progressBarSetting.visibility = View.GONE
                 }
             }
@@ -150,6 +137,12 @@ class SettingFragment : Fragment() {
 
     fun toChangeProfile(){
         findNavController().navigate(R.id.changeProfileFragment)
+    }
+
+    fun closeAllAndToLoginActivity(){
+        val intent = Intent(getActivity(), LoginActivity::class.java)
+        startActivity(intent)
+        ActivityCompat.finishAffinity(contentsActivity)
     }
 
     private fun handleEvent(event: SettingViewModel.Event) = when (event) {
