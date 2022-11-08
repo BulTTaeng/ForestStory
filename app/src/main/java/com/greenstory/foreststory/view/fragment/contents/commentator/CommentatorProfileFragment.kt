@@ -78,15 +78,6 @@ class CommentatorProfileFragment : Fragment() {
         mountainViewModel.getMountainDataContain(list)
     }
 
-//    fun observeData() {
-//        mountainViewModel.mountainData.observe(viewLifecycleOwner) {
-//            adapter.submitList(mountainViewModel.mountainData.value?.map {
-//                it.copy()
-//            })
-//            binding.progressBarCommentatorProfile.visibility = View.GONE
-//        }
-//    }
-
     fun extractProgramsName(){
         for(it in commentatorActivity.commentatorDto.mountains){
             if(commentatorActivity.commentatorDto.mountain[it] != null) {

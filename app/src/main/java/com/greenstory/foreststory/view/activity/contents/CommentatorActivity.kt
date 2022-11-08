@@ -3,6 +3,7 @@ package com.greenstory.foreststory.view.activity.contents
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
@@ -26,7 +27,15 @@ class CommentatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_commentator)
         (applicationContext as GlobalApplication).currContext = this
 
-        commentatorDto = intent.getParcelableExtra<CommentatorDto>("INFO")!!
+        val temp = intent.getParcelableExtra<CommentatorDto>("INFO")
+
+        if(temp == null){
+            Toast.makeText(this , getString(R.string.try_later) , Toast.LENGTH_SHORT).show()
+            this.finish()
+        }
+        else{
+            commentatorDto = temp
+        }
 
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_commentator_container) as NavHostFragment
