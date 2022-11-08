@@ -1,12 +1,16 @@
 package com.greenstory.foreststory.repository.contents
 
+import android.net.Uri
 import android.os.Parcelable
 import android.util.Log
+import com.google.android.exoplayer2.MediaItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserInfo
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
+import com.greenstory.foreststory.model.audio.AudioEntity
 import com.greenstory.foreststory.model.contents.*
 import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import kotlinx.android.parcel.Parcelize
@@ -76,6 +80,35 @@ class CommentatorRepository {
         val info = my.toObject(CommentatorEntity::class.java)
         val infoDto = info?.mapper()
         emit(infoDto)
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun getFollowCommentator() = flow {
+        val my = db.collection("user").document(firebaseAuth.currentUser!!.uid).get().await()
+        val likePerson = my["likePerson"] as ArrayList<String>
+        val followCommentatorInfo = ArrayList<CommentatorDto>()
+
+        if(likePerson.isEmpty()){
+            emit(followCommentatorInfo)
+        }
+        else {
+            val likePersonInfo =
+                db.collection("commentator").whereIn("id", likePerson).get().await()
+
+            for (it in likePersonInfo) {
+                followCommentatorInfo.add(it.toObject(CommentatorEntity::class.java).mapper())
+            }
+            emit(followCommentatorInfo)
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun stopFollow(id : String) = flow{
+        try {
+            db.collection("user").document(firebaseAuth.currentUser!!.uid).update("likePerson" , FieldValue.arrayRemove(id)).await()
+            emit(true)
+        }catch (e: Exception){
+            Log.w("StopFollow" , e.toString())
+            emit(false)
+        }
     }.flowOn(Dispatchers.IO)
 
 }

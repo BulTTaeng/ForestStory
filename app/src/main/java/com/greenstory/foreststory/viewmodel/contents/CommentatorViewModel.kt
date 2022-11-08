@@ -44,7 +44,6 @@ class CommentatorViewModel @Inject constructor(val commentatorRepo : Commentator
         viewModelScope.launch {
             commentatorRepo.searchCommentators(str).collectLatest {
                 _commentatorData.emit(Event.FoundCommentators(it))
-                Log.d("view Model" , it.toString())
             }
         }
     }
@@ -65,6 +64,22 @@ class CommentatorViewModel @Inject constructor(val commentatorRepo : Commentator
         }
     }
 
+    fun getFollowCommentator(){
+        viewModelScope.launch {
+            commentatorRepo.getFollowCommentator().collectLatest() {
+                _commentatorData.emit(Event.FoundCommentators(it))
+            }
+        }
+    }
+
+    fun stopFollow(id : String){
+        viewModelScope.launch {
+            commentatorRepo.stopFollow(id).collectLatest() {
+                _commentatorData.emit(Event.Success(it))
+            }
+        }
+    }
+
     fun getMyAudioImages(programNames :ArrayList<String>){
         viewModelScope.launch {
             commentatorRepo.getMyCommentator().collectLatest() {
@@ -77,6 +92,7 @@ class CommentatorViewModel @Inject constructor(val commentatorRepo : Commentator
         data class Commentators(val commentators : ArrayList<CommentatorDto>) : Event()
         data class FoundCommentators(val foundCommentators : ArrayList<CommentatorDto>) : Event()
         data class OneCommentator(val oneCommentator: CommentatorDto?) : Event()
+        data class Success(val success : Boolean) : Event()
     }
 
 

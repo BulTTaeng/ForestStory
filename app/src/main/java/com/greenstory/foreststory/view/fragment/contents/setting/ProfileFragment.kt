@@ -155,6 +155,10 @@ class ProfileFragment : Fragment() {
         findNavController().navigate(R.id.settingFragment)
     }
 
+    fun txtFollow(view: View){
+        findNavController().navigate(R.id.followFragment)
+    }
+
     private fun updateRecycler(list: ArrayList<MountainDto>){
         initRecycler(list)
     }

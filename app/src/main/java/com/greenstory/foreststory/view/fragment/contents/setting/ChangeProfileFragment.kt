@@ -23,8 +23,10 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentChangeProfileBinding
+import com.greenstory.foreststory.model.contents.CommentatorDto
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
+import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import com.greenstory.foreststory.viewmodel.contents.setting.SettingViewModel
 
 
@@ -32,11 +34,11 @@ class ChangeProfileFragment : Fragment() {
 
     lateinit var binding: FragmentChangeProfileBinding
     val settingViewModel: SettingViewModel by activityViewModels()
+    val commentatorViewModel : CommentatorViewModel by activityViewModels()
     lateinit var contentsActivity: ContentsActivity
     lateinit var  pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
-    var mspanable: Spannable? = null
-    var hashTagIsComing = 1
+    var hashTagIsComing = 0
     var endChar = ' '
     var str =""
 
@@ -64,18 +66,25 @@ class ChangeProfileFragment : Fragment() {
         registerPhotoPicker()
 
         settingViewModel.getUserNameAndEmailProfileImage()
+        commentatorViewModel.getMyCommentator()
 
 
         repeatOnStarted {
             settingViewModel.myInfo.collect() { event ->
-                handleEvent(event)
+                handleEventSetting(event)
             }
         }
 
-        binding.imgCommentatorImageInChange
-        binding.edtChangeHashTag.setText("#")
+        repeatOnStarted {
+            commentatorViewModel.commentatorData.collect() { event ->
+                handleEventCommentator(event)
+            }
+        }
 
-        mspanable = binding.edtChangeHashTag.text
+        edtAddListener()
+    }
+
+    private fun edtAddListener(){
         binding.edtChangeHashTag.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 var startChar: String? = null
@@ -144,13 +153,18 @@ class ChangeProfileFragment : Fragment() {
 
     }
 
-    fun getUserInfo(info : ArrayList<String>) {
-        var profileImage = ""
-        binding.edtChangeName.setText(info[0])
-//        binding.txtUserEmailMyPage.text = info[1]
-        profileImage = info[2]
+    private fun getUserInfo(info : CommentatorDto?) {
+        binding.edtChangeName.setText(info?.name)
+        binding.edtChangeNickName.setText(info?.nickName)
+        binding.edtChangeExplain.setText(info?.explain)
+        if(info?.hashTag != null) {
+            changeToHashTage(info.hashTag)
+        }
 
-        Glide.with(contentsActivity).load(profileImage).into(binding.imgCommentatorImageInChange)
+//        binding.txtUserEmailMyPage.text = info[1]
+        info?.profile.toString()
+
+        Glide.with(contentsActivity).load(info?.profile.toString()).into(binding.imgCommentatorImageInChange)
 
         binding.progressBarChangeProfile.visibility = View.GONE
     }
@@ -170,18 +184,30 @@ class ChangeProfileFragment : Fragment() {
         }
     }
 
-    private fun handleEvent(event: SettingViewModel.Event) = when (event) {
-        is SettingViewModel.Event.Info -> getUserInfo(event.info)
+    private fun handleEventSetting(event: SettingViewModel.Event) = when (event) {
         is SettingViewModel.Event.UpdateInfo -> findNavController().navigate(R.id.settingFragment)
+        else ->{}
     }
 
-    private fun changeTheColor(s: String, start: Int, end: Int) {
-        mspanable?.setSpan(
-            ForegroundColorSpan(resources.getColor(R.color.red)),
-            start,
-            end,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+    private fun handleEventCommentator(event: CommentatorViewModel.Event) = when (event) {
+        is CommentatorViewModel.Event.OneCommentator -> getUserInfo(event.oneCommentator)
+        else ->{}
+    }
+
+    private fun changeToHashTage(str : String){
+        var hashTags = ""
+
+        for(it in str.split(" ")){
+            hashTags += "#$it"
+            hashTagIsComing++
+        }
+
+
+        if(hashTags.isEmpty()){
+            hashTags = "#"
+            hashTagIsComing =1
+        }
+        binding.edtChangeHashTag.setText(hashTags)
     }
 
 
