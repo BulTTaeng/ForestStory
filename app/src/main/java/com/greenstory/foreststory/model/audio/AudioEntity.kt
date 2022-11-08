@@ -10,3 +10,6 @@ data class AudioEntity (
     var likeId : ArrayList<String> = ArrayList<String>(),
     val link : String = ""
 ) : Serializable
+
+fun AudioEntity.mapper(index : Long): AudioDto =
+    AudioDto(id = index , link , audioName , commentator , likeNum , false)

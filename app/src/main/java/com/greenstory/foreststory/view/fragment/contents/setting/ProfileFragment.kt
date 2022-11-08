@@ -120,16 +120,27 @@ class ProfileFragment : Fragment() {
 
         binding.txtCommentatorName.text = info.name
         binding.txtExplainCommentator.text = info.explain
-        var hashTags = ""
-        for(it in info.hashTag.split(" ")){
-            hashTags += "#$it "
-        }
-        binding.txtHashTagCommentator.text = hashTags
+        binding.txtFollowNum.text = info.likedNum.toString()
 
         mountainViewModel.getMountainDataContain(info.mountains)
 
-        for(it in info.mountains){
-            val programs = info.mountain[it]
+        splitHash(info)
+        getProgramLists(info)
+
+    }
+
+    private fun splitHash(info : CommentatorDto?){
+        var hashTags = ""
+        for(it in info!!.hashTag.split(" ")){
+            hashTags += "#$it "
+        }
+        binding.txtHashTagCommentator.text = hashTags
+    }
+
+    private fun getProgramLists(info : CommentatorDto?){
+
+        for(it in info!!.mountains){
+            val programs = info!!.mountain[it]
 
             if(programs != null) {
                 for (p in programs) {
@@ -137,7 +148,7 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-
+        binding.txtContentsNum.text = commentatorPrograms.detailProgramLists.size.toString()
     }
 
     fun btnSettingInProfile(view: View){

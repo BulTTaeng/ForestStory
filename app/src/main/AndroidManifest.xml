@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".view.activity.contents.setting.edit.EditMyMountainActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.contents.CommentatorActivity"
             android:exported="false" />
 
@@ -37,20 +40,23 @@
         <activity
             android:name=".view.activity.audio.AudioPlayerActivity"
             android:exported="false"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.login.LoginActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.activity.contents.ContentsActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="foreststory.page.link" android:scheme="https" />
+
+                <data
+                    android:host="foreststory.page.link"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -72,13 +78,13 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.greenstory.foreststory.view.activity.MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>

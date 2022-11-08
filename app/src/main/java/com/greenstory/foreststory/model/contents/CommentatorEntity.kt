@@ -11,3 +11,6 @@ data class CommentatorEntity (
     val mountains : ArrayList<String> = ArrayList<String>(),
     val nickName : String =""
     )
+
+fun CommentatorEntity.mapper( ): CommentatorDto =
+    CommentatorDto(likedNum, mountain, id, name, profile, explain, hashTag , mountains , nickName)

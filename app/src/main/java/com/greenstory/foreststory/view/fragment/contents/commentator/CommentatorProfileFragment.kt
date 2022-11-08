@@ -95,6 +95,8 @@ class CommentatorProfileFragment : Fragment() {
                 }
             }
         }
+
+        binding.txtContentsNum.text =  commentatorPrograms.detailProgramLists.size.toString()
     }
 
     fun initRecycler(){
