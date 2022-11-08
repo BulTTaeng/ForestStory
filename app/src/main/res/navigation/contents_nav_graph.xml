@@ -71,10 +71,18 @@
         <action
             android:id="@+id/action_profileFragment_to_followFragment"
             app:destination="@id/followFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_verifyCommentatorFragment"
+            app:destination="@id/verifyCommentatorFragment" />
     </fragment>
     <fragment
         android:id="@+id/followFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.setting.FollowFragment"
         android:label="fragment_follow"
         tools:layout="@layout/fragment_follow" />
+    <fragment
+        android:id="@+id/verifyCommentatorFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.VerifyCommentatorFragment"
+        android:label="fragment_verify_commentator"
+        tools:layout="@layout/fragment_verify_commentator" />
 </navigation>
