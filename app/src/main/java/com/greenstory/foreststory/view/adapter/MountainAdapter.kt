@@ -16,14 +16,17 @@ import com.greenstory.foreststory.model.contents.CommentatorPrograms
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
+import com.greenstory.foreststory.view.activity.contents.setting.add.AddMountainProgramActivity
 import com.greenstory.foreststory.view.fragment.contents.CommentatorFragmentDirections
 import com.greenstory.foreststory.view.fragment.contents.MountainFragment
 import com.greenstory.foreststory.view.fragment.contents.MountainFragmentDirections
 import com.greenstory.foreststory.view.fragment.contents.commentator.CommentatorProfileFragmentDirections
 import com.greenstory.foreststory.view.fragment.contents.setting.ProfileFragmentDirections
+import com.greenstory.foreststory.view.fragment.contents.setting.add.AddMountainProgramFragment
+import com.greenstory.foreststory.view.fragment.contents.setting.add.AddMountainProgramFragmentDirections
 
 
-class MountainAdapter(val loadAll : Int , val pLists : CommentatorPrograms) : ListAdapter<MountainDto, MountainAdapter.MountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
+class MountainAdapter(val fromWhere : Int , val pLists : CommentatorPrograms) : ListAdapter<MountainDto, MountainAdapter.MountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
 
     lateinit var binding : ItemMountainBinding
 
@@ -41,9 +44,11 @@ class MountainAdapter(val loadAll : Int , val pLists : CommentatorPrograms) : Li
 //                it.context.startActivity(intent)
                 val navController = Navigation.findNavController(itemView)
 
-                when(loadAll){
+                when(fromWhere){
                     1 -> navController.navigate(MountainFragmentDirections.actionMountainFragmentToDetailLocationFragment(data,pLists)) //From MountainPage
                     2 -> navController.navigate(CommentatorProfileFragmentDirections.actionCommentatorProfileFragmentToDetailLocationFragment2(data , pLists)) // from CommentatorPage
+                    3 -> navController.navigate(AddMountainProgramFragmentDirections.actionAddMountainFragmentToAddProgramFragment(data.name))
+
                 }
 
             }

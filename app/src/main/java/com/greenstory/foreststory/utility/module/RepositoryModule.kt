@@ -6,6 +6,8 @@ import com.greenstory.foreststory.repository.contents.CommentatorRepository
 import com.greenstory.foreststory.repository.contents.MountainRepository
 import com.greenstory.foreststory.repository.login.LoginRepository
 import com.greenstory.foreststory.repository.contents.setting.SettingRepository
+import com.greenstory.foreststory.repository.contents.setting.add.AddAudioRepository
+import com.greenstory.foreststory.repository.contents.setting.add.AddProgramRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,5 +45,15 @@ class RepositoryModule() {
     @Provides
     fun provideCommentatorRepo() : CommentatorRepository{
         return CommentatorRepository()
+    }
+
+    @Provides
+    fun provideAddProgramRepo() : AddProgramRepository{
+        return AddProgramRepository()
+    }
+
+    @Provides
+    fun provideAddAudioRepo() : AddAudioRepository {
+        return AddAudioRepository()
     }
 }

@@ -7,7 +7,6 @@ import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.repository.contents.MountainRepository
 import com.greenstory.foreststory.utility.event.MutableEventFlow
 import com.greenstory.foreststory.utility.event.asEventFlow
-import com.greenstory.foreststory.viewmodel.audio.AudioViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -55,6 +54,14 @@ class MountainViewModel @Inject constructor(val mountainRepo: MountainRepository
     fun getMountainDataContain(list : ArrayList<String>){
         viewModelScope.launch {
             mountainRepo.getMountainDataContain(list).collectLatest() {
+                _mountainData.emit(Event.Mountains(it))
+            }
+        }
+    }
+
+    fun getMountainDataContain(str : String){
+        viewModelScope.launch {
+            mountainRepo.getMountainDataContain(str).collectLatest() {
                 _mountainData.emit(Event.Mountains(it))
             }
         }

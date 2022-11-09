@@ -93,19 +93,44 @@
                     tools:text="곽춘식" />
 
                 <TextView
+                    android:id="@+id/txt_follower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="팔로워"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_follow"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txt_followerNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="0"
+                    app:layout_constraintEnd_toEndOf="@id/txt_follower"
+                    app:layout_constraintStart_toStartOf="@id/txt_follower"
+                    app:layout_constraintTop_toBottomOf="@id/txt_follower"
+                    tools:text="0" />
+
+                <TextView
                     android:id="@+id/txt_follow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="20dp"
-                    android:text="팔로우"
                     android:clickable="true"
+                    android:focusable="true"
                     android:onClick="@{fragment::txtFollow}"
+                    android:text="팔로우"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toStartOf="@id/txt_contents"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:focusable="true" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/txt_followNum"
@@ -230,6 +255,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_noMountain" />
+
+        <ImageButton
+            android:id="@+id/btn_addMyMountain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/add"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{fragment::btnAddMyMountain}"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_myProgram"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_myProgram"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
