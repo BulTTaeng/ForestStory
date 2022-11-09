@@ -27,13 +27,12 @@
 
             <ImageButton
                 android:id="@+id/btn_backButtonInCommentatorReservation"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@null"
+                android:background="@drawable/arrow_back_ios_new"
                 android:onClick="@{fragment::btnBackButtonInCommentatorReservation}"
-                android:src="?attr/actionModeCloseDrawable"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

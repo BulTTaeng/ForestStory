@@ -5,11 +5,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class DetailLocationInfo (
-    val name : String ="",
-    val image : String="",
-    val explain : String="",
+    var name : String ="",
+    var image : String="",
+    var explain : String="",
     val commentator : String="",
-    val location : String="",
-    val time : String="",
-    val attendance : String=""
+    var location : String="",
+    var time : String="",
+    var attendance : String=""
     ): Parcelable

@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".view.activity.contents.setting.add.AddMountainProgramActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.contents.setting.edit.EditMyMountainActivity"
             android:exported="false" />
         <activity
@@ -84,7 +87,7 @@
         </activity>
         <activity
             android:name="com.greenstory.foreststory.view.activity.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

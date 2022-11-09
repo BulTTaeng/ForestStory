@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_mountain_nav_graph"
+    app:startDestination="@id/addMountainFragment">
+
+    <fragment
+        android:id="@+id/addMountainFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.add.AddMountainProgramFragment"
+        android:label="fragment_add_mountain"
+        tools:layout="@layout/fragment_add_mountain_program" >
+        <action
+            android:id="@+id/action_addMountainFragment_to_addProgramFragment"
+            app:destination="@id/addProgramFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProgramFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.add.AddProgramFragment"
+        android:label="fragment_add_program"
+        tools:layout="@layout/fragment_add_program" >
+        <action
+            android:id="@+id/action_addProgramFragment_to_addProgramInfoFragment"
+            app:destination="@id/addProgramInfoFragment" />
+        <argument
+            android:name="mountainName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProgramInfoFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.add.AddProgramInfoFragment"
+        android:label="fragment_add_program_info"
+        tools:layout="@layout/fragment_add_program_info" />
+</navigation>

@@ -129,6 +129,12 @@
 - follow page 추가
 - 인증 페이지 추가
 
+`2022.11.09`  
+- Mountain 추가 페이지 , Program 추가 페이지 구현 완료
+
+
+
+
 </details><br>  
 
 --- 

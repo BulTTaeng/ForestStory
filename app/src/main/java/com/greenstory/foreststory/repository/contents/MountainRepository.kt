@@ -128,6 +128,26 @@ class MountainRepository {
         }
     }.flowOn(Dispatchers.IO)
 
+    suspend fun getMountainDataContain(str : String) =flow{
+
+        mountainList.clear()
+
+        try {
+            var temp = MountainEntity()
+            val mountains = db.collection("mountain").get().await()
+
+            for(it in mountains){
+                if(it["name"].toString().contains(str)) {
+                    temp = it.toObject(MountainEntity::class.java)
+                    mountainList.add(temp.mapper(0.0F))
+                }
+            }
+            emit(mountainList)
+        }catch (e : Exception){
+            Log.d("getMountain Exception" , e.toString())
+        }
+    }.flowOn(Dispatchers.IO)
+
 
 
 }

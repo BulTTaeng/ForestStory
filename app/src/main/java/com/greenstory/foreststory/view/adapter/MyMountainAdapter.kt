@@ -18,7 +18,7 @@ import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.view.activity.contents.setting.edit.EditMyMountainActivity
 
 
-class MyMountainAdapter(val pLists : CommentatorPrograms) : ListAdapter<MountainDto, MyMountainAdapter.MyMountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
+class MyMountainAdapter : ListAdapter<MountainDto, MyMountainAdapter.MyMountainViewHolder>(MOUNTAIN_DIFF_CALLBACK){
 
     lateinit var binding : ItemMountainInProfileBinding
 
@@ -29,10 +29,6 @@ class MyMountainAdapter(val pLists : CommentatorPrograms) : ListAdapter<Mountain
             binding.mountainDto = data
 
             Glide.with(itemView.context).load(data.image).into(binding.imgMountainImage)
-
-            binding.btnShowEdit.setOnClickListener {
-                showPopUp(it.context)
-            }
 
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context , EditMyMountainActivity::class.java)
@@ -66,25 +62,6 @@ class MyMountainAdapter(val pLists : CommentatorPrograms) : ListAdapter<Mountain
 
     override fun onBindViewHolder(holder: MyMountainViewHolder, position: Int) {
         holder.bindData(currentList[position])
-    }
-
-    fun showPopUp(context: Context) {
-        val popupMenu = PopupMenu(context, binding.btnShowEdit)
-        popupMenu.inflate(R.menu.show_options_edit)
-        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener{
-            override fun onMenuItemClick(item: MenuItem?): Boolean {
-                when(item?.itemId){
-                    R.id.delete -> {
-                        return true
-                    }
-                    R.id.edit -> {
-                        return true
-                    }
-                }
-                return false
-            }
-        })
-        popupMenu.show()
     }
 
     companion object {

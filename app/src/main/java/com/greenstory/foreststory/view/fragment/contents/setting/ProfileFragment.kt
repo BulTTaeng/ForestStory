@@ -1,6 +1,7 @@
 package com.greenstory.foreststory.view.fragment.contents.setting
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,7 +20,7 @@ import com.greenstory.foreststory.model.contents.CommentatorPrograms
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
-import com.greenstory.foreststory.view.adapter.MountainAdapter
+import com.greenstory.foreststory.view.activity.contents.setting.add.AddMountainProgramActivity
 import com.greenstory.foreststory.view.adapter.MyMountainAdapter
 import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
@@ -58,6 +59,7 @@ class ProfileFragment : Fragment() {
         if(commentatorViewModel.userInfo != null) {
 
             binding.txtProfile.text = commentatorViewModel.userInfo?.nickName
+            binding.txtFollowNum.text = commentatorViewModel.userInfo?.likePerson?.size.toString()
 
             if (commentatorViewModel.userInfo!!.admin) {
                 showCommentatorPage()
@@ -101,7 +103,7 @@ class ProfileFragment : Fragment() {
     }
 
     fun initRecycler(list: ArrayList<MountainDto>) {
-        adapter = MyMountainAdapter(commentatorPrograms )
+        adapter = MyMountainAdapter()
         binding.recyclerMyMountain.layoutManager = LinearLayoutManager(contentsActivity)
         binding.recyclerMyMountain.adapter = adapter
 
@@ -120,7 +122,7 @@ class ProfileFragment : Fragment() {
 
         binding.txtCommentatorName.text = info.name
         binding.txtExplainCommentator.text = info.explain
-        binding.txtFollowNum.text = info.likedNum.toString()
+        binding.txtFollowerNum.text = info.likedNum.toString()
 
         mountainViewModel.getMountainDataContain(info.mountains)
 
@@ -138,17 +140,18 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getProgramLists(info : CommentatorDto?){
+        if(info != null) {
+            for (it in info.mountains) {
+                val programs = info.mountain[it]
 
-        for(it in info!!.mountains){
-            val programs = info!!.mountain[it]
-
-            if(programs != null) {
-                for (p in programs) {
-                    commentatorPrograms.detailProgramLists.add(p)
+                if (programs != null) {
+                    for (p in programs) {
+                        commentatorPrograms.detailProgramLists.add(p)
+                    }
                 }
             }
+            binding.txtContentsNum.text = commentatorPrograms.detailProgramLists.size.toString()
         }
-        binding.txtContentsNum.text = commentatorPrograms.detailProgramLists.size.toString()
     }
 
     fun btnSettingInProfile(view: View){
@@ -157,6 +160,11 @@ class ProfileFragment : Fragment() {
 
     fun txtFollow(view: View){
         findNavController().navigate(R.id.followFragment)
+    }
+
+    fun btnAddMyMountain(view: View){
+        val intent = Intent(contentsActivity , AddMountainProgramActivity::class.java)
+        startActivity(intent)
     }
 
     private fun updateRecycler(list: ArrayList<MountainDto>){
