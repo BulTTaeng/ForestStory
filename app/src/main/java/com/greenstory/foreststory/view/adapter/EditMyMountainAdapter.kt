@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.ItemEditMountainBinding
 import com.greenstory.foreststory.databinding.ItemMountainBinding
 import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.view.fragment.contents.MountainFragmentDirections
 import com.greenstory.foreststory.view.fragment.contents.commentator.CommentatorProfileFragmentDirections
+import com.greenstory.foreststory.view.fragment.contents.setting.edit.EditMyMountainFragmentDirections
 
 class EditMyMountainAdapter : ListAdapter<DetailLocationInfo, EditMyMountainAdapter.EditMyMountainViewHolder>(
     EditMyMountainAdapter.EDIT_MOUNTAIN_DIFF_CALLBACK
@@ -31,7 +33,7 @@ class EditMyMountainAdapter : ListAdapter<DetailLocationInfo, EditMyMountainAdap
 
             itemView.setOnClickListener {
                 val navController = Navigation.findNavController(itemView)
-
+                navController.navigate(EditMyMountainFragmentDirections.actionEditMyMountainFragmentToEditAudioFragment(data))
             }
         }
 

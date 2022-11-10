@@ -9,6 +9,10 @@
         <variable
             name="fragment"
             type="com.greenstory.foreststory.view.fragment.contents.setting.add.AddProgramFragment" />
+
+        <variable
+            name="locations"
+            type="com.greenstory.foreststory.model.contents.DetailLocationInfo" />
     </data>
 
     <ScrollView
@@ -55,6 +59,7 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:text="@{locations.name}"
                 app:layout_constraintTop_toBottomOf="@+id/txt_programNameInAdd" />
 
             <TextView
@@ -93,6 +98,7 @@
                         android:layout_marginTop="5dp"
                         android:background="@android:color/transparent"
                         android:gravity="top|left"
+                        android:text="@{locations.explain}"
                         android:hint="프로그램을 소개해 보세요"
                         android:textColor="@color/black"
                         android:textSize="14sp" />

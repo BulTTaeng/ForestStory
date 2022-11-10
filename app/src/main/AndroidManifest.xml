@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".view.activity.contents.setting.add.AddAudioActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.contents.setting.add.AddMountainProgramActivity"
             android:exported="false" />
         <activity

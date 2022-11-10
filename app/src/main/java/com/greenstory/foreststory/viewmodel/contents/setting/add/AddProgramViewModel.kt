@@ -20,12 +20,13 @@ class AddProgramViewModel @Inject constructor(val addProgramRepo: AddProgramRepo
     private val _programEvent = MutableEventFlow<AddProgramViewModel.Event>()
     val programEvent = _programEvent.asEventFlow()
 
-    val detailLocationInfo = DetailLocationInfo()
+    var detailLocationInfo = DetailLocationInfo()
     var mountainName : String = ""
+    var isImageEdited = false
 
     fun upLoadProgram(){
         viewModelScope.launch {
-            addProgramRepo.upLoadProgram(detailLocationInfo , mountainName).collectLatest {
+            addProgramRepo.upLoadProgram(detailLocationInfo , mountainName , isImageEdited).collectLatest {
                 _programEvent.emit(Event.Success(it))
             }
         }

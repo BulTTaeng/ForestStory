@@ -7,5 +7,18 @@
     <fragment
         android:id="@+id/editMyMountainFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.setting.edit.EditMyMountainFragment"
-        android:label="EditMyMountainFragment" />
+        android:label="EditMyMountainFragment" >
+        <action
+            android:id="@+id/action_editMyMountainFragment_to_editAudioFragment"
+            app:destination="@id/editAudioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editAudioFragment"
+        android:name="com.greenstory.foreststory.view.fragment.contents.setting.edit.EditAudioFragment"
+        android:label="EditAudioFragment" >
+        <argument
+            android:name="detailInfo"
+            app:argType="com.greenstory.foreststory.model.contents.DetailLocationInfo" />
+
+    </fragment>
 </navigation>

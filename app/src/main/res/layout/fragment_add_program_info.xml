@@ -9,6 +9,10 @@
         <variable
             name="fragment"
             type="com.greenstory.foreststory.view.fragment.contents.setting.add.AddProgramInfoFragment" />
+
+        <variable
+            name="locations"
+            type="com.greenstory.foreststory.model.contents.DetailLocationInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,6 +63,7 @@
                 android:layout_marginStart="43dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:text="@{locations.commentator}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/txt_commentatorInAdd"
                 app:layout_constraintTop_toTopOf="parent"
@@ -111,6 +116,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:hint="장소 고르기"
+                android:text="@{locations.location}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/txt_locationInAdd"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -160,6 +166,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_gravity="center"
                 android:hint="시간 고르기"
+                android:text="@{locations.time}"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -211,6 +218,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_gravity="center"
                 android:hint="참가대상 고르기"
+                android:text="@{locations.attendance}"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"

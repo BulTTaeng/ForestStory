@@ -25,6 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.greenstory.foreststory.R
+import com.greenstory.foreststory.model.audio.AudioEntity
 import com.greenstory.foreststory.utility.GlobalApplication
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,42 @@ import kotlin.collections.ArrayList
 class AddAudioRepository {
     val firebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
+    val firebaseStorage = FirebaseStorage.getInstance()
+
+    suspend fun upLoadAudio(mountainName : String , programName : String , audioString : String , audioEntity : AudioEntity) = flow {
+        try {
+            audioEntity.link = addToStorage(Uri.parse(audioString))
+            db.collection("story").document(mountainName).collection(programName).add(audioEntity).await()
+            emit(true)
+        }catch (e : Exception){
+            Log.w("upLoadAudio" , e.toString())
+            emit(false)
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun addToStorage(uri: Uri): String {
+
+        //TODO:: 오디오 파일 타입 받아야됨
+        val fileName =
+            "${firebaseAuth.currentUser!!.uid}_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}" + "_.mp3"
+        val audioRef = firebaseStorage.reference.child(firebaseAuth.currentUser?.uid.toString() + "/")
+            .child(fileName)
+
+        //파일 업로드
+        val uploadTask = audioRef.putFile(uri)
+        //uploadTaskList.add(uploadTask)
+
+        val downloadUri = uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            audioRef.downloadUrl
+        }.await()
 
 
+
+        return downloadUri.toString()
+    }
 }

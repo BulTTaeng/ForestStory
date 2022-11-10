@@ -25,10 +25,14 @@
         <argument
             android:name="mountainName"
             app:argType="string" />
+        <argument
+            android:name="detailInfo"
+            app:argType="com.greenstory.foreststory.model.contents.DetailLocationInfo" />
     </fragment>
     <fragment
         android:id="@+id/addProgramInfoFragment"
         android:name="com.greenstory.foreststory.view.fragment.contents.setting.add.AddProgramInfoFragment"
         android:label="fragment_add_program_info"
-        tools:layout="@layout/fragment_add_program_info" />
+        tools:layout="@layout/fragment_add_program_info"/>
+
 </navigation>

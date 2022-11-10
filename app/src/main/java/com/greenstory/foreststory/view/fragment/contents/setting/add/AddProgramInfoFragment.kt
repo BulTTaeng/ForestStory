@@ -1,8 +1,10 @@
 package com.greenstory.foreststory.view.fragment.contents.setting.add
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,7 +20,9 @@ import com.greenstory.foreststory.databinding.FragmentAddProgramBinding
 import com.greenstory.foreststory.databinding.FragmentAddProgramInfoBinding
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.setting.add.AddMountainProgramActivity
+import com.greenstory.foreststory.view.fragment.contents.setting.edit.EditAudioFragment.Companion.PROGRAM_EDITED
 import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
+import com.greenstory.foreststory.viewmodel.contents.setting.SettingViewModel
 import com.greenstory.foreststory.viewmodel.contents.setting.add.AddProgramViewModel
 import kotlinx.coroutines.flow.collectLatest
 
@@ -28,6 +32,7 @@ class AddProgramInfoFragment : Fragment() {
     lateinit var binding: FragmentAddProgramInfoBinding
     lateinit var addMountainActivity: AddMountainProgramActivity
     val addProgramViewModel : AddProgramViewModel by activityViewModels()
+    val settingViewModel : SettingViewModel by activityViewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,16 +56,26 @@ class AddProgramInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        settingViewModel.getUserName()
+        binding.locations = addProgramViewModel.detailLocationInfo
         repeatOnStarted {
             addProgramViewModel.programEvent.collectLatest { event ->
-                handleEvent(event)
+                handleEventAddProgram(event)
+            }
+        }
+
+        repeatOnStarted {
+            settingViewModel.myInfo.collectLatest { event ->
+                handleEventSetting(event)
             }
         }
     }
 
     fun uploaded(success : Boolean){
         if(success){
+            val intent = Intent()
+            intent.putExtra("EDITEDINFO", addProgramViewModel.detailLocationInfo)
+            addMountainActivity.setResult(Activity.RESULT_OK , intent)
             addMountainActivity.finish()
         }else{
             Toast.makeText(addMountainActivity , getString(R.string.try_later) , Toast.LENGTH_SHORT).show()
@@ -79,6 +94,11 @@ class AddProgramInfoFragment : Fragment() {
                     view.text = list[which]
                 })
         builder.show()
+    }
+
+    fun getName(name : String){
+        binding.txtCommentatorName.text = name
+        addProgramViewModel.detailLocationInfo.commentator = name
     }
 
     fun addLocation(view: View){
@@ -100,6 +120,7 @@ class AddProgramInfoFragment : Fragment() {
         val location = binding.txtSelectedLocationInAdd.text.toString()
         val time = binding.txtSelectedTimeInAdd.text.toString()
         val target = binding.txtSelectedTargetInAdd.text.toString()
+        val commentator = binding.txtCommentatorName.text.toString()
 
         if(location.isEmpty()){
             Toast.makeText(addMountainActivity , "장소를 선택해 주세요" , Toast.LENGTH_SHORT).show()
@@ -121,8 +142,13 @@ class AddProgramInfoFragment : Fragment() {
         addProgramViewModel.upLoadProgram()
     }
 
-    fun handleEvent(event: AddProgramViewModel.Event) = when (event) {
+    fun handleEventAddProgram(event: AddProgramViewModel.Event) = when (event) {
         is AddProgramViewModel.Event.Success -> uploaded(event.success)
+        else ->{}
+    }
+
+    fun handleEventSetting(event: SettingViewModel.Event) = when (event) {
+        is SettingViewModel.Event.UserName -> getName(event.name)
         else ->{}
     }
 

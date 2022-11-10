@@ -47,13 +47,16 @@ class AddProgramRepository {
     val db = FirebaseFirestore.getInstance()
     var firabaseStorage = FirebaseStorage.getInstance()
 
-    fun upLoadProgram(detailLocationInfo: DetailLocationInfo , mountainName : String) = flow{
+    fun upLoadProgram(detailLocationInfo: DetailLocationInfo , mountainName : String , isImageEdited : Boolean) = flow{
 
         try {
             //Upload to firestore story
             db.collection("story").document(mountainName).update("detailLocation" , FieldValue.arrayUnion(detailLocationInfo.name)).await()
-            val image = addToStorage(Uri.parse(detailLocationInfo.image))
-            detailLocationInfo.image = image
+            //Upload to Storage
+            if(isImageEdited) {
+                val image = addToStorage(Uri.parse(detailLocationInfo.image))
+                detailLocationInfo.image = image
+            }
             db.collection("story").document(mountainName).collection(detailLocationInfo.name).document(detailLocationInfo.name).set(detailLocationInfo).await()
 
             // get commentator data
@@ -63,10 +66,12 @@ class AddProgramRepository {
             //manipulates & update commentator data
             db.collection("commentator").document(firebaseAuth.currentUser!!.uid).update("mountains" , FieldValue.arrayUnion(mountainName)).await()
             val programs = commentatorInfo!!.mountain[mountainName]
-            programs!!.add(detailLocationInfo.name)
-            commentatorInfo.mountain[mountainName] = programs
+            if(programs!=null && !programs.contains(detailLocationInfo.name)) {
+                programs.add(detailLocationInfo.name)
+                commentatorInfo.mountain[mountainName] = programs
+            }
 
-            //upload commentator dat
+            //upload commentator data
             db.collection("commentator").document(firebaseAuth.currentUser!!.uid).set(commentatorInfo).await()
             emit(true)
         }catch (e : Exception){

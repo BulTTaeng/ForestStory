@@ -44,6 +44,15 @@ class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) 
         }
     }
 
+    fun getUserName(){
+        viewModelScope.launch {
+            settingRepo.getUserNameAndEmailProfileImage().collectLatest {
+                _myInfo.emit(Event.UserName(it[0]))
+            }
+
+        }
+    }
+
 
     fun updateProfile( nickName : String){
         viewModelScope.launch {
@@ -76,6 +85,7 @@ class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) 
     sealed class Event {
         data class Info(val info : ArrayList<String>) : Event()
         data class UpdateInfo(val success : Boolean) : Event()
+        data class UserName(val name : String) : Event()
     }
 
 }
