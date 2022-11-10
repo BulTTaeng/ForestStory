@@ -10,6 +10,7 @@ import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.ActivityContentsBinding
 import com.greenstory.foreststory.databinding.ActivityEditMyMountainBinding
 import com.greenstory.foreststory.utility.GlobalApplication
+import com.greenstory.foreststory.viewmodel.audio.AudioViewModel
 import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,7 @@ class EditMyMountainActivity : AppCompatActivity() {
 
     val mountainViewModel : MountainViewModel by viewModels()
     val commentatorViewModel : CommentatorViewModel by viewModels()
+    val audioViewModel : AudioViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -9,6 +9,7 @@
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3165" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/drawable/popup_menu_audio.xml" value="0.3155" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/drawable/radius_white_border.xml" value="0.3165" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_add_audio.xml" value="0.4548952543822146" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_add_mountain_program.xml" value="0.2573749465583583" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_add_moutain.xml" value="0.4429243266353142" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_add_moutain_program.xml" value="0.4548952543822146" />
@@ -19,17 +20,19 @@
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_login.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_main.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/activity_splash.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_add_audio.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_add_mountain.xml" value="0.4548952543822146" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_add_mountain_program.xml" value="0.4548952543822146" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_add_program.xml" value="0.22" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_add_program_info.xml" value="0.22" />
-        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_audio_player.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_audio_player.xml" value="0.22" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_change_profile.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_commentator.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_commentator_profile.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_commentator_reservation.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_commentator_search.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_detail_location.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_edit_audio.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_edit_my_mountain.xml" value="0.4548952543822146" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_edit_my_moutain.xml" value="0.2573749465583583" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_follow.xml" value="0.2573749465583583" />
@@ -43,6 +46,7 @@
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_sign_up.xml" value="0.22" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/fragment_verify_commentator.xml" value="0.22" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_audio.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_audio_edit.xml" value="0.4548952543822146" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_commentator.xml" value="0.6666666666666666" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_commentator_follow.xml" value="0.5" />
         <entry key="..\:/Users/Choi/AndroidStudioProjects/ForestStory/app/src/main/res/layout/item_commentator_search.xml" value="0.5541666666666667" />

@@ -57,7 +57,15 @@ class AddProgramFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addProgramViewModel.mountainName = args.mountainName
-        Glide.with(addMountainActivity).load(R.drawable.search_image).into(binding.btnAddProgramImage)
+        binding.locations = args.detailInfo
+        addProgramViewModel.detailLocationInfo = args.detailInfo
+        if(args.detailInfo.image.isEmpty()){
+            Glide.with(addMountainActivity).load(R.drawable.search_image).into(binding.btnAddProgramImage)
+        }
+        else{
+            Glide.with(addMountainActivity).load(args.detailInfo.image).into(binding.btnAddProgramImage)
+        }
+
         registerPhotoPicker()
     }
 
@@ -70,6 +78,7 @@ class AddProgramFragment : Fragment() {
                 Log.d("PhotoPicker", "Selected URI: $uri")
                 addProgramViewModel.detailLocationInfo.image = uri.toString()
                 Glide.with(addMountainActivity).load(addProgramViewModel.detailLocationInfo.image).into(binding.btnAddProgramImage)
+                addProgramViewModel.isImageEdited = true
             } else {
                 Log.d("PhotoPicker", "No media selected")
             }

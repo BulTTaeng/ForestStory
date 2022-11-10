@@ -131,7 +131,11 @@
 
 `2022.11.09`  
 - Mountain 추가 페이지 , Program 추가 페이지 구현 완료
+- setting viewModel에서 이름 가져오는 method 추가
 
+`2022.11.10`  
+- Audio 추가페이지 구현 완료
+- Audio Edit 페이지 구현 완료
 
 
 

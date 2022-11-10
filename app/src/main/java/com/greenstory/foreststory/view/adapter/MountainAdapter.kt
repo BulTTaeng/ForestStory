@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.greenstory.foreststory.databinding.ItemMountainBinding
 import com.greenstory.foreststory.model.contents.CommentatorPrograms
+import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.model.contents.MountainEntity
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
@@ -39,15 +40,13 @@ class MountainAdapter(val fromWhere : Int , val pLists : CommentatorPrograms) : 
             Glide.with(itemView.context).load(data.image).into(binding.imgMountainImage)
 
             itemView.setOnClickListener {
-//                val intent = Intent(it.context , AudioPlayerActivity::class.java)
-//                intent.putExtra("MOUNTAIN" , data)
-//                it.context.startActivity(intent)
+
                 val navController = Navigation.findNavController(itemView)
 
                 when(fromWhere){
                     1 -> navController.navigate(MountainFragmentDirections.actionMountainFragmentToDetailLocationFragment(data,pLists)) //From MountainPage
                     2 -> navController.navigate(CommentatorProfileFragmentDirections.actionCommentatorProfileFragmentToDetailLocationFragment2(data , pLists)) // from CommentatorPage
-                    3 -> navController.navigate(AddMountainProgramFragmentDirections.actionAddMountainFragmentToAddProgramFragment(data.name))
+                    3 -> navController.navigate(AddMountainProgramFragmentDirections.actionAddMountainFragmentToAddProgramFragment(data.name, DetailLocationInfo())) //From AddMountainProgramPage
 
                 }
 

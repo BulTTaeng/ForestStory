@@ -1,6 +1,8 @@
 package com.greenstory.foreststory.view.fragment.contents.setting.edit
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +12,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.greenstory.foreststory.R
@@ -19,8 +22,11 @@ import com.greenstory.foreststory.model.contents.CommentatorPrograms
 import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.model.contents.MountainDto
 import com.greenstory.foreststory.utility.event.repeatOnStarted
+import com.greenstory.foreststory.view.activity.contents.setting.add.AddMountainProgramActivity
 import com.greenstory.foreststory.view.activity.contents.setting.edit.EditMyMountainActivity
 import com.greenstory.foreststory.view.adapter.EditMyMountainAdapter
+import com.greenstory.foreststory.view.fragment.contents.setting.add.AddMountainProgramFragmentDirections
+import com.greenstory.foreststory.view.fragment.contents.setting.edit.EditAudioFragment.Companion.PROGRAM_EDITED
 import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -74,6 +80,13 @@ class EditMyMountainFragment : Fragment() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == PROGRAM_EDITED){
+            commentatorViewModel.getMyCommentator()
+        }
+    }
+
     private fun initRecycler(){
         adapter = EditMyMountainAdapter()
         binding.recyclerEditMyMountain.layoutManager = GridLayoutManager(editMyMountainActivity , 2)
@@ -91,17 +104,28 @@ class EditMyMountainFragment : Fragment() {
     }
 
     private fun getProgramLists(info : CommentatorDto?){
+        if(info != null) {
+            for (it in info.mountains) {
+                val programs = info.mountain[it]
 
-        for(it in info!!.mountains){
-            val programs = info!!.mountain[it]
-
-            if(programs != null) {
-                for (p in programs) {
-                    commentatorPrograms.detailProgramLists.add(p)
+                if (programs != null) {
+                    for (p in programs) {
+                        commentatorPrograms.detailProgramLists.add(p)
+                    }
                 }
             }
+            mountainViewModel.getDetailLocContains(
+                editMyMountainActivity.name,
+                commentatorPrograms.detailProgramLists
+            )
         }
-        mountainViewModel.getDetailLocContains(editMyMountainActivity.name , commentatorPrograms.detailProgramLists)
+    }
+
+    fun AddProgram(view : View){
+        val intent = Intent(editMyMountainActivity , AddMountainProgramActivity::class.java)
+        intent.putExtra("MOUNTAINNAME" , editMyMountainActivity.name)
+        intent.putExtra("DETAILINFO" , DetailLocationInfo())
+        startActivityForResult(intent , PROGRAM_EDITED)
     }
 
     private fun handleEvent(event: CommentatorViewModel.Event) = when (event) {
