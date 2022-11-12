@@ -144,3 +144,9 @@
 --- 
 
 ### TODO
+
+
+###Problem
+
+- MVVM?
+- SOLID
