@@ -139,7 +139,7 @@
 
 `2022.11.15`  
 - Edit Page에 Audio 삭제, 수정 추가 (ItemTouchHelper)
-- 
+- Commentator Verify 로직 추가
 
 
 
