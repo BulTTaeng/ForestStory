@@ -44,7 +44,8 @@ class AddAudioRepository {
     suspend fun upLoadAudio(mountainName : String , programName : String , audioString : String , audioEntity : AudioEntity) = flow {
         try {
             audioEntity.link = addToStorage(Uri.parse(audioString))
-            db.collection("story").document(mountainName).collection(programName).add(audioEntity).await()
+            val document = db.collection("story").document(mountainName).collection(programName).add(audioEntity).await()
+            db.collection("story").document(mountainName).collection(programName).document(document.id).update("did" , document.id).await()
             emit(true)
         }catch (e : Exception){
             Log.w("upLoadAudio" , e.toString())
@@ -52,7 +53,7 @@ class AddAudioRepository {
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun addToStorage(uri: Uri): String {
+    private suspend fun addToStorage(uri: Uri): String {
 
         //TODO:: 오디오 파일 타입 받아야됨
         val fileName =

@@ -149,12 +149,11 @@ class AudioPlayerFragment : Fragment() {
             binding.progressBarAudio.visibility = View.GONE
             return
         }
-        var index = 0L
 
         binding.progressBarAudio.visibility = View.VISIBLE
 
         adapter.submitList(audios.audioList.map {
-            it.mapper(index++)
+            it.mapper()
         })
 
         player?.setMediaItems(audios.audioLink)
@@ -172,7 +171,7 @@ class AudioPlayerFragment : Fragment() {
 
         playerNotificationManager.setPlayer(player)
 
-            binding.currAudioDto = audios.audioList[0].mapper(0)
+            binding.currAudioDto = audios.audioList[0].mapper()
 
 
         binding.progressBarAudio.visibility = View.GONE
@@ -198,6 +197,7 @@ class AudioPlayerFragment : Fragment() {
 
     private fun handleEvent(event: AudioViewModel.Event) = when (event) {
         is AudioViewModel.Event.AudiosList -> getAudio(event.audios)
+        else ->{}
     }
 
     fun btnShowCoverImage(view: View){

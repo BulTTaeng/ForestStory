@@ -74,7 +74,7 @@ class AudioAdapter(val player : ExoPlayer , val fragmentContext : AudioPlayerFra
     companion object {
         val AUDIO_DIFF_CALLBACK = object : DiffUtil.ItemCallback<AudioDto>() {
             override fun areItemsTheSame(oldItem: AudioDto, newItem: AudioDto): Boolean =
-                oldItem.id == newItem.id
+                oldItem.sequence == newItem.sequence
 
             override fun areContentsTheSame(oldItem: AudioDto, newItem: AudioDto): Boolean =
                 oldItem == newItem

@@ -38,8 +38,26 @@ class AudioViewModel @Inject constructor(val audioRepo: AudioRepository) : ViewM
         }
     }
 
+    fun editAudioName(pos : Int , mountainName: String, detailName : String , did : String , str : String){
+        viewModelScope.launch {
+            audioRepo.editAudioName(pos , mountainName, detailName , did , str).collectLatest {
+                _audioData.emit(Event.EditedLoc(it))
+            }
+        }
+    }
+
+    fun deleteAudio (mountainName: String, detailName : String , did : String){
+        viewModelScope.launch {
+            audioRepo.deleteAudio(mountainName, detailName , did).collectLatest {
+                _audioData.emit(Event.Success(it))
+            }
+        }
+    }
+
     sealed class Event {
         data class AudiosList(val audios: Audios) : Event()
+        data class EditedLoc(val locString : Pair<Int , String>) : Event()
+        data class Success(val success : Boolean) : Event()
     }
 
 }
