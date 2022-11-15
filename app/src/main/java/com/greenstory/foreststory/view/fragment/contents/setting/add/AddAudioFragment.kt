@@ -113,15 +113,11 @@ class AddAudioFragment : Fragment() {
         else{
             Toast.makeText(addAudioActivity , getString(R.string.try_later) , Toast.LENGTH_SHORT).show()
             binding.progressBarAddAudio.visibility = View.GONE
+            binding.btnUploadAudioToFirebase.isClickable = true
+            binding.btnUploadAudioToFirebase.isEnabled=true
         }
 
     }
-
-    fun handleEvent(event: AddAudioViewModel.Event) = when (event) {
-        is AddAudioViewModel.Event.Success -> finishIfSuccess(event.success)
-        else ->{}
-    }
-
 
     fun btnUploadAudio(view: View){
         val audio = Intent()
@@ -142,13 +138,20 @@ class AddAudioFragment : Fragment() {
         }
 
         binding.progressBarAddAudio.visibility = View.VISIBLE
-
+        binding.btnUploadAudioToFirebase.isClickable = false
+        binding.btnUploadAudioToFirebase.isEnabled=false
         val audioEntity = AudioEntity()
+        audioEntity.sequence = addAudioActivity.size
         audioEntity.audioName = binding.edtAudioNameInAdd.text.toString()
         audioEntity.commentator = addAudioViewModel.detailInfo.commentator
 
 
         addAudioViewModel.upLoadAudio(audioEntity)
+    }
+
+    fun handleEvent(event: AddAudioViewModel.Event) = when (event) {
+        is AddAudioViewModel.Event.Success -> finishIfSuccess(event.success)
+        else ->{}
     }
 
     companion object{

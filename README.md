@@ -137,6 +137,10 @@
 - Audio 추가페이지 구현 완료
 - Audio Edit 페이지 구현 완료
 
+`2022.11.15`  
+- Edit Page에 Audio 삭제, 수정 추가 (ItemTouchHelper)
+- 
+
 
 
 </details><br>  

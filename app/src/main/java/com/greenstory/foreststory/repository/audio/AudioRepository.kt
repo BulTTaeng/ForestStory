@@ -39,7 +39,7 @@ class AudioRepository {
 
         try {
             var stories = db.collection("story").document(mountainName).collection(detailName)
-                .orderBy("likeNum").get().await()
+                .orderBy("sequence").get().await()
 
             for (it in stories) {
                 temp = it.toObject(AudioEntity::class.java)
@@ -83,6 +83,26 @@ class AudioRepository {
             Log.d("getAudio" , e.toString())
         }
 
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun deleteAudio(mountainName : String , detailName : String , did : String) = flow{
+        try {
+            db.collection("story").document(mountainName).collection(detailName).document(did).delete().await()
+            emit(true)
+        }catch (e : Exception){
+            Log.d("editAudioName" , e.toString())
+            emit(false)
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun editAudioName(pos : Int, mountainName : String , detailName : String , did : String , str : String) = flow{
+        try {
+            db.collection("story").document(mountainName).collection(detailName).document(did).update("audioName" , str).await()
+            emit(Pair<Int , String>( pos, str))
+        }catch (e : Exception){
+            Log.d("editAudioName" , e.toString())
+            emit(Pair<Int , String>( -1, ""))
+        }
     }.flowOn(Dispatchers.IO)
 
 }

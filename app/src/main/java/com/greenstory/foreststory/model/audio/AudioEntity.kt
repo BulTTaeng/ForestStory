@@ -6,12 +6,14 @@ import java.io.Serializable
 
 @Parcelize
 data class AudioEntity (
+    var sequence : Long = 0L,
     var audioName : String ="",
     var commentator : String ="",
     var likeNum : Long = 0L,
     var likeId : ArrayList<String> = ArrayList<String>(),
-    var link : String = ""
+    var link : String = "",
+    var did : String = ""
 ) : Serializable , Parcelable
 
-fun AudioEntity.mapper(index : Long): AudioDto =
-    AudioDto(id = index , link , audioName , commentator , likeNum , false)
+fun AudioEntity.mapper(): AudioDto =
+    AudioDto(sequence , link , audioName , commentator , likeNum , false , did)

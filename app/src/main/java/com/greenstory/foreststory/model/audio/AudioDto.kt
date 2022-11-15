@@ -1,10 +1,11 @@
 package com.greenstory.foreststory.model.audio
 
 data class AudioDto (
-    var id : Long,
+    var sequence : Long,
     val link : String,
-    val audioName : String,
+    var audioName : String,
     val commentator : String,
     var likeNum : Long,
-    var isPlaying : Boolean
+    var isPlaying : Boolean,
+    var did : String
     )

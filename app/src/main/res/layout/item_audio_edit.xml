@@ -66,6 +66,7 @@
         android:id="@+id/btn_changeSequence"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/menu"
         app:layout_constraintBottom_toBottomOf="@+id/item_artist_text_view"
         app:layout_constraintEnd_toEndOf="parent"

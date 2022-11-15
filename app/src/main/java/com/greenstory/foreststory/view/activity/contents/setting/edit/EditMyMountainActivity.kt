@@ -40,4 +40,8 @@ class EditMyMountainActivity : AppCompatActivity() {
         editMyMountainController = navHostFragment.navController
 
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }

@@ -22,6 +22,7 @@ class AddAudioActivity : AppCompatActivity() {
     lateinit var navHostFragment: NavHostFragment
     lateinit var binding : ActivityAddAudioBinding
     val addAudioViewModel : AddAudioViewModel by viewModels()
+    var size = 0L
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,7 @@ class AddAudioActivity : AppCompatActivity() {
 
         addAudioViewModel.mountainName = intent.getStringExtra("MOUNTAINNAME").toString()
         val temp = intent.getParcelableExtra<DetailLocationInfo>("DETAILINFO")
+        size = intent.getLongExtra("SIZE" , 0L)
         temp?.let {
             addAudioViewModel.detailInfo = temp
         }
