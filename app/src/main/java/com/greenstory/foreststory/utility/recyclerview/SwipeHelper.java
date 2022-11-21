@@ -14,6 +14,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -74,7 +75,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     };
 
     public SwipeHelper(Context context, RecyclerView recyclerView, Boolean animate) {
-        super(0, ItemTouchHelper.LEFT);
+        super(ItemTouchHelper.DOWN | ItemTouchHelper.UP, ItemTouchHelper.LEFT);
         this.animate = animate;
         this.recyclerView = recyclerView;
         this.buttons = new ArrayList<>();
@@ -97,7 +98,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        return false;
+        return true;
     }
 
     @Override
