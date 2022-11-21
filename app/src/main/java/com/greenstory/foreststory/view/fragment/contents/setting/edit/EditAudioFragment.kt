@@ -1,6 +1,5 @@
 package com.greenstory.foreststory.view.fragment.contents.setting.edit
 
-import android.R.attr
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.DialogInterface
@@ -8,12 +7,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
@@ -33,7 +30,6 @@ import com.greenstory.foreststory.model.audio.mapper
 import com.greenstory.foreststory.model.contents.DetailLocationInfo
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.utility.recyclerview.SwipeHelper
-import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 import com.greenstory.foreststory.view.activity.contents.setting.add.AddAudioActivity
 import com.greenstory.foreststory.view.activity.contents.setting.add.AddMountainProgramActivity
 import com.greenstory.foreststory.view.activity.contents.setting.edit.EditMyMountainActivity
@@ -125,7 +121,7 @@ class EditAudioFragment : Fragment() {
         binding.recyclerAudio.adapter = adapter
         binding.recyclerAudio.isNestedScrollingEnabled = false
 
-        attachItemTouchHelper()
+        //attachItemTouchHelper()
         attachSwipeHelper()
     }
 
@@ -137,6 +133,19 @@ class EditAudioFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
+                return true
+            }
+
+            override fun onMoved(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                fromPos: Int,
+                target: RecyclerView.ViewHolder,
+                toPos: Int,
+                x: Int,
+                y: Int
+            ) {
+                super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
                 val initial  = viewHolder.absoluteAdapterPosition
                 val final =target.absoluteAdapterPosition
 
@@ -144,7 +153,6 @@ class EditAudioFragment : Fragment() {
 
                 Collections.swap(tempList , initial , final)
                 adapter.submitList(tempList)
-                return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -177,7 +185,21 @@ class EditAudioFragment : Fragment() {
                     AppCompatResources.getDrawable(editMyMountainActivity, R.drawable.edit),
                     Color.WHITE, Color.BLACK) { pos: Int -> editAudio(pos) })
             }
+
+            override fun onMoved(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder, fromPos: Int, target: RecyclerView.ViewHolder,
+                toPos: Int, x: Int, y: Int
+            ) {
+                super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
+                val initial = viewHolder.absoluteAdapterPosition
+                val targetLoc = target.absoluteAdapterPosition
+                tempList = ArrayList(adapter.currentList)
+                Collections.swap(tempList, initial, targetLoc)
+                adapter.submitList(tempList)
+            }
         }
+
     }
 
     fun updateAudio(audios : Audios){
