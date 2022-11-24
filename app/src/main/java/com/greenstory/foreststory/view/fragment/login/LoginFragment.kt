@@ -1,5 +1,6 @@
 package com.greenstory.foreststory.view.fragment.login
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,29 +10,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentLoginBinding
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.utility.classes.login.GoogleLogin
 import com.greenstory.foreststory.view.activity.login.LoginActivity
 import com.greenstory.foreststory.viewmodel.login.LoginViewModel
-import com.rommansabbir.animationx.Fade
 import com.rommansabbir.animationx.Slide
-import com.rommansabbir.animationx.animationXFade
 import com.rommansabbir.animationx.animationXSlide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 
 class LoginFragment : Fragment() {
@@ -42,6 +37,28 @@ class LoginFragment : Fragment() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     val loginViewModel : LoginViewModel by activityViewModels()
+
+    val googleLoginResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val otherLogin = GoogleLogin()
+            CoroutineScope(Dispatchers.Main).launch {
+
+                when (loginViewModel.firebaseAuthing(result.data, otherLogin)) {
+                    0 -> { //전에 로그인 한적 있음
+                        moveToContents()
+                    }
+                    1 -> { // 처음임
+                        moveToMakeProfileFragment()
+                    }
+                    else -> {
+                        Toast.makeText(loginActivity , "로그인에 실패하였습니다." , Toast.LENGTH_SHORT).show()
+                        binding.progressBarLogin.visibility = View.GONE
+                    }
+                }
+            }
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -83,30 +100,6 @@ class LoginFragment : Fragment() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        binding.progressBarLogin.visibility =View.VISIBLE
-
-        if(requestCode == GOOGLE_SIGN_IN){
-            val otherLogin = GoogleLogin()
-            CoroutineScope(Dispatchers.Main).launch {
-
-                when (loginViewModel.firebaseAuthing(data, otherLogin)) {
-                    0 -> { //전에 로그인 한적 있음
-                        moveToContents()
-                    }
-                    1 -> { // 처음임
-                        moveToMakeProfileFragment()
-                    }
-                    else -> {
-                        Toast.makeText(loginActivity , "로그인에 실패하였습니다." , Toast.LENGTH_SHORT).show()
-                        binding.progressBarLogin.visibility = View.GONE
-                    }
-                }
-            }
-        }
-    }
-
     fun btnToLoginEmail(view : View){
         findNavController().navigate(R.id.action_loginFragment_to_loginEmailFragment)
     }
@@ -119,8 +112,7 @@ class LoginFragment : Fragment() {
         binding.btnGoogleSignIn.isEnabled=false
         binding.btnGoogleSignIn.isClickable=false
         val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, GOOGLE_SIGN_IN)
-        //activity?.finish()
+        googleLoginResult.launch(signInIntent)
     }
 
     private fun moveToContents() {
@@ -134,10 +126,4 @@ class LoginFragment : Fragment() {
         binding.progressBarLogin.visibility = View.GONE
         findNavController().navigate(R.id.makeProfileFragment)
     }
-
-    companion object {
-        private const val TAG = "LoginFragment"
-        private const val GOOGLE_SIGN_IN = 9001
-    }
-
 }

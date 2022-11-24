@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.greenstory.foreststory.model.contents.CommentatorDto
+import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.repository.contents.setting.SettingRepository
 import com.greenstory.foreststory.utility.event.MutableEventFlow
 import com.greenstory.foreststory.utility.event.asEventFlow
@@ -53,6 +54,15 @@ class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) 
         }
     }
 
+    fun getFullUserInfo(){
+        viewModelScope.launch {
+            settingRepo.getFullUserInfo().collectLatest {
+                _myInfo.emit(Event.FullUserInfo(it))
+            }
+
+        }
+    }
+
 
     fun updateProfile( nickName : String){
         viewModelScope.launch {
@@ -86,6 +96,7 @@ class SettingViewModel @Inject constructor(val settingRepo : SettingRepository) 
         data class Info(val info : ArrayList<String>) : Event()
         data class UpdateInfo(val success : Boolean) : Event()
         data class UserName(val name : String) : Event()
+        data class FullUserInfo(val fullInfo : UserInfoEntity) : Event()
     }
 
 }

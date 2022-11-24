@@ -15,6 +15,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -36,6 +38,17 @@ class AddAudioFragment : Fragment() {
     lateinit var binding: FragmentAddAudioBinding
     lateinit var addAudioActivity: AddAudioActivity
     val addAudioViewModel : AddAudioViewModel by activityViewModels()
+
+    val selectAudioResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data.let {
+                addAudioViewModel.audioString = it?.data.toString()
+                Glide.with(addAudioActivity).load(R.drawable.uploaded_audio).into(binding.btnUploadAudio)
+                binding.txtUploadedAudio.text = getFileName(Uri.parse(it?.data?.toString()))
+            }
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -65,18 +78,6 @@ class AddAudioFragment : Fragment() {
             addAudioViewModel.addAudioEvent.collectLatest { event ->
                 handleEvent(event)
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_AUDIO && resultCode == RESULT_OK) {
-            data.let {
-                addAudioViewModel.audioString = data?.data.toString()
-                Glide.with(addAudioActivity).load(R.drawable.uploaded_audio).into(binding.btnUploadAudio)
-                binding.txtUploadedAudio.text = getFileName(Uri.parse(data?.data?.toString()))
-            }
-
         }
     }
 
@@ -123,7 +124,8 @@ class AddAudioFragment : Fragment() {
         val audio = Intent()
         audio.type = "audio/*"
         audio.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(audio, "Select Audio"), PICK_AUDIO)
+
+        selectAudioResult.launch(Intent.createChooser(audio, "Select Audio"))
     }
 
     fun btnUploadAudioToFirebase(view: View){

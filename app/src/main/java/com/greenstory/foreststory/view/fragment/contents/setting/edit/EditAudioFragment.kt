@@ -1,16 +1,20 @@
 package com.greenstory.foreststory.view.fragment.contents.setting.edit
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
@@ -49,6 +53,25 @@ class EditAudioFragment : Fragment() {
     private val args by navArgs<EditAudioFragmentArgs>()
 
     lateinit var tempList : MutableList<AudioDto>
+
+    val editAudioResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val edited = result.data?.getStringExtra("EDITED").toString()
+
+            if(edited == "edited") {
+                audioViewModel.getAudioData(editMyMountainActivity.name, args.detailInfo.name)
+            }
+        }
+    }
+
+    val editProgramResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val editedDetailInfo = result.data?.getParcelableExtra<DetailLocationInfo>("EDITEDINFO")
+            binding.locations = editedDetailInfo
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -91,22 +114,6 @@ class EditAudioFragment : Fragment() {
         player?.release()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == RESULT_OK && requestCode == PROGRAM_EDITED ){
-            //UI 업데이트
-            val editedDetailInfo = data?.getParcelableExtra<DetailLocationInfo>("EDITEDINFO")
-            binding.locations = editedDetailInfo
-        }
-        else if(resultCode == RESULT_OK && requestCode == AUDIO_EDITED ){
-            val edited = data?.getStringExtra("EDITED").toString()
-
-            if(edited == "edited") {
-                audioViewModel.getAudioData(editMyMountainActivity.name, args.detailInfo.name)
-            }
-        }
-    }
-
     fun initPlayer(){
         player = ExoPlayer.Builder(editMyMountainActivity).build()
         binding.playerView.player = player
@@ -123,47 +130,6 @@ class EditAudioFragment : Fragment() {
 
         //attachItemTouchHelper()
         attachSwipeHelper()
-    }
-
-    fun attachItemTouchHelper(){
-        var itemTouchHelper = ItemTouchHelper( object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.DOWN or ItemTouchHelper.UP, 0) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return true
-            }
-
-            override fun onMoved(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                fromPos: Int,
-                target: RecyclerView.ViewHolder,
-                toPos: Int,
-                x: Int,
-                y: Int
-            ) {
-                super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
-                val initial  = viewHolder.absoluteAdapterPosition
-                val final =target.absoluteAdapterPosition
-
-                tempList = adapter.currentList.toMutableList()
-
-                Collections.swap(tempList , initial , final)
-                adapter.submitList(tempList)
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-            }
-
-
-        })
-
-        itemTouchHelper.attachToRecyclerView(binding.recyclerAudio)
-
     }
 
     fun attachSwipeHelper(){
@@ -278,7 +244,7 @@ class EditAudioFragment : Fragment() {
         intent.putExtra("MOUNTAINNAME" , editMyMountainActivity.name)
         intent.putExtra("DETAILINFO" , args.detailInfo)
         intent.putExtra("SIZE" , adapter.currentList.size.toLong())
-        startActivityForResult(intent ,AUDIO_EDITED )
+        editAudioResult.launch(intent)
     }
 
     fun btnBackButtonInEditAudio(view: View){
@@ -299,7 +265,7 @@ class EditAudioFragment : Fragment() {
                         val intent = Intent(editMyMountainActivity , AddMountainProgramActivity::class.java)
                         intent.putExtra("MOUNTAINNAME" , editMyMountainActivity.name)
                         intent.putExtra("DETAILINFO",args.detailInfo)
-                        startActivityForResult(intent , PROGRAM_EDITED)
+                        editProgramResult.launch(intent)
                     }
                     R.id.delete -> {
                         return true
@@ -315,11 +281,6 @@ class EditAudioFragment : Fragment() {
         is AudioViewModel.Event.AudiosList -> updateAudio(event.audios)
         is AudioViewModel.Event.EditedLoc -> changeAudioName(event.locString.first , event.locString.second)
         is AudioViewModel.Event.Success -> audioViewModel.getAudioData(editMyMountainActivity.name , args.detailInfo.name)
-    }
-
-    companion object{
-        const val PROGRAM_EDITED: Int = 777
-        const val AUDIO_EDITED : Int = 776
     }
 
 
