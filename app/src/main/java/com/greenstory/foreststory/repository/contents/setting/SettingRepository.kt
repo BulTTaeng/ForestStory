@@ -25,6 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.greenstory.foreststory.R
+import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.utility.GlobalApplication
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.Dispatchers
@@ -120,6 +121,17 @@ class SettingRepository {
             resultString.add(it["type"].toString())
 
             emit(resultString)
+        } catch (e: Exception) {
+            Log.d("getUserInfo", e.toString())
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun getFullUserInfo() = flow {
+
+        try {
+            val docRef = db.collection("user").document(firebaseAuth.currentUser!!.uid).get().await()
+            val fullInfo = docRef.toObject(UserInfoEntity::class.java)
+            emit(fullInfo!!)
         } catch (e: Exception) {
             Log.d("getUserInfo", e.toString())
         }

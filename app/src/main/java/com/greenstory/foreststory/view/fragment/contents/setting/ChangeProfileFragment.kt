@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentChangeProfileBinding
 import com.greenstory.foreststory.model.contents.CommentatorDto
+import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.ContentsActivity
 import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
@@ -65,8 +67,7 @@ class ChangeProfileFragment : Fragment() {
         binding.progressBarChangeProfile.visibility = View.GONE
         registerPhotoPicker()
 
-        settingViewModel.getUserNameAndEmailProfileImage()
-        commentatorViewModel.getMyCommentator()
+        settingViewModel.getFullUserInfo()
 
 
         repeatOnStarted {
@@ -153,7 +154,8 @@ class ChangeProfileFragment : Fragment() {
 
     }
 
-    private fun getUserInfo(info : CommentatorDto?) {
+    private fun getCommentatorInfo(info : CommentatorDto?) {
+        Log.d("wwwwwwwww" , info.toString())
         binding.edtChangeName.setText(info?.name)
         binding.edtChangeNickName.setText(info?.nickName)
         binding.edtChangeExplain.setText(info?.explain)
@@ -167,6 +169,25 @@ class ChangeProfileFragment : Fragment() {
         Glide.with(contentsActivity).load(info?.profile.toString()).into(binding.imgCommentatorImageInChange)
 
         binding.progressBarChangeProfile.visibility = View.GONE
+    }
+
+    private fun getUserInfo(fullInfo : UserInfoEntity) {
+
+        if(fullInfo.admin){
+            commentatorViewModel.getMyCommentator()
+        }
+        else {
+            binding.edtChangeName.setText(fullInfo.name)
+            binding.edtChangeNickName.setText(fullInfo.nickName)
+            binding.edtChangeExplain.setText(fullInfo.explain)
+            Glide.with(contentsActivity).load(fullInfo.profile)
+                .into(binding.imgCommentatorImageInChange)
+
+            binding.edtChangeHashTag.visibility = View.GONE
+            binding.txtChangeHashTag.visibility = View.GONE
+
+            binding.progressBarChangeProfile.visibility = View.GONE
+        }
     }
 
     fun registerPhotoPicker(){
@@ -186,11 +207,12 @@ class ChangeProfileFragment : Fragment() {
 
     private fun handleEventSetting(event: SettingViewModel.Event) = when (event) {
         is SettingViewModel.Event.UpdateInfo -> findNavController().navigate(R.id.settingFragment)
+        is SettingViewModel.Event.FullUserInfo -> getUserInfo(event.fullInfo)
         else ->{}
     }
 
     private fun handleEventCommentator(event: CommentatorViewModel.Event) = when (event) {
-        is CommentatorViewModel.Event.OneCommentator -> getUserInfo(event.oneCommentator)
+        is CommentatorViewModel.Event.OneCommentator -> getCommentatorInfo(event.oneCommentator)
         else ->{}
     }
 

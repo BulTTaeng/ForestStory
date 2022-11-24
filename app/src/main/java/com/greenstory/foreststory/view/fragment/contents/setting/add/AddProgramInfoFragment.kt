@@ -16,12 +16,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.greenstory.foreststory.R
-import com.greenstory.foreststory.databinding.FragmentAddProgramBinding
 import com.greenstory.foreststory.databinding.FragmentAddProgramInfoBinding
 import com.greenstory.foreststory.utility.event.repeatOnStarted
 import com.greenstory.foreststory.view.activity.contents.setting.add.AddMountainProgramActivity
-import com.greenstory.foreststory.view.fragment.contents.setting.edit.EditAudioFragment.Companion.PROGRAM_EDITED
-import com.greenstory.foreststory.viewmodel.contents.MountainViewModel
 import com.greenstory.foreststory.viewmodel.contents.setting.SettingViewModel
 import com.greenstory.foreststory.viewmodel.contents.setting.add.AddProgramViewModel
 import kotlinx.coroutines.flow.collectLatest
