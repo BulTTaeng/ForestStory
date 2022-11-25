@@ -20,6 +20,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,15 +40,18 @@ import com.greenstory.foreststory.view.activity.contents.setting.add.AddMountain
 import com.greenstory.foreststory.view.activity.contents.setting.edit.EditMyMountainActivity
 import com.greenstory.foreststory.view.adapter.AudioEditAdapter
 import com.greenstory.foreststory.viewmodel.audio.AudioViewModel
+import com.greenstory.foreststory.viewmodel.contents.setting.delete.DeleteProgramViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.util.*
 
-
+@AndroidEntryPoint
 class EditAudioFragment : Fragment() {
     lateinit var binding: FragmentEditAudioBinding
     lateinit var adapter: AudioEditAdapter
     lateinit var editMyMountainActivity: EditMyMountainActivity
     val audioViewModel : AudioViewModel by activityViewModels()
+    val deleteProgramViewModel : DeleteProgramViewModel by viewModels()
 
     private var player: ExoPlayer? = null
     private val args by navArgs<EditAudioFragmentArgs>()
@@ -103,7 +107,14 @@ class EditAudioFragment : Fragment() {
         audioViewModel.getAudioData(editMyMountainActivity.name , args.detailInfo.name)
         repeatOnStarted {
             audioViewModel.audioData.collectLatest { event ->
-                handleEvent(event)
+                handleEventAudio(event)
+
+            }
+        }
+
+        repeatOnStarted {
+            deleteProgramViewModel.programDeleteEvent.collectLatest { event ->
+                handleEventDeleteProgram(event)
 
             }
         }
@@ -239,6 +250,15 @@ class EditAudioFragment : Fragment() {
             }.show()
     }
 
+    private fun goBackIfSuccess(success : Boolean){
+        if(success){
+            editMyMountainActivity.onBackPressed()
+        }
+        else{
+            deleteProgramViewModel.deleteProgram(args.detailInfo , editMyMountainActivity.name)
+        }
+    }
+
     fun btnAddAudio(view: View){
         val intent = Intent(editMyMountainActivity , AddAudioActivity::class.java)
         intent.putExtra("MOUNTAINNAME" , editMyMountainActivity.name)
@@ -268,6 +288,8 @@ class EditAudioFragment : Fragment() {
                         editProgramResult.launch(intent)
                     }
                     R.id.delete -> {
+                        binding.progressBarEditAudio.visibility = View.VISIBLE
+                        deleteProgramViewModel.deleteProgram(args.detailInfo , editMyMountainActivity.name)
                         return true
                     }
                 }
@@ -277,10 +299,14 @@ class EditAudioFragment : Fragment() {
         popupMenu.show()
     }
 
-    private fun handleEvent(event: AudioViewModel.Event) = when (event) {
+    private fun handleEventAudio(event: AudioViewModel.Event) = when (event) {
         is AudioViewModel.Event.AudiosList -> updateAudio(event.audios)
         is AudioViewModel.Event.EditedLoc -> changeAudioName(event.locString.first , event.locString.second)
         is AudioViewModel.Event.Success -> audioViewModel.getAudioData(editMyMountainActivity.name , args.detailInfo.name)
+    }
+
+    private fun handleEventDeleteProgram(event: DeleteProgramViewModel.Event) = when (event) {
+        is DeleteProgramViewModel.Event.Success -> goBackIfSuccess(event.success)
     }
 
 
