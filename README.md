@@ -145,8 +145,11 @@
 - 두개의 ItemTouchHelper.SimpleCallback을 SwipeHelper로 통합
 
 `2022.11.23`  
-- startAcitivyForResult를 callback으로 수정
+- startActivyForResult를 callback으로 수정
 - ChangeProfile에서 User와 Commentator 구분
+
+`2022.11.24`  
+- program 삭제 기능 추가
 
 
 

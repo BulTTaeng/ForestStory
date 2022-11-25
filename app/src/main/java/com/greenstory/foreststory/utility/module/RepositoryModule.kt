@@ -9,6 +9,7 @@ import com.greenstory.foreststory.repository.contents.setting.SettingRepository
 import com.greenstory.foreststory.repository.contents.setting.VerifyRepository
 import com.greenstory.foreststory.repository.contents.setting.add.AddAudioRepository
 import com.greenstory.foreststory.repository.contents.setting.add.AddProgramRepository
+import com.greenstory.foreststory.repository.contents.setting.delete.DeleteProgramRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,5 +62,10 @@ class RepositoryModule() {
     @Provides
     fun provideVerifyRepo() : VerifyRepository {
         return VerifyRepository()
+    }
+
+    @Provides
+    fun provideDeleteProgramRepo() : DeleteProgramRepository {
+        return DeleteProgramRepository()
     }
 }
