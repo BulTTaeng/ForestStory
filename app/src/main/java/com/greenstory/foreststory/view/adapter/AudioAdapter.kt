@@ -31,11 +31,20 @@ class AudioAdapter(val player : ExoPlayer , val fragmentContext : AudioPlayerFra
 
 
             itemView.setOnClickListener {
+
                 if(currLoc.toInt() != absoluteAdapterPosition) {
+
+                    if(currLoc != -1L) {
+                        currentList[currLoc.toInt()].isPlaying = false
+                        notifyItemChanged(currLoc.toInt())
+                    }
+
+                    currentList[absoluteAdapterPosition].isPlaying = true
+                    notifyItemChanged(absoluteAdapterPosition)
+
                     player.seekTo(absoluteAdapterPosition , 0)
                     player.play()
-                    binding.setChecked()
-                    notifyItemChanged(currLoc.toInt())
+
                     currLoc = absoluteAdapterPosition.toLong()
                 }
                 fragmentContext.updateTextInPlayer(data.audioName)
@@ -68,8 +77,6 @@ class AudioAdapter(val player : ExoPlayer , val fragmentContext : AudioPlayerFra
     override fun onBindViewHolder(holder: AudioViewHolder, position: Int) {
         holder.bindData(currentList[position])
     }
-
-    private fun ItemAudioBinding.setChecked() = consItemAudio.setBackgroundColor(Color.GRAY)
 
     companion object {
         val AUDIO_DIFF_CALLBACK = object : DiffUtil.ItemCallback<AudioDto>() {

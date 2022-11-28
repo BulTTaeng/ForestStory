@@ -151,6 +151,9 @@
 `2022.11.24`  
 - program 삭제 기능 추가
 
+`2022.11.28`  
+- exoplayer로 controll시 선택된 음원 바뀌지 않는것 수정
+
 
 
 </details><br>  
