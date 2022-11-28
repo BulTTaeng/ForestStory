@@ -6,33 +6,30 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentAudioPlayerBinding
-import com.greenstory.foreststory.model.audio.AudioDto
-import com.greenstory.foreststory.model.audio.AudioEntity
 import com.greenstory.foreststory.model.audio.Audios
 import com.greenstory.foreststory.model.audio.mapper
 import com.greenstory.foreststory.utility.event.repeatOnStarted
-import com.greenstory.foreststory.view.adapter.DescriptionAdapter
 import com.greenstory.foreststory.view.activity.audio.AudioPlayerActivity
 import com.greenstory.foreststory.view.adapter.AudioAdapter
+import com.greenstory.foreststory.view.adapter.DescriptionAdapter
 import com.greenstory.foreststory.viewmodel.audio.AudioViewModel
-import com.greenstory.foreststory.viewmodel.contents.CommentatorViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -129,6 +126,55 @@ class AudioPlayerFragment : Fragment() {
 
     fun initPlayer(){
         player = ExoPlayer.Builder(audioPlayerActivity).build()
+        player?.addListener(object : Player.Listener{
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+
+
+                var loc = 0
+
+                if(player != null){
+                    loc = player!!.currentMediaItemIndex
+                }
+
+                if(adapter.currLoc != loc.toLong()) {
+
+                    if (isPlaying) {
+                        adapter.currentList[loc].isPlaying = true
+                        adapter.currLoc = loc.toLong()
+                        adapter.notifyItemChanged(loc)
+                    }
+                }
+            }
+
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                super.onMediaItemTransition(mediaItem, reason)
+
+                var loc = 0
+
+                if(player != null){
+                    loc = player!!.currentMediaItemIndex
+                }
+
+                if (adapter.currLoc != -1L) {
+                    adapter.currentList[adapter.currLoc.toInt()].isPlaying = false
+                    adapter.notifyItemChanged(adapter.currLoc.toInt())
+
+                    adapter.currentList[loc].isPlaying = true
+                    adapter.notifyItemChanged(loc)
+
+                    adapter.currLoc = loc.toLong()
+                    // 리사이클러 뷰 스크롤 이동
+                    binding.recyclerPlayList.scrollToPosition(adapter.currLoc.toInt())
+
+                    updateTextInPlayer(adapter.currentList[loc].audioName)
+                }
+
+
+            }
+
+        })
         binding.playerView.player = player
         binding.playerView.controllerShowTimeoutMs = 0
         binding.playerView.controllerHideOnTouch = false
@@ -171,7 +217,7 @@ class AudioPlayerFragment : Fragment() {
 
         playerNotificationManager.setPlayer(player)
 
-            binding.currAudioDto = audios.audioList[0].mapper()
+        binding.currAudioDto = audios.audioList[0].mapper()
 
 
         binding.progressBarAudio.visibility = View.GONE
