@@ -154,6 +154,9 @@
 `2022.11.28`  
 - exoplayer로 controll시 선택된 음원 바뀌지 않는것 수정
 
+`2022.11.29`  
+- ImageBitmap IO 작업 repository로 이전
+- NotificationBar Flag error fix
 
 
 </details><br>  

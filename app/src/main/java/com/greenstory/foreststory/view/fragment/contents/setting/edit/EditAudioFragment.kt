@@ -303,6 +303,7 @@ class EditAudioFragment : Fragment() {
         is AudioViewModel.Event.AudiosList -> updateAudio(event.audios)
         is AudioViewModel.Event.EditedLoc -> changeAudioName(event.locString.first , event.locString.second)
         is AudioViewModel.Event.Success -> audioViewModel.getAudioData(editMyMountainActivity.name , args.detailInfo.name)
+        else -> {}
     }
 
     private fun handleEventDeleteProgram(event: DeleteProgramViewModel.Event) = when (event) {

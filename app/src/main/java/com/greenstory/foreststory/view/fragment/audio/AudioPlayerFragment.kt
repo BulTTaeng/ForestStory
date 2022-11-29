@@ -21,6 +21,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.databinding.FragmentAudioPlayerBinding
+import com.greenstory.foreststory.model.audio.AudioEntity
 import com.greenstory.foreststory.model.audio.Audios
 import com.greenstory.foreststory.model.audio.mapper
 import com.greenstory.foreststory.utility.event.repeatOnStarted
@@ -48,9 +49,11 @@ class AudioPlayerFragment : Fragment() {
     private var player: ExoPlayer? = null
 
     var bitmap: Bitmap? = null
-    lateinit var playerNotificationManager : PlayerNotificationManager
+    var playerNotificationManager : PlayerNotificationManager? = null
 
     val audioViewModel : AudioViewModel by activityViewModels()
+
+    var audioLists = ArrayList<AudioEntity>()
 
 
     override fun onAttach(context: Context) {
@@ -67,8 +70,8 @@ class AudioPlayerFragment : Fragment() {
                     if(binding.playListGroup.isVisible){
                         if(System.currentTimeMillis() - backPressedTime < 2500){
 
-                            if (AudioPlayerFragment()::playerNotificationManager.isInitialized) {
-                                playerNotificationManager.setPlayer(null)
+                            if (playerNotificationManager != null) {
+                                playerNotificationManager?.setPlayer(null)
                             }
                             player?.release()
                             audioPlayerActivity.finish()
@@ -90,7 +93,7 @@ class AudioPlayerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_audio_player, container, false)
         binding.fragment = this@AudioPlayerFragment
@@ -101,28 +104,20 @@ class AudioPlayerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.txtDetailName.text = audioPlayerActivity.detailInfo?.name
+        binding.txtExplainDetail.text = audioPlayerActivity.detailInfo?.explain
 
-        CoroutineScope(Dispatchers.Main).launch {
+        audioViewModel.getBitmapFromURL(audioPlayerActivity.mountainInfo?.image)
 
-            CoroutineScope(Dispatchers.IO).launch {
-                bitmap =
-                    getBitmapFromURL(audioPlayerActivity.mountainInfo?.image)
-            }.join()
-
-            Glide.with(audioPlayerActivity).load(bitmap).into(binding.coverImageView)
-            Glide.with(audioPlayerActivity).load(audioPlayerActivity.detailInfo?.image).into(binding.imgDetailLocation)
-            binding.txtExplainDetail.text = audioPlayerActivity.detailInfo?.explain
-
-            initPlayer()
-            initRecyclerView()
-            repeatOnStarted {
-                audioViewModel.audioData.collectLatest { event ->
-                    handleEvent(event)
-                }
+        initPlayer()
+        initRecyclerView()
+        repeatOnStarted {
+            audioViewModel.audioData.collectLatest { event ->
+                handleEvent(event)
             }
         }
-
     }
+
+
 
     fun initPlayer(){
         player = ExoPlayer.Builder(audioPlayerActivity).build()
@@ -131,7 +126,6 @@ class AudioPlayerFragment : Fragment() {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
 
-
                 var loc = 0
 
                 if(player != null){
@@ -139,7 +133,6 @@ class AudioPlayerFragment : Fragment() {
                 }
 
                 if(adapter.currLoc != loc.toLong()) {
-
                     if (isPlaying) {
                         adapter.currentList[loc].isPlaying = true
                         adapter.currLoc = loc.toLong()
@@ -170,8 +163,6 @@ class AudioPlayerFragment : Fragment() {
 
                     updateTextInPlayer(adapter.currentList[loc].audioName)
                 }
-
-
             }
 
         })
@@ -189,7 +180,7 @@ class AudioPlayerFragment : Fragment() {
         binding.recyclerPlayList.isNestedScrollingEnabled = false
     }
 
-    fun getAudio(audios : Audios){
+    fun updateAudio(audios : Audios){
         if(audios.audioList.isEmpty()) {
             Toast.makeText(audioPlayerActivity , getString(R.string.no_audios) , Toast.LENGTH_SHORT).show()
             binding.progressBarAudio.visibility = View.GONE
@@ -205,17 +196,7 @@ class AudioPlayerFragment : Fragment() {
         player?.setMediaItems(audios.audioLink)
         player?.prepare()
 
-        playerNotificationManager = PlayerNotificationManager.Builder(
-            audioPlayerActivity,
-            12, "ID"
-        )
-            .setChannelNameResourceId(R.string.email)
-            .setChannelDescriptionResourceId(R.string.password)
-            .setMediaDescriptionAdapter(DescriptionAdapter(audioPlayerActivity, bitmap , audios.audioList))
-            .build()
-
-
-        playerNotificationManager.setPlayer(player)
+        audioLists = audios.audioList
 
         binding.currAudioDto = audios.audioList[0].mapper()
 
@@ -223,18 +204,26 @@ class AudioPlayerFragment : Fragment() {
         binding.progressBarAudio.visibility = View.GONE
     }
 
-    fun getBitmapFromURL(src: String?): Bitmap? {
-        return try {
-            val url = URL(src)
-            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-            connection.doInput = true
-            connection.connect()
-            val input: InputStream = connection.getInputStream()
-            BitmapFactory.decodeStream(input)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
+    fun updateBitmapImage(bitmapImage: Bitmap?){
+        bitmap = bitmapImage
+
+        initNotification()
+
+        Glide.with(audioPlayerActivity).load(bitmap).into(binding.coverImageView)
+        Glide.with(audioPlayerActivity).load(audioPlayerActivity.detailInfo?.image).into(binding.imgDetailLocation)
+    }
+
+    fun initNotification(){
+        playerNotificationManager = PlayerNotificationManager.Builder(
+            audioPlayerActivity,
+            12, "ID"
+        ).setChannelNameResourceId(R.string.idd)
+            .setChannelDescriptionResourceId(R.string.pass)
+            .setMediaDescriptionAdapter(DescriptionAdapter(audioPlayerActivity, bitmap , audioLists))
+            .build()
+
+
+        playerNotificationManager?.setPlayer(player)
     }
 
     fun updateTextInPlayer(audioName : String){
@@ -242,7 +231,8 @@ class AudioPlayerFragment : Fragment() {
     }
 
     private fun handleEvent(event: AudioViewModel.Event) = when (event) {
-        is AudioViewModel.Event.AudiosList -> getAudio(event.audios)
+        is AudioViewModel.Event.AudiosList -> updateAudio(event.audios)
+        is AudioViewModel.Event.BitmapImage -> updateBitmapImage(event.bitmap)
         else ->{}
     }
 
@@ -266,13 +256,11 @@ class AudioPlayerFragment : Fragment() {
     }
 
     fun btnShowOptions(view: View){
-
         val themeWrapper = ContextThemeWrapper(context , R.style.MyPopupMenu)
         val popupMenu = PopupMenu(themeWrapper , binding.btnShowOptions, Gravity.END , 0 , R.style.MyPopupMenu)
 
         popupMenu.inflate(R.menu.show_options_audio)
         popupMenu.show()
-
 
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener{
             override fun onMenuItemClick(item: MenuItem?): Boolean {

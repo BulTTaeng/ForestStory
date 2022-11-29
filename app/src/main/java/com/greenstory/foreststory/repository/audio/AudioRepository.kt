@@ -1,5 +1,7 @@
 package com.greenstory.foreststory.repository.audio
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -15,6 +17,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 class AudioRepository {
     val db = FirebaseFirestore.getInstance()
@@ -102,6 +108,20 @@ class AudioRepository {
         }catch (e : Exception){
             Log.d("editAudioName" , e.toString())
             emit(Pair<Int , String>( -1, ""))
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun getBitmapFromURL(src: String?) =flow{
+        try {
+            val url = URL(src)
+            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val input: InputStream = connection.getInputStream()
+            emit(BitmapFactory.decodeStream(input))
+        } catch (e: IOException) {
+            e.printStackTrace()
+            emit(null)
         }
     }.flowOn(Dispatchers.IO)
 
