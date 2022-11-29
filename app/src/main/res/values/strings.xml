@@ -30,4 +30,6 @@
     <string name="today_commentator">오늘의 해설가</string>
     <string name="no_audios">해당 숲해설가님이 녹음한 해설이 없습니다</string>
     <string name="sure_delete">정말로 삭제할까요?</string>
+    <string name="idd">43</string>
+    <string name="pass">543</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.greenstory.foreststory.viewmodel.audio
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -14,6 +16,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,10 +60,20 @@ class AudioViewModel @Inject constructor(val audioRepo: AudioRepository) : ViewM
         }
     }
 
+    fun getBitmapFromURL(src: String?) {
+
+        viewModelScope.launch {
+            audioRepo.getBitmapFromURL(src).collectLatest {
+                _audioData.emit(Event.BitmapImage(it))
+            }
+        }
+    }
+
     sealed class Event {
         data class AudiosList(val audios: Audios) : Event()
         data class EditedLoc(val locString : Pair<Int , String>) : Event()
         data class Success(val success : Boolean) : Event()
+        data class BitmapImage(val bitmap: Bitmap?) : Event()
     }
 
 }
