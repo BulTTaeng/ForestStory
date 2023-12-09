@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.greenstory.foreststory.utility.GlobalApplication
-import com.kakao.sdk.user.UserApiClient
+//import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -83,13 +83,13 @@ class WithdrawalService() : Service() {
 
             if (loginType.equals("kakao")) {
                 Log.d("카카오로그인", "카카오 회원탈퇴")
-                UserApiClient.instance.unlink { error ->
-                    if (error != null) {
-                        Log.d("카카오로그인", "회원 탈퇴 실패")
-                    } else {
-                        Log.d("카카오로그인", "회원 탈퇴 성공")
-                    }
-                }
+//                UserApiClient.instance.unlink { error ->
+//                    if (error != null) {
+//                        Log.d("카카오로그인", "회원 탈퇴 실패")
+//                    } else {
+//                        Log.d("카카오로그인", "회원 탈퇴 성공")
+//                    }
+//                }
             }
 
             true

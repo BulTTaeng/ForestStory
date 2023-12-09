@@ -1,13 +1,10 @@
 package com.greenstory.foreststory.repository
 
-import android.content.Intent
+//import com.kakao.sdk.user.UserApiClient
+//import kotlinx.coroutines.CoroutineScope
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kakao.sdk.user.UserApiClient
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainRepository {
     val db = FirebaseFirestore.getInstance()

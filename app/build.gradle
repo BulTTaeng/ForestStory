@@ -77,9 +77,9 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.42'
     kapt 'com.google.dagger:hilt-compiler:2.42'
 
-    // 카카오 로그인 모듈
-    implementation "com.kakao.sdk:v2-user:2.0.1"
-    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.27.0'
+//    // 카카오 로그인 모듈
+//    implementation "com.kakao.sdk:v2-user:2.0.1"
+//    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.27.0'
 
     // for adding cardview
     implementation 'androidx.cardview:cardview:1.0.0'

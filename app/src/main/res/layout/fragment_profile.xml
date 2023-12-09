@@ -108,10 +108,10 @@
                     android:id="@+id/txt_followerNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:text="0"
                     app:layout_constraintEnd_toEndOf="@id/txt_follower"
                     app:layout_constraintStart_toStartOf="@id/txt_follower"
                     app:layout_constraintTop_toBottomOf="@id/txt_follower"
@@ -232,7 +232,8 @@
             android:layout_height="0dp"
             android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_myProgram"/>
+            app:layout_constraintTop_toBottomOf="@+id/txt_myProgram"
+            tools:layout_editor_absoluteX="10dp" />
 
         <ImageView
             android:id="@+id/img_noMountain"
@@ -260,12 +261,14 @@
             android:id="@+id/btn_addMyMountain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/add"
+            android:layout_marginTop="51dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/add"
             android:onClick="@{fragment::btnAddMyMountain}"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_myProgram"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_myMountain"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txt_myProgram"/>
+            app:layout_constraintTop_toBottomOf="@+id/card_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

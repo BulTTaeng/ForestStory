@@ -1,11 +1,10 @@
 package com.greenstory.foreststory.utility
 
+//import com.kakao.sdk.common.KakaoSdk
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import com.greenstory.foreststory.R
-import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -20,7 +19,7 @@ class GlobalApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        KakaoSdk.init(this, getString(R.string.kakao_native_key))
+        //KakaoSdk.init(this, getString(R.string.kakao_native_key))
     }
 
     fun isOnline(): Boolean {

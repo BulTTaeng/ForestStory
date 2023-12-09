@@ -1,16 +1,13 @@
 package com.greenstory.foreststory.repository.contents.setting
 
+//import com.kakao.sdk.user.UserApiClient
 import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
-import android.provider.Settings
 import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -27,14 +24,12 @@ import com.google.firebase.storage.FirebaseStorage
 import com.greenstory.foreststory.R
 import com.greenstory.foreststory.model.userinfo.UserInfoEntity
 import com.greenstory.foreststory.utility.GlobalApplication
-import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Date
 
 class SettingRepository {
     val firebaseAuth = FirebaseAuth.getInstance()
@@ -91,14 +86,14 @@ class SettingRepository {
             } else if (type == "kakao") {
                 firebaseAuth.signOut()
 
-                UserApiClient.instance.logout { error ->
-                    if (error != null) {
-                        Log.d("카카오", "카카오 로그아웃 실패")
-                        check = false
-                    } else {
-                        check = true
-                    }
-                }
+//                UserApiClient.instance.logout { error ->
+//                    if (error != null) {
+//                        Log.d("카카오", "카카오 로그아웃 실패")
+//                        check = false
+//                    } else {
+//                        check = true
+//                    }
+//                }
                 return check
             } else {
                 return false
